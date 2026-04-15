@@ -23,12 +23,18 @@ import {
   Code2,
   GraduationCap,
   Lightbulb,
+  Shield,
+  Lock,
+  DatabaseZap,
+  UserX,
 } from 'lucide-react';
 import { useState } from 'react';
+import { SUITES } from './data/apps';
 
 const NAV_LINKS = [
   { name: 'Mission', href: '#mission' },
   { name: 'VAPA Pulse', href: '#vapa-pulse' },
+  { name: 'Portfolio', href: '#portfolio' },
   { name: 'Founders', href: '#founders' },
   { name: 'Contact', href: '#contact' },
 ];
@@ -198,6 +204,11 @@ export default function App() {
                 className="lg:col-span-5 relative lg:-ml-24 z-10"
               >
                 <div className="relative rounded-[40px] overflow-hidden bg-brand-ink shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)]">
+                  <div className="px-8 pt-5 pb-3 border-b border-white/5">
+                    <p className="text-white/25 text-[10px] font-bold uppercase tracking-widest select-none">
+                      Proprietary &amp; Confidential · © 2026 Pulse Pedagogies, LLC
+                    </p>
+                  </div>
                   <div style={{ position: 'relative', paddingTop: '56.25%' }}>
                     <iframe
                       src="https://customer-40uk5te8zbrtkkan.cloudflarestream.com/d6785457b28b6961ba6611def16225ac/iframe?poster=https%3A%2F%2Fcustomer-40uk5te8zbrtkkan.cloudflarestream.com%2Fd6785457b28b6961ba6611def16225ac%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&autoplay=true&loop=true&muted=true"
@@ -289,6 +300,9 @@ export default function App() {
         {/* ── VAPA Pulse ── */}
         <section id="vapa-pulse" className="py-32 px-6">
           <div className="max-w-7xl mx-auto">
+            <p className="text-brand-ink/30 text-[10px] font-bold uppercase tracking-widest text-center mb-6 select-none">
+              Proprietary &amp; Confidential · © 2026 Pulse Pedagogies, LLC
+            </p>
             <div className="text-center max-w-3xl mx-auto mb-20">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 text-brand-orange text-xs font-bold uppercase tracking-wider mb-6">
                 Flagship Product · In Development
@@ -298,7 +312,7 @@ export default function App() {
                 The world's first Artistic Intelligence Engine — a mobile-first web app that solves the national TK–6 arts curriculum crisis by turning any generalist teacher into a confident, standards-aligned arts educator.
               </p>
               <p className="text-brand-ink/50 mb-10">
-                VAPA Pulse delivers a complete, grade-level curricular program across all five California VAPA content standards and the National Art Education Standards — powered by Google's Frontier AI stack.
+                VAPA Pulse delivers a full-spectrum arts curriculum across all five disciplines — Theatre, Music, Dance, Visual Art, and Media Art — for every grade from Kindergarten through 6th, calibrated to each developmental stage and aligned to California's VAPA content standards and the National Art Education Standards.
               </p>
               <a
                 href="https://vapapulse.com"
@@ -309,6 +323,16 @@ export default function App() {
                 Explore the Proof of Concept
                 <ExternalLink className="w-5 h-5" />
               </a>
+            </div>
+
+            {/* Discipline pills */}
+            <div className="flex flex-wrap justify-center gap-3 mb-20">
+              {['Theatre', 'Music', 'Dance', 'Visual Art', 'Media Art'].map((d) => (
+                <div key={d} className="flex items-center gap-3 px-6 py-3 rounded-full bg-white border border-brand-ink/8 shadow-sm">
+                  <span className="font-medium text-brand-ink">{d}</span>
+                  <span className="text-xs font-bold text-brand-orange uppercase tracking-wider">K – 6</span>
+                </div>
+              ))}
             </div>
 
             {/* 3 key benefits */}
@@ -345,6 +369,9 @@ export default function App() {
             {/* 5-Act Experience */}
             <div className="bg-brand-paper/60 rounded-[48px] border border-brand-ink/5 p-12 md:p-16">
               <div className="text-center mb-14">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 text-brand-orange text-xs font-bold uppercase tracking-wider mb-4">
+                  VAPA Pulse · Proprietary Feature
+                </div>
                 <h3 className="text-4xl font-light mb-4">The <span className="italic text-brand-orange">5-Act</span> Learning Experience</h3>
                 <p className="text-brand-ink/50 max-w-2xl mx-auto">
                   Every VAPA Pulse lesson follows a research-backed five-act structure — from teacher preparation to parent communication — automated, elegant, and ready to teach.
@@ -378,6 +405,134 @@ export default function App() {
                 </button>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* ── Portfolio ── */}
+        <section id="portfolio" className="py-32 px-6">
+          <div className="max-w-7xl mx-auto">
+            <p className="text-brand-ink/30 text-[10px] font-bold uppercase tracking-widest text-center mb-6 select-none">
+              Proprietary &amp; Confidential · © 2026 Pulse Pedagogies, LLC
+            </p>
+
+            <div className="text-center max-w-3xl mx-auto mb-24">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 text-brand-orange text-xs font-bold uppercase tracking-wider mb-6">
+                Full Portfolio
+              </div>
+              <h2 className="text-6xl font-light mb-6">
+                Beyond the <span className="italic text-brand-orange">Flagship</span>
+              </h2>
+              <p className="text-xl text-brand-ink/60 leading-relaxed">
+                Every tool we build starts with a real problem inside a real school. Three suites. Eight tools.
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              {SUITES.map((suite, si) => (
+                <motion.div
+                  key={suite.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: si * 0.1 }}
+                  className="rounded-[40px] border border-brand-ink/8 overflow-hidden"
+                >
+                  {/* Suite header */}
+                  <div className="bg-brand-ink px-10 py-8 flex flex-col md:flex-row md:items-center gap-2 md:gap-8">
+                    <div className="shrink-0">
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-1">Suite</div>
+                      <h3 className="text-2xl font-serif text-brand-paper">{suite.label}</h3>
+                    </div>
+                    <div className="w-px h-10 bg-brand-paper/10 hidden md:block" />
+                    <p className="text-brand-paper/50 text-sm leading-relaxed">{suite.description}</p>
+                  </div>
+
+                  {/* App rows */}
+                  <div className="divide-y divide-brand-ink/5">
+                    {suite.apps.map((app) => (
+                      <div
+                        key={app.id}
+                        className="px-10 py-6 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6 bg-white hover:bg-brand-paper/60 transition-colors"
+                      >
+                        <div className="shrink-0 w-36">
+                          <span className="font-serif text-lg text-brand-ink">{app.name}</span>
+                          {app.subtitle && (
+                            <div className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/30 mt-0.5">{app.subtitle}</div>
+                          )}
+                        </div>
+                        <div className="w-px h-4 bg-brand-ink/10 hidden sm:block self-center" />
+                        <p className="text-brand-ink/55 text-sm leading-relaxed">{app.tagline}</p>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── Privacy-First Architecture ── */}
+        <section id="privacy" className="relative py-32 px-6 bg-brand-ink text-brand-paper overflow-hidden">
+          <div className="max-w-7xl mx-auto">
+
+            <div className="text-center max-w-3xl mx-auto mb-20">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/20 text-brand-orange text-xs font-bold uppercase tracking-wider mb-6">
+                <Shield className="w-3 h-3" /> Privacy &amp; Compliance
+              </div>
+              <h2 className="text-5xl md:text-6xl font-light mb-6">
+                Privacy-First <br /><span className="italic text-brand-orange">Architecture</span>
+              </h2>
+              <p className="text-xl text-brand-paper/60 leading-relaxed">
+                Every Pulse Pedagogies product is designed with compliance as a hard constraint — not a retrofit. Federal student privacy law governs our architecture before a single line of production code is written.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6 mb-16">
+              <div className="p-10 rounded-[32px] bg-brand-paper/5 border border-brand-paper/10">
+                <div className="w-12 h-12 bg-brand-orange/20 rounded-2xl flex items-center justify-center text-brand-orange mb-6">
+                  <Shield className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-serif mb-3">FERPA Compliance</h3>
+                <p className="text-brand-paper/50 text-sm leading-relaxed">
+                  Every tool that processes student education records is architected with strict access controls, limited disclosure paths, and full compliance with parental rights requirements under the Family Educational Rights and Privacy Act. Student records are never shared with third parties outside the scope of the educational service.
+                </p>
+              </div>
+              <div className="p-10 rounded-[32px] bg-brand-paper/5 border border-brand-paper/10">
+                <div className="w-12 h-12 bg-brand-orange/20 rounded-2xl flex items-center justify-center text-brand-orange mb-6">
+                  <Lock className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-serif mb-3">COPPA Compliance</h3>
+                <p className="text-brand-paper/50 text-sm leading-relaxed">
+                  For tools serving students under 13, Pulse Pedagogies operates under the school consent exception defined in COPPA — with the district acting as the authorizing school official. No direct data collection from children occurs outside this framework. No child creates an account directly.
+                </p>
+              </div>
+              <div className="p-10 rounded-[32px] bg-brand-paper/5 border border-brand-paper/10">
+                <div className="w-12 h-12 bg-brand-orange/20 rounded-2xl flex items-center justify-center text-brand-orange mb-6">
+                  <DatabaseZap className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-serif mb-3">Zero Persistent Student Data</h3>
+                <p className="text-brand-paper/50 text-sm leading-relaxed">
+                  Where product architecture permits, we design for session-only processing. FieldNote analyzes photos in real time and stores nothing between sessions. FocusBridge check-in alerts are ephemeral by design. When data does not need to persist, we ensure it does not.
+                </p>
+              </div>
+              <div className="p-10 rounded-[32px] bg-brand-paper/5 border border-brand-paper/10">
+                <div className="w-12 h-12 bg-brand-orange/20 rounded-2xl flex items-center justify-center text-brand-orange mb-6">
+                  <UserX className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-serif mb-3">District-Controlled Provisioning</h3>
+                <p className="text-brand-paper/50 text-sm leading-relaxed">
+                  Student accounts in Pulse Pedagogies tools are never self-created. All provisioning flows through district SIS integration or administrator-controlled upload. Students cannot register themselves. Every badge, credential, and account originates with a district-authorized educator.
+                </p>
+              </div>
+            </div>
+
+            <div className="border border-brand-paper/10 rounded-[32px] px-10 py-8 text-center">
+              <p className="text-brand-paper/30 text-xs font-bold uppercase tracking-widest">
+                © 2026 Pulse Pedagogies, LLC · All product names, system architectures, pedagogical frameworks, and AI implementations described herein are the exclusive intellectual property of Pulse Pedagogies, LLC and are protected under applicable U.S. copyright, trade secret, and intellectual property law. Unauthorized reproduction, distribution, or use is strictly prohibited.
+              </p>
+            </div>
+
           </div>
         </section>
 
@@ -532,262 +687,44 @@ export default function App() {
           </div>
         </section>
 
-        {/* ── Coming Soon ── */}
-        <section className="py-32 px-6 bg-brand-ink text-brand-paper overflow-hidden">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center max-w-3xl mx-auto mb-20">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/20 text-brand-orange text-xs font-bold uppercase tracking-wider mb-6">
-                In Development
-              </div>
-              <h2 className="text-5xl md:text-6xl font-light mb-6">
-                What's <span className="italic text-brand-orange">Coming Next</span>
-              </h2>
-              <p className="text-brand-paper/60 text-lg">
-                VAPA Pulse is just the beginning. We're building a suite of purpose-designed tools for every role in the school ecosystem.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-
-              {/* Categorical Qualifier — featured full-width */}
-              <motion.div
-                whileHover={{ y: -4 }}
-                className="md:col-span-2 p-10 md:p-12 rounded-[40px] bg-brand-paper/5 border border-brand-paper/10 flex flex-col md:flex-row gap-10 items-start"
-              >
-                <div className="shrink-0">
-                  <svg viewBox="0 0 120 120" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <linearGradient id="cq-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#662D91" stopOpacity="0.3" />
-                        <stop offset="100%" stopColor="#FF6321" stopOpacity="0.15" />
-                      </linearGradient>
-                    </defs>
-                    <circle cx="60" cy="60" r="56" fill="url(#cq-bg)" />
-                    <rect x="30" y="22" width="52" height="68" rx="6" fill="none" stroke="#F5F2ED" strokeWidth="2.5" />
-                    <path d="M 70 22 L 82 34 L 70 34 Z" fill="#FF6321" opacity="0.7" />
-                    <path d="M 70 22 L 82 34 L 70 34" fill="none" stroke="#F5F2ED" strokeWidth="2.5" strokeLinejoin="round" />
-                    <line x1="40" y1="50" x2="70" y2="50" stroke="#8DC63F" strokeWidth="2.5" strokeLinecap="round" />
-                    <circle cx="36" cy="50" r="3.5" fill="#8DC63F" />
-                    <line x1="40" y1="62" x2="65" y2="62" stroke="#29ABE2" strokeWidth="2.5" strokeLinecap="round" />
-                    <circle cx="36" cy="62" r="3.5" fill="#29ABE2" />
-                    <line x1="40" y1="74" x2="58" y2="74" stroke="#FF6321" strokeWidth="2.5" strokeLinecap="round" />
-                    <circle cx="36" cy="74" r="3.5" fill="#FF6321" />
-                    <circle cx="88" cy="38" r="16" fill="#662D91" />
-                    <text x="88" y="43" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold" fontFamily="serif">$</text>
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-brand-orange block mb-3">For Administrators &amp; Program Directors</span>
-                  <h3 className="text-3xl font-serif mb-1">CPQ</h3>
-                  <p className="text-brand-paper/40 text-xs uppercase tracking-widest font-bold mb-4">Categorical Program Qualifier</p>
-                  <p className="text-brand-paper/60 leading-relaxed mb-4">
-                    Administrators and program directors spend hours — sometimes days — determining whether a purchase, service, or staffing requisition qualifies under a specific categorical funding source. This tool changes that. Enter the requisition details, select the applicable programs, and get an immediate, rule-based eligibility determination across Title I, Title III, Arts &amp; Music in Schools (Prop 28), Special Education, and more.
-                  </p>
-                  <p className="text-brand-paper/40 text-base">
-                    Includes audit-trail documentation, allowable cost summaries, and plain-language rationale.
-                  </p>
-                </div>
-              </motion.div>
-
-              {/* FieldNote */}
-              <motion.div whileHover={{ y: -4 }} className="p-10 rounded-[40px] bg-brand-paper/5 border border-brand-paper/10">
-                <div className="w-14 h-14 rounded-2xl bg-cyan-500/20 flex items-center justify-center mb-6">
-                  <svg viewBox="0 0 40 40" width="28" height="28">
-                    {/* Outer scan ring */}
-                    <circle cx="20" cy="20" r="17" fill="none" stroke="#29ABE2" strokeWidth="2" strokeDasharray="4 3" />
-                    {/* Eye whites */}
-                    <ellipse cx="20" cy="20" rx="11" ry="7.5" fill="none" stroke="#29ABE2" strokeWidth="2.5" />
-                    {/* Iris */}
-                    <circle cx="20" cy="20" r="4.5" fill="#29ABE2" opacity="0.7" />
-                    {/* Pupil */}
-                    <circle cx="20" cy="20" r="2" fill="#F5F2ED" />
-                    {/* Corner scan marks */}
-                    <path d="M 4 8 L 4 4 L 8 4" fill="none" stroke="#8DC63F" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M 36 8 L 36 4 L 32 4" fill="none" stroke="#8DC63F" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M 4 32 L 4 36 L 8 36" fill="none" stroke="#8DC63F" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M 36 32 L 36 36 L 32 36" fill="none" stroke="#8DC63F" strokeWidth="2" strokeLinecap="round" />
-                  </svg>
-                </div>
-                <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For Special Education Teams</div>
-                <h3 className="text-2xl font-serif mb-3">FieldNote</h3>
-                <p className="text-brand-paper/55 text-base leading-relaxed">
-                  Teachers and support specialists photograph a student's work sample, learning environment, or classroom moment. Intelligent visual processing converts each image into structured observation notes — identifying learning patterns, flagging progress indicators, and generating documentation ready for progress monitoring workflows. No sensitive records required. No student data stored between sessions. Just fast, accurate, educator-driven documentation at the moment it matters.
-                </p>
-              </motion.div>
-
-              {/* Meridian */}
-              <motion.div whileHover={{ y: -4 }} className="p-10 rounded-[40px] bg-brand-paper/5 border border-brand-paper/10">
-                <div className="w-14 h-14 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-6">
-                  <svg viewBox="0 0 40 40" width="28" height="28">
-                    {/* Dial arc background */}
-                    <path d="M 6 28 A 15 15 0 0 1 34 28" fill="none" stroke="#662D91" strokeWidth="3" strokeLinecap="round" opacity="0.4" />
-                    {/* Dial arc filled — warm zone */}
-                    <path d="M 6 28 A 15 15 0 0 1 22 13" fill="none" stroke="#FF6321" strokeWidth="3" strokeLinecap="round" />
-                    {/* Needle */}
-                    <line x1="20" y1="28" x2="22" y2="14" stroke="#F5F2ED" strokeWidth="2" strokeLinecap="round" />
-                    <circle cx="20" cy="28" r="3" fill="#662D91" />
-                    {/* Tick marks */}
-                    <line x1="6" y1="28" x2="8" y2="26" stroke="#F5F2ED" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
-                    <line x1="20" y1="13" x2="20" y2="16" stroke="#F5F2ED" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
-                    <line x1="34" y1="28" x2="32" y2="26" stroke="#F5F2ED" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
-                    {/* Person icon below */}
-                    <circle cx="20" cy="35" r="2.5" fill="#8DC63F" />
-                  </svg>
-                </div>
-                <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For School Counselors</div>
-                <h3 className="text-2xl font-serif mb-3">Meridian</h3>
-                <p className="text-brand-paper/55 text-base leading-relaxed">
-                  Grounded in the ASCA National Model, CASEL's five SEL competencies, and evidence-based multicultural counseling frameworks, Meridian helps school counselors build comprehensive, culturally responsive action plans for students' emotional, social, and mental health needs. Counselors dial in a case temperature — from structured and clinical (aligned to MTSS Tier 2/3 protocols) to exploratory and open-ended — and Meridian formulates individualized plans informed by national student wellness research and best-practice counseling literature. Every plan is counselor-reviewed, ethically grounded, and student-centered.
-                </p>
-              </motion.div>
-
-              {/* FocusBridge */}
-              <motion.div whileHover={{ y: -4 }} className="p-10 rounded-[40px] bg-brand-paper/5 border border-brand-paper/10">
-                <div className="w-14 h-14 rounded-2xl bg-orange-500/20 flex items-center justify-center mb-6">
-                  <svg viewBox="0 0 40 40" width="28" height="28">
-                    {/* Hourglass outline */}
-                    <path d="M 10 4 L 30 4 L 20 20 L 30 36 L 10 36 L 20 20 Z" fill="none" stroke="#FF6321" strokeWidth="2.5" strokeLinejoin="round" />
-                    {/* Liquid fill in bottom half */}
-                    <path d="M 20 20 L 27 31 L 13 31 Z" fill="#29ABE2" opacity="0.6" />
-                    {/* Small signal dot — sensory alert */}
-                    <circle cx="32" cy="8" r="4" fill="#8DC63F" />
-                    <circle cx="32" cy="8" r="4" fill="#8DC63F" opacity="0.4">
-                      <animate attributeName="r" values="4;7;4" dur="2s" repeatCount="indefinite" />
-                      <animate attributeName="opacity" values="0.4;0;0.4" dur="2s" repeatCount="indefinite" />
-                    </circle>
-                  </svg>
-                </div>
-                <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For Teachers</div>
-                <h3 className="text-2xl font-serif mb-3">FocusBridge</h3>
-                <p className="text-brand-paper/55 text-base leading-relaxed">
-                  A classroom transition manager with a visual countdown students can actually feel — choose from a disappearing liquid fill, a slowly completing mosaic, or a soft progress arc so students can anticipate transitions without anxiety. The built-in Sensory Check-in lets students discreetly tap one icon on any shared classroom device to privately alert the teacher's tablet that they're approaching overload — enabling quiet, dignified support before dysregulation occurs.
-                </p>
-              </motion.div>
-
-              {/* SkillVault */}
-              <motion.div whileHover={{ y: -4 }} className="p-10 rounded-[40px] bg-brand-paper/5 border border-brand-paper/10">
-                <div className="w-14 h-14 rounded-2xl bg-yellow-500/20 flex items-center justify-center mb-6">
-                  <svg viewBox="0 0 40 40" width="28" height="28">
-                    {/* Badge shield */}
-                    <path d="M 20 3 L 34 9 L 34 22 Q 34 32 20 37 Q 6 32 6 22 L 6 9 Z" fill="none" stroke="#8DC63F" strokeWidth="2.5" strokeLinejoin="round" />
-                    {/* Star stamp */}
-                    <path d="M 20 12 L 21.5 17 L 26.5 17 L 22.5 20 L 24 25 L 20 22 L 16 25 L 17.5 20 L 13.5 17 L 18.5 17 Z" fill="#FF6321" />
-                    {/* Verified tick */}
-                    <path d="M 28 6 L 30 9 L 36 4" fill="none" stroke="#29ABE2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-                <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For High School Students, Teachers &amp; Mentors</div>
-                <h3 className="text-2xl font-serif mb-3">SkillVault</h3>
-                <p className="text-brand-paper/55 text-base leading-relaxed">
-                  A micro-credentialing platform for the skills-based economy. Teachers and community mentors grant verified competency badges to students after witnessing them in action — from Peer Tutoring to Prompt Engineering to Basic Fabrication. Students have their own SkillVault accounts to collect and display their earned badges, and each credential generates a portable, verifiable link students can embed in email signatures, messages, and digital portfolios. No student self-registers: accounts are provisioned exclusively through district-controlled SIS integration or spreadsheet upload, and every badge is teacher- or mentor-granted — never self-awarded. The architecture is purpose-built to meet FERPA requirements and, for students under 13, COPPA — with districts acting as the authorizing school official. See our COPPA/FERPA Compliance statement for the full privacy architecture.
-                </p>
-              </motion.div>
-
-              {/* ClearEar */}
-              <motion.div whileHover={{ y: -4 }} className="p-10 rounded-[40px] bg-brand-paper/5 border border-brand-paper/10">
-                <div className="w-14 h-14 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-6">
-                  <svg viewBox="0 0 40 40" width="28" height="28">
-                    {/* Ear shape */}
-                    <path d="M 22 6 Q 32 6 32 18 Q 32 26 24 28 Q 22 32 20 34 Q 18 34 18 32 Q 18 28 22 26 Q 26 24 26 18 Q 26 12 20 12 Q 14 12 14 18 Q 14 22 18 22" fill="none" stroke="#29ABE2" strokeWidth="2.5" strokeLinecap="round" />
-                    {/* Sound waves emanating left */}
-                    <path d="M 8 14 Q 5 18 8 22" fill="none" stroke="#8DC63F" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M 4 11 Q 0 18 4 25" fill="none" stroke="#8DC63F" strokeWidth="2" strokeLinecap="round" opacity="0.5" />
-                    {/* Filter slash — noise cancelled */}
-                    <line x1="34" y1="4" x2="28" y2="10" stroke="#FF6321" strokeWidth="2" strokeLinecap="round" />
-                    <circle cx="34" cy="6" r="5" fill="none" stroke="#FF6321" strokeWidth="1.5" />
-                  </svg>
-                </div>
-                <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For Students &amp; Teachers</div>
-                <h3 className="text-2xl font-serif mb-3">ClearEar</h3>
-                <p className="text-brand-paper/55 text-base leading-relaxed">
-                  The teacher speaks into their own device. ClearEar isolates the speech signal from background classroom noise in real time and delivers crystal-clear audio directly to a student's own earbuds — no special hardware, no hearing loop installation. Equitable access to instruction for students with auditory processing differences, hearing challenges, or attention difficulties, on any device they already carry.
-                </p>
-              </motion.div>
-
-              {/* AdjunctCentral */}
-              <motion.div whileHover={{ y: -4 }} className="p-10 rounded-[40px] bg-brand-paper/5 border border-brand-paper/10">
-                <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center mb-6">
-                  <svg viewBox="0 0 40 40" width="28" height="28">
-                    {/* Timesheet base */}
-                    <rect x="6" y="10" width="24" height="26" rx="3" fill="none" stroke="#10b981" strokeWidth="2.5" />
-                    {/* Header bar */}
-                    <rect x="6" y="10" width="24" height="6" rx="3" fill="#10b981" opacity="0.25" />
-                    {/* Binder clips */}
-                    <line x1="13" y1="7" x2="13" y2="13" stroke="#10b981" strokeWidth="2" strokeLinecap="round" />
-                    <line x1="23" y1="7" x2="23" y2="13" stroke="#10b981" strokeWidth="2" strokeLinecap="round" />
-                    {/* Data rows — multiple schools */}
-                    <line x1="11" y1="21" x2="25" y2="21" stroke="#10b981" strokeWidth="2" strokeLinecap="round" opacity="0.7" />
-                    <line x1="11" y1="26" x2="22" y2="26" stroke="#10b981" strokeWidth="2" strokeLinecap="round" opacity="0.7" />
-                    <line x1="11" y1="31" x2="19" y2="31" stroke="#10b981" strokeWidth="2" strokeLinecap="round" opacity="0.7" />
-                    {/* Dollar badge */}
-                    <circle cx="32" cy="12" r="7" fill="#FF6321" />
-                    <text x="32" y="16" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold" fontFamily="serif">$</text>
-                  </svg>
-                </div>
-                <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For Adjunct Professors</div>
-                <h3 className="text-2xl font-serif mb-3">AdjunctCentral</h3>
-                <p className="text-brand-paper/55 text-base leading-relaxed">
-                  Teaching at two schools this semester and three next quarter? AdjunctCentral tracks your courses, hours, and per-unit pay rates across every institution — semester, quarter, or mixed — and projects your next paycheck in real time. At tax time, export a TurboTax-ready income summary or generate a Schedule C report automatically. Built-in timesheet generation logs your hours per pay period, applies your digital signature, and routes directly to your department coordinator by email — on schedule, without chasing anyone down.
-                </p>
-              </motion.div>
-
-              {/* Vitae */}
-              <motion.div whileHover={{ y: -4 }} className="p-10 rounded-[40px] bg-brand-paper/5 border border-brand-paper/10">
-                <div className="w-14 h-14 rounded-2xl bg-violet-500/20 flex items-center justify-center mb-6">
-                  <svg viewBox="0 0 40 40" width="28" height="28">
-                    {/* CV document */}
-                    <rect x="7" y="10" width="20" height="26" rx="3" fill="none" stroke="#8b5cf6" strokeWidth="2.5" />
-                    {/* CV entry lines */}
-                    <line x1="11" y1="18" x2="23" y2="18" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
-                    <line x1="11" y1="23" x2="21" y2="23" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
-                    <line x1="11" y1="28" x2="23" y2="28" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
-                    <line x1="11" y1="33" x2="18" y2="33" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
-                    {/* Graduation cap — top right */}
-                    <path d="M 24 4 L 36 8 L 24 12 L 12 8 Z" fill="#FF6321" opacity="0.85" />
-                    <line x1="36" y1="8" x2="36" y2="14" stroke="#FF6321" strokeWidth="2" strokeLinecap="round" />
-                    <circle cx="36" cy="15" r="2" fill="#FF6321" />
-                  </svg>
-                </div>
-                <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For College Faculty</div>
-                <h3 className="text-2xl font-serif mb-3">Vitae</h3>
-                <p className="text-brand-paper/55 text-base leading-relaxed">
-                  Every publication, grant, committee seat, and course — logged as it happens, not reconstructed every January. Vitae builds your CV in real time and generates your annual review narrative automatically. When tenure season or promotion arrives, your dossier is already done. Professor-owned and institution-independent: your data isn't locked in your university's enterprise system. It travels with you when you move.
-                </p>
-              </motion.div>
-
-            </div>
-          </div>
-        </section>
-
-        {/* ── CTA ── */}
+        {/* ── Contact ── */}
         <section id="contact" className="py-32 px-6">
           <div className="max-w-7xl mx-auto">
-            <div className="bg-brand-orange rounded-[64px] p-16 md:p-24 text-center text-white relative overflow-hidden">
-              <div className="relative z-10">
-                <h2 className="text-6xl md:text-7xl font-light mb-8">Ready to <span className="italic">see it live?</span></h2>
-                <p className="text-xl opacity-80 max-w-2xl mx-auto mb-12">
-                  Explore the VAPA Pulse proof of concept, or schedule a live demo with our team.
-                </p>
-                <div className="flex flex-wrap justify-center gap-6">
-                  <a
-                    href="https://vapapulse.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group bg-white text-brand-orange px-10 py-5 rounded-full text-xl font-bold hover:bg-brand-ink hover:text-white transition-all flex items-center gap-2"
-                  >
-                    Visit vapapulse.com
-                    <ExternalLink className="w-5 h-5" />
-                  </a>
-                  <button
-                    onClick={() => setShowDemo(true)}
-                    className="bg-brand-ink text-white px-10 py-5 rounded-full text-xl font-bold hover:bg-white hover:text-brand-orange transition-all"
-                  >
-                    Schedule a Demo
-                  </button>
+            <div className="max-w-2xl">
+
+              {/* Contact info */}
+              <div className="bg-brand-ink text-brand-paper rounded-[48px] p-14 flex flex-col justify-between relative overflow-hidden">
+                <div className="relative z-10">
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-brand-orange mb-8">Get in Touch</div>
+                  <h2 className="text-5xl font-light mb-4">Let's <span className="italic text-brand-orange">talk.</span></h2>
+                  <p className="text-brand-paper/50 mb-12 leading-relaxed">
+                    Questions about VAPA Pulse, a custom project, or a district partnership? Reach out directly.
+                  </p>
+                  <div className="space-y-5">
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-1">Contact</p>
+                      <p className="font-serif text-xl">Dr. Emil Ahangarzadeh</p>
+                      <p className="text-brand-orange text-xs font-bold uppercase tracking-widest">CEO & CTO · Co-Founder</p>
+                    </div>
+                    <a
+                      href="mailto:emil@vapapulse.com"
+                      className="flex items-center gap-3 text-brand-paper/70 hover:text-brand-orange transition-colors group"
+                    >
+                      <Mail className="w-4 h-4 shrink-0 group-hover:text-brand-orange" />
+                      <span className="text-sm font-medium">emil@vapapulse.com</span>
+                    </a>
+                    <a
+                      href="tel:6196638382"
+                      className="flex items-center gap-3 text-brand-paper/70 hover:text-brand-orange transition-colors group"
+                    >
+                      <Phone className="w-4 h-4 shrink-0 group-hover:text-brand-orange" />
+                      <span className="text-sm font-medium">(619) 663-8382</span>
+                    </a>
+                  </div>
                 </div>
+                <div className="absolute -right-16 -bottom-16 w-64 h-64 bg-brand-orange/10 rounded-full blur-3xl" />
               </div>
-              <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
-              <div className="absolute bottom-0 right-0 w-96 h-96 bg-brand-ink/10 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl" />
+
             </div>
           </div>
         </section>
@@ -815,13 +752,37 @@ export default function App() {
                 <Mail className="w-5 h-5" />
               </a>
             </div>
+            <div>
+              <h4 className="font-bold uppercase tracking-widest text-xs mb-6 opacity-40">Company</h4>
+              <ul className="space-y-4 text-sm font-medium">
+                <li><a href="#mission" className="hover:text-brand-orange transition-colors">Mission</a></li>
+                <li><a href="#founders" className="hover:text-brand-orange transition-colors">Founders</a></li>
+                <li><a href="mailto:coo@vapapulse.com" className="hover:text-brand-orange transition-colors">Contact</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold uppercase tracking-widest text-xs mb-6 opacity-40">Product</h4>
+              <ul className="space-y-4 text-sm font-medium">
+                <li><a href="#vapa-pulse" className="hover:text-brand-orange transition-colors">VAPA Pulse</a></li>
+                <li>
+                  <button onClick={() => setShowDemo(true)} className="hover:text-brand-orange transition-colors">
+                    Schedule a Demo
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div className="pt-8 border-t border-brand-ink/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold uppercase tracking-widest opacity-30">
-            <div>© 2026 Pulse Pedagogies, LLC. All rights reserved.</div>
-            <div className="flex gap-8">
-              <button onClick={() => setLegalDoc('privacy')} className="hover:text-brand-ink transition-colors">Privacy Policy</button>
-              <button onClick={() => setLegalDoc('terms')} className="hover:text-brand-ink transition-colors">Terms of Service</button>
-              <button onClick={() => setLegalDoc('coppa')} className="hover:text-brand-ink transition-colors">COPPA/FERPA</button>
+          <div className="pt-8 border-t border-brand-ink/10 space-y-4">
+            <p className="text-[11px] text-brand-ink/40 leading-relaxed">
+              All product names, system architectures, pedagogical frameworks, AI implementations, and designs described on this site are the exclusive intellectual property of Pulse Pedagogies, LLC and are protected under applicable U.S. copyright, trade secret, and intellectual property law. Unauthorized reproduction, distribution, or use is strictly prohibited.
+            </p>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs font-bold uppercase tracking-widest">
+              <div className="text-brand-ink/70">© 2026 Pulse Pedagogies, LLC · All Rights Reserved · Proprietary &amp; Confidential</div>
+              <div className="flex gap-8 text-brand-ink/40">
+                <a href="#" className="hover:text-brand-orange transition-colors">Privacy Policy</a>
+                <a href="#" className="hover:text-brand-orange transition-colors">Terms of Service</a>
+                <a href="#privacy" className="hover:text-brand-orange transition-colors">COPPA/FERPA</a>
+              </div>
             </div>
           </div>
         </div>
