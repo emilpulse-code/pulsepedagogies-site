@@ -1,11 +1,41 @@
-<div align="center">
+# Pulse Pedagogies Website
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+This is the company website for Pulse Pedagogies, LLC.
 
-  <h1>Built with AI Studio</h2>
+## Tech Stack
+- **Framework**: React 19 + Vite
+- **Styling**: Tailwind CSS 4
+- **Animations**: Motion (Framer Motion)
+- **Deployment**: Cloudflare Pages
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## Customization
+- **Logo**: The logo is located in `src/App.tsx` pointing to your hosted asset.
+- **Videos**: The Hero section uses a `<video>` tag. Replace the `src` in `App.tsx` with your Cloudflare R2 URLs.
+- **Resources**: The "Strategic Documentation" section in `App.tsx` can be updated with direct links to your PDF/DOCX files.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Deployment to pulsepedagogies.com
 
-</div>
+### 1. Local Setup
+If you are using **Claude Code** (the CLI tool), you can run:
+```bash
+npm run build
+```
+
+### 2. Cloudflare Pages Deployment
+You can deploy directly via the Cloudflare Dashboard by connecting your GitHub repository, or via the CLI:
+
+```bash
+npx wrangler pages deploy dist --project-name pulse-pedagogies-website
+```
+
+### 3. Custom Domain
+In the Cloudflare Pages dashboard:
+1. Go to **Custom Domains**.
+2. Add `pulsepedagogies.com`.
+3. Cloudflare will handle the DNS and SSL automatically.
+
+## AI Content Pipeline
+This site is designed to showcase content generated via:
+- **Veo 3**: For cinematic hero hooks.
+- **Gemini 1.5 Pro**: For pedagogical analysis.
+- **Lyria 3**: For teacher briefings.
