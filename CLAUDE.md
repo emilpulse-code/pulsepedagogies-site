@@ -1,0 +1,188 @@
+# Pulse Pedagogies — Claude Handshake Document
+
+> **Read this first. Every session starts here.**
+
+---
+
+## Step 1: Pull the Code (Do This Before Anything Else)
+
+**IMPORTANT:** Before touching any file or making any suggestion, clone or pull the repository so you have the live codebase in front of you.
+
+```bash
+# First time on this device:
+git clone https://github.com/emilpulse-code/pulsepedagogies-site.git .
+npm install
+
+# Already cloned? Pull latest:
+git pull origin main
+npm install
+```
+
+Then start the dev server to verify everything is working:
+```bash
+npm run dev
+# Site runs at http://localhost:3000
+```
+
+**Do not suggest changes to any file you have not read first.**
+
+---
+
+## Step 2: Current Working Focus
+
+**We are working on page content for `pulsepedagogies.com`.**
+
+The site is live at:
+- **Production:** https://pulsepedagogies.com
+- **Cloudflare Pages preview:** https://pulsepedagogies-site.pages.dev
+- **GitHub repo:** https://github.com/emilpulse-code/pulsepedagogies-site
+
+Pick up where we left off by reading `src/App.tsx` in full before making any suggestions.
+
+---
+
+## About This Project
+
+### The Company
+**Pulse Pedagogies, LLC** — K–12 education technology company based in Glendale, CA.
+We design and build custom web and mobile applications for schools, school districts, and county offices of education.
+
+### The Flagship Product
+**VAPA Pulse** — The world's first Artistic Intelligence Engine. A mobile-first web and mobile app delivering a complete, grade-level VAPA (Visual and Performing Arts) curricular program aligned to:
+- California's 5 VAPA content standards
+- National Art Education Standards
+
+Target market: TK–6 generalist educators, school sites, and California districts leveraging Prop 28 arts funding.
+Proof of concept live at: **https://vapapulse.com**
+
+---
+
+## Tech Stack
+
+| Layer | Tool |
+|---|---|
+| Framework | React 19 + TypeScript |
+| Build | Vite 6 |
+| Styling | Tailwind CSS v4 |
+| Animation | Motion (Framer Motion) |
+| Icons | Lucide React |
+| Video | Cloudflare Stream |
+| Hosting | Cloudflare Pages (auto-deploy from GitHub `main`) |
+| Domain | pulsepedagogies.com (managed in Cloudflare) |
+
+---
+
+## Deployment Pipeline
+
+```
+Edit files locally
+      ↓
+git push origin main
+      ↓
+Cloudflare Pages auto-builds (npm run build → dist/)
+      ↓
+Live at pulsepedagogies.com (~2 min)
+```
+
+**Build command:** `npm run build`
+**Output directory:** `dist`
+**Node version:** 20
+
+No environment variables are needed for the marketing site.
+
+---
+
+## File Structure
+
+```
+pulsepedagogies-site/
+├── src/
+│   ├── App.tsx                    ← Main page (single-page site)
+│   ├── components/
+│   │   ├── PulseLogo.tsx          ← SVG brand logo (nav + footer + favicon)
+│   │   └── DemoModal.tsx          ← "Schedule a Demo" modal form → coo@vapapulse.com
+│   └── lib/
+│       └── utils.ts               ← cn() utility
+├── public/
+│   ├── favicon.svg                ← SVG favicon (same as PulseLogo icon)
+│   └── satenik.jpg                ← Satenik founder photo
+├── index.html                     ← Entry point (title: "Pulse Pedagogies")
+├── vite.config.ts
+├── tailwind.config (inline in vite.config)
+└── wrangler.toml                  ← Cloudflare Pages config
+```
+
+---
+
+## Key People & Contacts
+
+| Person | Role | Email |
+|---|---|---|
+| Emil Ahangarzadeh, Ed.D. | CEO & CTO · Co-Founder | emil@vapapulse.com |
+| Satenik Ahangarzadeh, M.Ed. | COO · Co-Founder | coo@vapapulse.com |
+
+**Demo requests go to:** coo@vapapulse.com (Satenik)
+
+**LinkedIn:**
+- Emil: https://www.linkedin.com/in/emil-ahangarzadeh
+- Satenik: https://www.linkedin.com/in/satenik-grigoryan-aa931731
+
+---
+
+## Page Sections (Current State)
+
+1. **Nav** — Logo (links home), nav links, "Schedule a Demo" (opens DemoModal)
+2. **Hero** — Headline, Cloudflare Stream video of VAPA Pulse project, two CTAs
+3. **Mission** — Company mission: who Pulse Pedagogies is, what they build, 3 pillars
+4. **VAPA Pulse** — Product teaser: 3 benefit cards + 5-Act learning experience
+5. **Opportunity** — Prop 28 market info + pricing tiers
+6. **Founders** — Emil + Satenik with photos, bios, LinkedIn/email links
+7. **CTA** — Links to vapapulse.com and Schedule a Demo modal
+8. **Footer** — Logo (links home), nav, mail icon only (no LinkedIn)
+
+---
+
+## Design System
+
+Brand colors are defined in the Tailwind config:
+- `brand-orange` — Primary accent (CTA buttons, highlights)
+- `brand-ink` — Dark (near-black) for text and dark sections
+- `brand-paper` — Light (off-white/cream) background
+
+Typography:
+- Serif: used for headings, founder names, feature titles
+- Sans: used for body copy, labels, navigation
+
+---
+
+## Git Workflow
+
+```bash
+# Check what's changed
+git status
+git diff
+
+# Stage and commit
+git add <files>
+git commit -m "description of change"
+
+# Push to trigger Cloudflare deploy
+git push origin main
+```
+
+Always push from the `main` branch. Cloudflare auto-deploys on every push.
+
+---
+
+## Working Notes
+
+- The site is a **single-page React app** — all content lives in `src/App.tsx`
+- Images are served from `/public/` (e.g. `/satenik.jpg`)
+- The Cloudflare Stream video URL is embedded directly in `App.tsx`
+- The demo form uses `mailto:` — no backend required
+- `vapapulse.com` is a separate product site — links open in a new tab
+
+---
+
+*Last updated: April 2026 — Desktop1325 session*
+*Next session focus: Page content updates*
