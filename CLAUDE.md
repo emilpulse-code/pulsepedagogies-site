@@ -215,5 +215,47 @@ Always push from the `main` branch. Cloudflare auto-deploys on every push.
 
 ---
 
+## Pending Action Items
+
+### TIER 2 — Account Setup
+- [ ] **Cloudflare account email migration**
+  - Log in with personal Gmail
+  - My Profile → change primary email to vapapulse.com Google account
+  - Enable Google SSO login while you're there
+
+### TIER 3 — Infrastructure
+- [ ] **Configure Firebase Hosting for primary domain**
+  - Firebase Console → Hosting → Add custom domain
+  - Add TXT verification record in Cloudflare (DNS only, gray cloud)
+  - Add A records in Cloudflare (DNS only, gray cloud)
+  - Firebase provisions SSL automatically (~24 hrs to fully propagate)
+- [ ] **Set up domain redirects in Cloudflare**
+  - Non-primary domains redirect to primary via Cloudflare Redirect Rules (free, instant)
+  - e.g. `vapa.app/*` → `vapapulse.com/$1`
+- [ ] **Update GitHub Actions to deploy to Firebase**
+  - Add `FIREBASE_SERVICE_ACCOUNT` secret in GitHub repo settings
+  - Replace GitHub Pages deploy action with `FirebaseExtended/action-hosting-deploy@v0`
+  - Confirm push to main still triggers deploy
+- [ ] **Test PowerPoint → MP4 → Cloudflare Stream pipeline**
+  - One lesson, 5 slides, one ElevenLabs narration, export to MP4
+  - Upload to Cloudflare Stream, generate WebVTT from ElevenLabs timestamps
+  - Confirm plays cleanly at 1080p with captions
+  - Do this before committing to the workflow at scale
+
+### TIER 4 — Google AI Startup Application Prep
+- [ ] **Wire a real Gemini Vision call (Act 4)**
+  - Highest-leverage item for the application — live API integration in production carries more weight than a demo
+  - Estimated 2–3 hrs of coding
+- [ ] **Document AI integration map** (for Google application)
+  - Gemini Vision → Act 4 student work analysis
+  - Gemini Flash → lesson content generation
+  - Lyria → Act 1 in-situ PD audio generation
+  - Veo → Act 2 Hook video generation
+  - Google Workspace for Education → district SSO + Google Slides integration
+  - Firebase → full backend infrastructure
+- [ ] **Register on Google for Startups** — https://startup.google.com
+
+---
+
 *Last updated: April 15, 2026 — Omnibook session*
-*Next session focus: Domain purchasing — finalize and register `pulse[product].app` domains via Cloudflare Registrar*
+*Next session focus: Infrastructure (Tier 3) and Google AI Startup prep (Tier 4)*
