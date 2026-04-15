@@ -257,5 +257,6 @@ Always push from the `main` branch. Cloudflare auto-deploys on every push.
 
 ---
 
-*Last updated: April 15, 2026 — Omnibook session*
-*Next session focus: Infrastructure (Tier 3) and Google AI Startup prep (Tier 4)*
+*Last updated: April 15, 2026 — Omnibook session (end of night)*
+*Next session device: Desktop1325*
+*Next session focus: Tier 2 (Cloudflare email migration) → Tier 3 (Firebase Hosting, DNS, GitHub Actions, PowerPoint pipeline) → Tier 4 (Gemini Vision Act 4, Google for Startups registration)*
