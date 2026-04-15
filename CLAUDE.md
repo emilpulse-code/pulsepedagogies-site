@@ -30,7 +30,7 @@ npm run dev
 
 ## Step 2: Current Working Focus
 
-**We are working on page content for `pulsepedagogies.com`.**
+**We are working on domain purchasing and suite naming for the Coming Soon products.**
 
 The site is live at:
 - **Production:** https://pulsepedagogies.com
@@ -38,6 +38,17 @@ The site is live at:
 - **GitHub repo:** https://github.com/emilpulse-code/pulsepedagogies-site
 
 Pick up where we left off by reading `src/App.tsx` in full before making any suggestions.
+
+### Domain Decisions In Progress (April 2026)
+The user is evaluating domains for the Coming Soon product suite. Proposed naming convention: `pulse[product].app` (e.g. `pulsecpq.app`). Domains under consideration:
+- `pulsecpq.app` — CPQ (Categorical Program Qualifier) — user actively evaluating this
+- `pulseskillvault.app` — SkillVault micro-credentialing
+- `pulsemeridian.app` — Meridian
+- `pulsefieldnote.app` — FieldNote (formerly ObserveIQ)
+- `pulsefocusbridge.app` — FocusBridge
+- `pulseclearear.app` — ClearEar
+
+All domains to be registered via Cloudflare Registrar. Also recommended grabbing `.com` redirects (e.g. `pulsecpq.com`).
 
 ---
 
@@ -54,6 +65,18 @@ We design and build custom web and mobile applications for schools, school distr
 
 Target market: TK–6 generalist educators, school sites, and California districts leveraging Prop 28 arts funding.
 Proof of concept live at: **https://vapapulse.com**
+
+### Coming Soon Product Suite
+| Product | Description | Domain Status |
+|---|---|---|
+| FieldNote | Classroom observation (renamed from ObserveIQ) | TBD — `pulsefieldnote.app` proposed |
+| Meridian | TBD | TBD — `pulsemeridian.app` proposed |
+| SkillVault | Micro-credentialing platform; student accounts via SIS or spreadsheet; teacher/mentor-granted badges; student badge sharing | TBD — `pulseskillvault.app` proposed |
+| FocusBridge | TBD | TBD — `pulsefocusbridge.app` proposed |
+| ClearEar | TBD | TBD — `pulseclearear.app` proposed |
+| CPQ | Categorical Program Qualifier | `pulsecpq.app` — user evaluating |
+
+**Note:** Grant Pulse was removed from the site. ObserveIQ was renamed to FieldNote.
 
 ---
 
@@ -100,7 +123,8 @@ pulsepedagogies-site/
 │   ├── App.tsx                    ← Main page (single-page site)
 │   ├── components/
 │   │   ├── PulseLogo.tsx          ← SVG brand logo (nav + footer + favicon)
-│   │   └── DemoModal.tsx          ← "Schedule a Demo" modal form → coo@vapapulse.com
+│   │   ├── DemoModal.tsx          ← "Schedule a Demo" modal form → coo@vapapulse.com
+│   │   └── LegalModal.tsx         ← Privacy Policy, Terms of Service, COPPA/FERPA modals
 │   └── lib/
 │       └── utils.ts               ← cn() utility
 ├── public/
@@ -184,5 +208,5 @@ Always push from the `main` branch. Cloudflare auto-deploys on every push.
 
 ---
 
-*Last updated: April 2026 — Desktop1325 session*
-*Next session focus: Page content updates*
+*Last updated: April 15, 2026 — Omnibook session*
+*Next session focus: Domain purchasing — finalize and register `pulse[product].app` domains via Cloudflare Registrar*
