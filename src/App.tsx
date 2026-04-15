@@ -210,7 +210,7 @@ export default function App() {
                   <div className="p-8">
                     <p className="text-brand-orange font-bold uppercase tracking-widest text-xs mb-3">Flagship Project · In Development</p>
                     <h3 className="text-white font-serif text-2xl mb-3">Our flagship project: VAPA Pulse</h3>
-                    <p className="text-white/60 text-sm leading-relaxed">
+                    <p className="text-white/60 text-base leading-relaxed">
                       A complete web and mobile app providing schools and districts with a grade-level curricular program across all five Visual and Performing Arts standards of California and the National Art Education Standards.
                     </p>
                   </div>
@@ -260,7 +260,7 @@ export default function App() {
                   <GraduationCap className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-serif mb-3">Education First</h3>
-                <p className="text-brand-paper/50 text-sm leading-relaxed">
+                <p className="text-brand-paper/50 text-base leading-relaxed">
                   Every product we build is led by educators who have stood in front of students. We don't guess what schools need — we know.
                 </p>
               </div>
@@ -269,7 +269,7 @@ export default function App() {
                   <Code2 className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-serif mb-3">Custom Built</h3>
-                <p className="text-brand-paper/50 text-sm leading-relaxed">
+                <p className="text-brand-paper/50 text-base leading-relaxed">
                   No off-the-shelf templates. We build purpose-designed apps tailored to the exact needs of your district, site, or program.
                 </p>
               </div>
@@ -278,7 +278,7 @@ export default function App() {
                   <Lightbulb className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-serif mb-3">AI-Powered</h3>
-                <p className="text-brand-paper/50 text-sm leading-relaxed">
+                <p className="text-brand-paper/50 text-base leading-relaxed">
                   We leverage the latest in generative AI — from Google Gemini to Veo 3 — to deliver tools that were impossible to build just two years ago.
                 </p>
               </div>
@@ -363,8 +363,8 @@ export default function App() {
                       <act.icon className="w-8 h-8" />
                     </div>
                     <div className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/30 mb-2">Act {act.number}</div>
-                    <h4 className="font-bold text-sm mb-2">{act.title}</h4>
-                    <p className="text-brand-ink/50 text-xs leading-relaxed">{act.description}</p>
+                    <h4 className="font-bold text-base mb-2">{act.title}</h4>
+                    <p className="text-brand-ink/50 text-sm leading-relaxed">{act.description}</p>
                   </motion.div>
                 ))}
               </div>
@@ -583,7 +583,7 @@ export default function App() {
                   <p className="text-brand-paper/60 leading-relaxed mb-4">
                     Administrators and program directors spend hours — sometimes days — determining whether a purchase, service, or staffing requisition qualifies under a specific categorical funding source. This tool changes that. Enter the requisition details, select the applicable programs, and get an immediate, rule-based eligibility determination across Title I, Title III, Arts &amp; Music in Schools (Prop 28), Special Education, and more.
                   </p>
-                  <p className="text-brand-paper/40 text-sm">
+                  <p className="text-brand-paper/40 text-base">
                     Includes audit-trail documentation, allowable cost summaries, and plain-language rationale.
                   </p>
                 </div>
@@ -610,7 +610,7 @@ export default function App() {
                 </div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For Special Education Teams</div>
                 <h3 className="text-2xl font-serif mb-3">FieldNote</h3>
-                <p className="text-brand-paper/55 text-sm leading-relaxed">
+                <p className="text-brand-paper/55 text-base leading-relaxed">
                   Teachers and support specialists photograph a student's work sample, learning environment, or classroom moment. Intelligent visual processing converts each image into structured observation notes — identifying learning patterns, flagging progress indicators, and generating documentation ready for progress monitoring workflows. No sensitive records required. No student data stored between sessions. Just fast, accurate, educator-driven documentation at the moment it matters.
                 </p>
               </motion.div>
@@ -636,7 +636,7 @@ export default function App() {
                 </div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For School Counselors</div>
                 <h3 className="text-2xl font-serif mb-3">Meridian</h3>
-                <p className="text-brand-paper/55 text-sm leading-relaxed">
+                <p className="text-brand-paper/55 text-base leading-relaxed">
                   Grounded in the ASCA National Model, CASEL's five SEL competencies, and evidence-based multicultural counseling frameworks, Meridian helps school counselors build comprehensive, culturally responsive action plans for students' emotional, social, and mental health needs. Counselors dial in a case temperature — from structured and clinical (aligned to MTSS Tier 2/3 protocols) to exploratory and open-ended — and Meridian formulates individualized plans informed by national student wellness research and best-practice counseling literature. Every plan is counselor-reviewed, ethically grounded, and student-centered.
                 </p>
               </motion.div>
@@ -659,7 +659,7 @@ export default function App() {
                 </div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For Teachers</div>
                 <h3 className="text-2xl font-serif mb-3">FocusBridge</h3>
-                <p className="text-brand-paper/55 text-sm leading-relaxed">
+                <p className="text-brand-paper/55 text-base leading-relaxed">
                   A classroom transition manager with a visual countdown students can actually feel — choose from a disappearing liquid fill, a slowly completing mosaic, or a soft progress arc so students can anticipate transitions without anxiety. The built-in Sensory Check-in lets students discreetly tap one icon on any shared classroom device to privately alert the teacher's tablet that they're approaching overload — enabling quiet, dignified support before dysregulation occurs.
                 </p>
               </motion.div>
@@ -678,7 +678,7 @@ export default function App() {
                 </div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For High School Students, Teachers &amp; Mentors</div>
                 <h3 className="text-2xl font-serif mb-3">SkillVault</h3>
-                <p className="text-brand-paper/55 text-sm leading-relaxed">
+                <p className="text-brand-paper/55 text-base leading-relaxed">
                   A micro-credentialing platform for the skills-based economy. Teachers and community mentors grant verified competency badges to students after witnessing them in action — from Peer Tutoring to Prompt Engineering to Basic Fabrication. Students have their own SkillVault accounts to collect and display their earned badges, and each credential generates a portable, verifiable link students can embed in email signatures, messages, and digital portfolios. No student self-registers: accounts are provisioned exclusively through district-controlled SIS integration or spreadsheet upload, and every badge is teacher- or mentor-granted — never self-awarded. The architecture is purpose-built to meet FERPA requirements and, for students under 13, COPPA — with districts acting as the authorizing school official. See our COPPA/FERPA Compliance statement for the full privacy architecture.
                 </p>
               </motion.div>
@@ -699,7 +699,7 @@ export default function App() {
                 </div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For Students &amp; Teachers</div>
                 <h3 className="text-2xl font-serif mb-3">ClearEar</h3>
-                <p className="text-brand-paper/55 text-sm leading-relaxed">
+                <p className="text-brand-paper/55 text-base leading-relaxed">
                   The teacher speaks into their own device. ClearEar isolates the speech signal from background classroom noise in real time and delivers crystal-clear audio directly to a student's own earbuds — no special hardware, no hearing loop installation. Equitable access to instruction for students with auditory processing differences, hearing challenges, or attention difficulties, on any device they already carry.
                 </p>
               </motion.div>
@@ -751,12 +751,12 @@ export default function App() {
               <a href="/" className="flex items-center gap-2 mb-4 hover:opacity-80 transition-opacity w-fit">
                 <PulseLogo size={36} />
               </a>
-              <p className="text-brand-ink/50 max-w-sm text-sm">
+              <p className="text-brand-ink/50 max-w-sm text-base">
                 K–12 education technology built by educators. Solving the national arts gap — one district at a time.
               </p>
             </div>
             <div className="flex items-center gap-6">
-              <a href="tel:6196638382" className="flex items-center gap-2 text-brand-ink/40 hover:text-brand-orange transition-colors text-sm font-medium">
+              <a href="tel:6196638382" className="flex items-center gap-2 text-brand-ink/40 hover:text-brand-orange transition-colors text-base font-medium">
                 <Phone className="w-4 h-4" />
                 (619) 663-8382
               </a>
