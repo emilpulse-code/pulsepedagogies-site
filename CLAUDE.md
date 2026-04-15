@@ -39,16 +39,21 @@ The site is live at:
 
 Pick up where we left off by reading `src/App.tsx` in full before making any suggestions.
 
-### Domain Decisions In Progress (April 2026)
-The user is evaluating domains for the Coming Soon product suite. Proposed naming convention: `pulse[product].app` (e.g. `pulsecpq.app`). Domains under consideration:
-- `pulsecpq.app` — CPQ (Categorical Program Qualifier) — user actively evaluating this
-- `pulseskillvault.app` — SkillVault micro-credentialing
-- `pulsemeridian.app` — Meridian
-- `pulsefieldnote.app` — FieldNote (formerly ObserveIQ)
-- `pulsefocusbridge.app` — FocusBridge
-- `pulseclearear.app` — ClearEar
+### Domain Registry (locked April 15, 2026 — expires April 2029)
+All registered via Cloudflare Registrar.
 
-All domains to be registered via Cloudflare Registrar. Also recommended grabbing `.com` redirects (e.g. `pulsecpq.com`).
+| Product | .app | .com |
+|---|---|---|
+| Pulse Pedagogies | — | pulsepedagogies.com ✓ |
+| VAPA Pulse | vapapulse.app ✓ | vapapulse.com ✓ |
+| CPQ | pulsecpq.app ✓ | pulsecpq.com ✓ |
+| FieldNote | pulsefieldnote.app ✓ | pulsefieldnote.com ✓ |
+| Meridian | pulsemeridian.app ✓ | — (taken by 3rd party) |
+| SkillVault | pulseskillvault.app ✓ | pulseskillvault.com ✓ |
+| FocusBridge | pulsefocusbridge.app ✓ | pulsefocusbridge.com ✓ |
+| ClearEar | pulseclearear.app ✓ | pulseclearear.com ✓ |
+| AdjunctCentral | adjunctcentral.app ✓, pulseadjunctcentral.app ✓ | adjunctcentral.com ✓, pulseadjunctcentral.com ✓ |
+| Vitae | pulsevitae.app ✓, vitaepulse.app ✓ | — (pulsevitae.com taken by 3rd party) |.
 
 ---
 
@@ -67,16 +72,18 @@ Target market: TK–6 generalist educators, school sites, and California distric
 Proof of concept live at: **https://vapapulse.com**
 
 ### Coming Soon Product Suite
-| Product | Description | Domain Status |
+| Product | Audience | Primary Domain |
 |---|---|---|
-| FieldNote | Classroom observation (renamed from ObserveIQ) | TBD — `pulsefieldnote.app` proposed |
-| Meridian | TBD | TBD — `pulsemeridian.app` proposed |
-| SkillVault | Micro-credentialing platform; student accounts via SIS or spreadsheet; teacher/mentor-granted badges; student badge sharing | TBD — `pulseskillvault.app` proposed |
-| FocusBridge | TBD | TBD — `pulsefocusbridge.app` proposed |
-| ClearEar | TBD | TBD — `pulseclearear.app` proposed |
-| CPQ | Categorical Program Qualifier | `pulsecpq.app` — user evaluating |
+| CPQ | Administrators & Program Directors | pulsecpq.app |
+| FieldNote | Special Education Teams | pulsefieldnote.app |
+| Meridian | School Counselors | pulsemeridian.app |
+| SkillVault | High School Students, Teachers & Mentors | pulseskillvault.app |
+| FocusBridge | Teachers | pulsefocusbridge.app |
+| ClearEar | Students & Teachers | pulseclearear.app |
+| AdjunctCentral | Adjunct Professors | adjunctcentral.app |
+| Vitae | College Faculty | pulsevitae.app |
 
-**Note:** Grant Pulse was removed from the site. ObserveIQ was renamed to FieldNote.
+**Note:** Grant Pulse was removed. ObserveIQ was renamed to FieldNote. All domains registered through April 2029.
 
 ---
 
