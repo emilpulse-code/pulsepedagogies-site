@@ -1,0 +1,7 @@
+name = "pulse-pedagogies-website"
+compatibility_date = "2024-04-13"
+pages_build_output_dir = "dist"
+
+[vars]
+# Add environment variables here if needed
+# NODE_VERSION = "20"
