@@ -13,7 +13,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <div className="mb-8">
       <h3 className="text-lg font-bold text-brand-ink mb-3">{title}</h3>
-      <div className="text-brand-ink/70 text-sm leading-relaxed space-y-3">{children}</div>
+      <div className="text-brand-ink/70 text-base leading-relaxed space-y-3">{children}</div>
     </div>
   );
 }
