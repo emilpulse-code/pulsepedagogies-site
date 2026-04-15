@@ -578,17 +578,18 @@ export default function App() {
                 </div>
                 <div className="flex-1">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-brand-orange block mb-3">For Administrators &amp; Program Directors</span>
-                  <h3 className="text-3xl font-serif mb-4">Categorical Program Qualifier</h3>
+                  <h3 className="text-3xl font-serif mb-1">CPQ</h3>
+                  <p className="text-brand-paper/40 text-xs uppercase tracking-widest font-bold mb-4">Categorical Program Qualifier</p>
                   <p className="text-brand-paper/60 leading-relaxed mb-4">
                     Administrators and program directors spend hours — sometimes days — determining whether a purchase, service, or staffing requisition qualifies under a specific categorical funding source. This tool changes that. Enter the requisition details, select the applicable programs, and get an immediate, rule-based eligibility determination across Title I, Title III, Arts &amp; Music in Schools (Prop 28), Special Education, and more.
                   </p>
                   <p className="text-brand-paper/40 text-sm">
-                    Includes audit-trail documentation, allowable cost summaries, and plain-language rationale — ready to attach to your requisition workflow.
+                    Includes audit-trail documentation, allowable cost summaries, and plain-language rationale.
                   </p>
                 </div>
               </motion.div>
 
-              {/* ObserveIQ */}
+              {/* FieldNote */}
               <motion.div whileHover={{ y: -4 }} className="p-10 rounded-[40px] bg-brand-paper/5 border border-brand-paper/10">
                 <div className="w-14 h-14 rounded-2xl bg-cyan-500/20 flex items-center justify-center mb-6">
                   <svg viewBox="0 0 40 40" width="28" height="28">
@@ -608,7 +609,7 @@ export default function App() {
                   </svg>
                 </div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For Special Education Teams</div>
-                <h3 className="text-2xl font-serif mb-3">ObserveIQ</h3>
+                <h3 className="text-2xl font-serif mb-3">FieldNote</h3>
                 <p className="text-brand-paper/55 text-sm leading-relaxed">
                   Teachers and support specialists photograph a student's work sample, learning environment, or classroom moment. Intelligent visual processing converts each image into structured observation notes — identifying learning patterns, flagging progress indicators, and generating documentation ready for progress monitoring workflows. No sensitive records required. No student data stored between sessions. Just fast, accurate, educator-driven documentation at the moment it matters.
                 </p>
@@ -637,24 +638,6 @@ export default function App() {
                 <h3 className="text-2xl font-serif mb-3">Meridian</h3>
                 <p className="text-brand-paper/55 text-sm leading-relaxed">
                   Grounded in the ASCA National Model, CASEL's five SEL competencies, and evidence-based multicultural counseling frameworks, Meridian helps school counselors build comprehensive, culturally responsive action plans for students' emotional, social, and mental health needs. Counselors dial in a case temperature — from structured and clinical (aligned to MTSS Tier 2/3 protocols) to exploratory and open-ended — and Meridian formulates individualized plans informed by national student wellness research and best-practice counseling literature. Every plan is counselor-reviewed, ethically grounded, and student-centered.
-                </p>
-              </motion.div>
-
-              {/* Grant Pulse */}
-              <motion.div whileHover={{ y: -4 }} className="p-10 rounded-[40px] bg-brand-paper/5 border border-brand-paper/10">
-                <div className="w-14 h-14 rounded-2xl bg-green-500/20 flex items-center justify-center mb-6">
-                  <svg viewBox="0 0 40 40" width="28" height="28">
-                    <rect x="4" y="28" width="6" height="10" rx="2" fill="#8DC63F" />
-                    <rect x="14" y="20" width="6" height="18" rx="2" fill="#8DC63F" />
-                    <rect x="24" y="12" width="6" height="26" rx="2" fill="#8DC63F" />
-                    <path d="M 7 22 L 17 14 L 27 8 L 36 4" fill="none" stroke="#FF6321" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                    <circle cx="36" cy="4" r="3" fill="#FF6321" />
-                  </svg>
-                </div>
-                <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For District Program Directors</div>
-                <h3 className="text-2xl font-serif mb-3">Grant Pulse</h3>
-                <p className="text-brand-paper/55 text-sm leading-relaxed">
-                  Enter your program's raw activity and expenditure data and generate audit-ready compliance reports aligned to your categorical program's specific reporting requirements. Supports Prop 28, Title I, Title III, and Special Education. Turns a two-week reporting cycle into an afternoon.
                 </p>
               </motion.div>
 
@@ -696,7 +679,7 @@ export default function App() {
                 <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For High School Students, Teachers &amp; Mentors</div>
                 <h3 className="text-2xl font-serif mb-3">SkillVault</h3>
                 <p className="text-brand-paper/55 text-sm leading-relaxed">
-                  A COPPA-compliant micro-credentialing platform for the skills-based economy. Teachers and community mentors stamp verified competencies — from Peer Tutoring to Prompt Engineering to Basic Fabrication — after witnessing them in action. Each stamp is cryptographically verified and permanently portable. Students graduate with a living skills record that speaks directly to employers and internship programs in the language they actually use.
+                  A micro-credentialing platform for the skills-based economy. Teachers and community mentors grant verified competency badges to students after witnessing them in action — from Peer Tutoring to Prompt Engineering to Basic Fabrication. Students have their own SkillVault accounts to collect and display their earned badges, and each credential generates a portable, verifiable link students can embed in email signatures, messages, and digital portfolios. No student self-registers: accounts are provisioned exclusively through district-controlled SIS integration or spreadsheet upload, and every badge is teacher- or mentor-granted — never self-awarded. The architecture is purpose-built to meet FERPA requirements and, for students under 13, COPPA — with districts acting as the authorizing school official. See our COPPA/FERPA Compliance statement for the full privacy architecture.
                 </p>
               </motion.div>
 
