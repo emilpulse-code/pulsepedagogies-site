@@ -46,8 +46,8 @@ const DOCS: Record<NonNullable<LegalDoc>, { title: string; content: React.ReactN
         </Section>
 
         <Section title="Children's Privacy">
-          <p>This marketing Site is not directed to children under the age of 13, and we do not knowingly collect personal information from children under 13. If you believe a child under 13 has submitted information through this Site, please contact us immediately at emil@vapapulse.com and we will promptly delete it.</p>
-          <p>Our product privacy practices related to students are described separately in our COPPA/FERPA Compliance Statement.</p>
+          <p>This marketing Site is not directed to children under the age of 13, and we do not knowingly collect personal information from children under 13 on this Site. If you believe a child under 13 has submitted information through this Site, please contact us immediately at emil@vapapulse.com and we will promptly delete it.</p>
+          <p><strong>Student data in our products.</strong> Most of our products — including VAPA Pulse, FieldNote, Meridian, FocusBridge, ClearEar, and the CPQ (Categorical Program Qualifier) — do not create student accounts or store student personally identifiable information. SkillVault is the exception: it maintains student accounts and credential records in order to allow students to view and share their earned badges. SkillVault accounts are provisioned exclusively by the district and are never self-created by students. The full details of SkillVault's student data practices, COPPA compliance architecture, and FERPA obligations are described in our COPPA/FERPA Compliance Statement.</p>
         </Section>
 
         <Section title="Data Security">
@@ -144,7 +144,7 @@ const DOCS: Record<NonNullable<LegalDoc>, { title: string; content: React.ReactN
             <li><strong>No student accounts.</strong> Students do not create accounts, log in, or submit personal information directly to our systems.</li>
             <li><strong>Teacher-mediated interaction.</strong> All student-facing activity is mediated by the classroom teacher. Teachers operate the application on behalf of their students.</li>
             <li><strong>Ephemeral processing.</strong> When student artwork is photographed for instructional feedback, the image is processed in real time and immediately discarded. No student images are stored, indexed, or retained.</li>
-            <li><strong>Zero student PII stored.</strong> We do not collect, store, or transmit any student personally identifiable information (PII).</li>
+            <li><strong>Zero student PII stored.</strong> Across all products except SkillVault (see below), we do not collect, store, or transmit student personally identifiable information (PII). SkillVault's student account architecture is governed separately in the SkillVault section of this document.</li>
           </ul>
         </Section>
 
@@ -156,6 +156,18 @@ const DOCS: Record<NonNullable<LegalDoc>, { title: string; content: React.ReactN
             <li><strong>No disclosure to third parties.</strong> We do not share student educational records with any third party without explicit written consent from the appropriate school or district authority, except as required by law.</li>
             <li><strong>District control.</strong> Educational records remain under the control of the district at all times. Upon termination of any agreement, we promptly delete or return any student data in our possession.</li>
           </ul>
+        </Section>
+
+        <Section title="SkillVault: Student Account Architecture & Compliance">
+          <p>SkillVault is our micro-credentialing platform for high school students. Because earned badges must be permanently and verifiably tied to individual students — and because students need to view and share those credentials — SkillVault operates under a distinct privacy architecture from our other products. The following explains how this architecture satisfies COPPA and FERPA requirements.</p>
+          <p><strong>Student accounts.</strong> SkillVault creates and maintains student accounts for the purpose of storing, displaying, and sharing earned competency badges. Students log in to view their credential record and generate shareable badge links for use in email signatures, messages, and digital portfolios.</p>
+          <p><strong>No student self-registration.</strong> Students cannot create their own accounts. All accounts are provisioned by the district — either through direct integration with the district's Student Information System (SIS) or via a district-controlled spreadsheet upload. This ensures that student identity in SkillVault is always district-authorized and district-verified.</p>
+          <p><strong>No self-awarded credentials.</strong> Students cannot grant themselves badges. Every credential is issued exclusively by a teacher or approved community mentor after directly witnessing the competency in action.</p>
+          <p><strong>Data stored.</strong> SkillVault stores only the minimum data necessary to operate: student name, school, grade level, and the record of earned credentials (badge type, date issued, issuing teacher or mentor). No sensitive academic records, behavioral data, disability status, or other educational record categories are collected or stored.</p>
+          <p><strong>COPPA compliance.</strong> SkillVault is designed for high school students, the primary audience being students in grades 9–12 (ages 14 and above), who fall outside COPPA's under-13 threshold. For any district that includes students under 13 in a SkillVault deployment, Pulse Pedagogies operates under the school operator exception: the district, acting as school official, provides authorization on behalf of parents in accordance with their own FERPA-compliant enrollment and consent processes. Pulse Pedagogies does not collect any information from students under 13 beyond what is strictly necessary to operate the credentialing service as authorized by the district.</p>
+          <p><strong>FERPA compliance.</strong> Under FERPA, Pulse Pedagogies operates as a "school official" with a legitimate educational interest in maintaining credential records on behalf of the district. We do not use student information for any purpose outside the credentialing service, and we do not disclose student records to any third party without explicit written authorization from the district, except as required by law.</p>
+          <p><strong>Student-controlled sharing.</strong> When a student shares a badge link, they are sharing a record of their own achievement — an exercise of their own right to present their educational accomplishments. Shared badge links display only the student's name, the credential earned, and the issuing school. No other data is exposed through a shared link.</p>
+          <p><strong>District control and deletion.</strong> All student data in SkillVault remains under the control of the district. Upon request or upon termination of a district's agreement, Pulse Pedagogies will promptly delete all student account data associated with that district. Students or parents may also request deletion by contacting the district, which may direct that request to us.</p>
         </Section>
 
         <Section title="Data Minimization">
