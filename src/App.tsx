@@ -704,6 +704,57 @@ export default function App() {
                 </p>
               </motion.div>
 
+              {/* AdjunctCentral */}
+              <motion.div whileHover={{ y: -4 }} className="p-10 rounded-[40px] bg-brand-paper/5 border border-brand-paper/10">
+                <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center mb-6">
+                  <svg viewBox="0 0 40 40" width="28" height="28">
+                    {/* Timesheet base */}
+                    <rect x="6" y="10" width="24" height="26" rx="3" fill="none" stroke="#10b981" strokeWidth="2.5" />
+                    {/* Header bar */}
+                    <rect x="6" y="10" width="24" height="6" rx="3" fill="#10b981" opacity="0.25" />
+                    {/* Binder clips */}
+                    <line x1="13" y1="7" x2="13" y2="13" stroke="#10b981" strokeWidth="2" strokeLinecap="round" />
+                    <line x1="23" y1="7" x2="23" y2="13" stroke="#10b981" strokeWidth="2" strokeLinecap="round" />
+                    {/* Data rows — multiple schools */}
+                    <line x1="11" y1="21" x2="25" y2="21" stroke="#10b981" strokeWidth="2" strokeLinecap="round" opacity="0.7" />
+                    <line x1="11" y1="26" x2="22" y2="26" stroke="#10b981" strokeWidth="2" strokeLinecap="round" opacity="0.7" />
+                    <line x1="11" y1="31" x2="19" y2="31" stroke="#10b981" strokeWidth="2" strokeLinecap="round" opacity="0.7" />
+                    {/* Dollar badge */}
+                    <circle cx="32" cy="12" r="7" fill="#FF6321" />
+                    <text x="32" y="16" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold" fontFamily="serif">$</text>
+                  </svg>
+                </div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For Adjunct Professors</div>
+                <h3 className="text-2xl font-serif mb-3">AdjunctCentral</h3>
+                <p className="text-brand-paper/55 text-base leading-relaxed">
+                  Teaching at two schools this semester and three next quarter? AdjunctCentral tracks your courses, hours, and per-unit pay rates across every institution — semester, quarter, or mixed — and projects your next paycheck in real time. At tax time, export a TurboTax-ready income summary or generate a Schedule C report automatically. Built-in timesheet generation logs your hours per pay period, applies your digital signature, and routes directly to your department coordinator by email — on schedule, without chasing anyone down.
+                </p>
+              </motion.div>
+
+              {/* Vitae */}
+              <motion.div whileHover={{ y: -4 }} className="p-10 rounded-[40px] bg-brand-paper/5 border border-brand-paper/10">
+                <div className="w-14 h-14 rounded-2xl bg-violet-500/20 flex items-center justify-center mb-6">
+                  <svg viewBox="0 0 40 40" width="28" height="28">
+                    {/* CV document */}
+                    <rect x="7" y="10" width="20" height="26" rx="3" fill="none" stroke="#8b5cf6" strokeWidth="2.5" />
+                    {/* CV entry lines */}
+                    <line x1="11" y1="18" x2="23" y2="18" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+                    <line x1="11" y1="23" x2="21" y2="23" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+                    <line x1="11" y1="28" x2="23" y2="28" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+                    <line x1="11" y1="33" x2="18" y2="33" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+                    {/* Graduation cap — top right */}
+                    <path d="M 24 4 L 36 8 L 24 12 L 12 8 Z" fill="#FF6321" opacity="0.85" />
+                    <line x1="36" y1="8" x2="36" y2="14" stroke="#FF6321" strokeWidth="2" strokeLinecap="round" />
+                    <circle cx="36" cy="15" r="2" fill="#FF6321" />
+                  </svg>
+                </div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-brand-paper/30 mb-2">For College Faculty</div>
+                <h3 className="text-2xl font-serif mb-3">Vitae</h3>
+                <p className="text-brand-paper/55 text-base leading-relaxed">
+                  Every publication, grant, committee seat, and course — logged as it happens, not reconstructed every January. Vitae builds your CV in real time and generates your annual review narrative automatically. When tenure season or promotion arrives, your dossier is already done. Professor-owned and institution-independent: your data isn't locked in your university's enterprise system. It travels with you when you move.
+                </p>
+              </motion.div>
+
             </div>
           </div>
         </section>
