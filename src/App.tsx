@@ -211,14 +211,14 @@ export default function App() {
                   </div>
                   <div style={{ position: 'relative', paddingTop: '56.25%' }}>
                     <iframe
-                      src="https://customer-40uk5te8zbrtkkan.cloudflarestream.com/d6785457b28b6961ba6611def16225ac/iframe?poster=https%3A%2F%2Fcustomer-40uk5te8zbrtkkan.cloudflarestream.com%2Fd6785457b28b6961ba6611def16225ac%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&autoplay=true&loop=true&muted=true"
+                      src="https://customer-40uk5te8zbrtkkan.cloudflarestream.com/d6785457b28b6961ba6611def16225ac/iframe?poster=https%3A%2F%2Fcustomer-40uk5te8zbrtkkan.cloudflarestream.com%2Fd6785457b28b6961ba6611def16225ac%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&autoplay=true&loop=true"
                       loading="lazy"
-                      style={{ border: 'none', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                      style={{ border: 'none', position: 'absolute', top: 0, left: 0, width: '100%', height: 'calc(100% - 52px)' }}
                       allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
                       allowFullScreen
                     />
                   </div>
-                  <div className="p-8">
+                  <div className="px-8 pt-14 pb-8 bg-brand-ink relative z-10" style={{ marginTop: '-52px', borderRadius: '0 72px 0 0' }}>
                     <p className="text-brand-orange font-bold uppercase tracking-widest text-xs mb-3">Flagship Project · In Development</p>
                     <h3 className="text-white font-serif text-2xl mb-3">Our flagship project: VAPA Pulse</h3>
                     <p className="text-white/60 text-base leading-relaxed">
