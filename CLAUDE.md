@@ -217,46 +217,11 @@ Always push from the `main` branch. Cloudflare auto-deploys on every push.
 
 ## Pending Action Items
 
-### TIER 2 — Account Setup
-- [ ] **Cloudflare account email migration**
-  - Log in with personal Gmail
-  - My Profile → change primary email to vapapulse.com Google account
-  - Enable Google SSO login while you're there
+_All Tier 2 / Tier 3 / Tier 4 items closed on May 20, 2026 — see `DEVLOG.md`._
 
-### TIER 3 — Infrastructure
-- [ ] **Configure Firebase Hosting for primary domain**
-  - Firebase Console → Hosting → Add custom domain
-  - Add TXT verification record in Cloudflare (DNS only, gray cloud)
-  - Add A records in Cloudflare (DNS only, gray cloud)
-  - Firebase provisions SSL automatically (~24 hrs to fully propagate)
-- [ ] **Set up domain redirects in Cloudflare**
-  - Non-primary domains redirect to primary via Cloudflare Redirect Rules (free, instant)
-  - e.g. `vapa.app/*` → `vapapulse.com/$1`
-- [ ] **Update GitHub Actions to deploy to Firebase**
-  - Add `FIREBASE_SERVICE_ACCOUNT` secret in GitHub repo settings
-  - Replace GitHub Pages deploy action with `FirebaseExtended/action-hosting-deploy@v0`
-  - Confirm push to main still triggers deploy
-- [ ] **Test PowerPoint → MP4 → Cloudflare Stream pipeline**
-  - One lesson, 5 slides, one ElevenLabs narration, export to MP4
-  - Upload to Cloudflare Stream, generate WebVTT from ElevenLabs timestamps
-  - Confirm plays cleanly at 1080p with captions
-  - Do this before committing to the workflow at scale
-
-### TIER 4 — Google AI Startup Application Prep
-- [ ] **Wire a real Gemini Vision call (Act 4)**
-  - Highest-leverage item for the application — live API integration in production carries more weight than a demo
-  - Estimated 2–3 hrs of coding
-- [ ] **Document AI integration map** (for Google application)
-  - Gemini Vision → Act 4 student work analysis
-  - Gemini Flash → lesson content generation
-  - Lyria → Act 1 in-situ PD audio generation
-  - Veo → Act 2 Hook video generation
-  - Google Workspace for Education → district SSO + Google Slides integration
-  - Firebase → full backend infrastructure
-- [ ] **Register on Google for Startups** — https://startup.google.com
+No open queue. Next priorities are TBD — confirm focus at the start of the next session.
 
 ---
 
-*Last updated: April 15, 2026 — Omnibook session (end of night)*
-*Next session device: Desktop1325*
-*Next session focus: Tier 2 (Cloudflare email migration) → Tier 3 (Firebase Hosting, DNS, GitHub Actions, PowerPoint pipeline) → Tier 4 (Gemini Vision Act 4, Google for Startups registration)*
+*Last updated: May 20, 2026*
+*Next session focus: TBD — Tiers 2–4 closed; queue is empty.*
