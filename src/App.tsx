@@ -11,7 +11,7 @@ import {
   Video,
   Camera,
   Share2,
-  Mic2,
+  Presentation,
   Layout,
   ArrowRight,
   Menu,
@@ -43,8 +43,8 @@ const VAPA_ACTS = [
   {
     number: '01',
     title: 'Teacher Briefing',
-    description: 'A professional 60-second briefing prepares the teacher with lesson context, key vocabulary, and delivery tips — before the bell rings.',
-    icon: Mic2,
+    description: 'A professional briefing video brings the teacher up to speed — covering everything she needs to know and do to prepare and implement the lesson.',
+    icon: Presentation,
     color: 'bg-blue-500/10 text-blue-600',
   },
   {
