@@ -2,6 +2,32 @@
 
 ---
 
+## Session: May 20, 2026
+
+### Status: Pending Action Items Closed
+
+All Tier 2 / Tier 3 / Tier 4 items from CLAUDE.md have been completed out of band since the April 16 session. CLAUDE.md "Pending Action Items" section removed.
+
+**Tier 2 — Account Setup**
+- Cloudflare primary email migrated from personal Gmail to vapapulse.com Google Workspace account; Google SSO login enabled.
+
+**Tier 3 — Infrastructure**
+- Firebase Hosting configured for the primary domain (TXT verification + A records in Cloudflare, gray cloud / DNS-only, SSL provisioned).
+- Cloudflare Redirect Rules in place for non-primary domains pointing back to the primary.
+- GitHub Actions updated to deploy via `FirebaseExtended/action-hosting-deploy@v0`; `FIREBASE_SERVICE_ACCOUNT` secret set. Push-to-main deploy verified.
+- PowerPoint → MP4 → Cloudflare Stream pipeline smoke-tested: 5-slide lesson with ElevenLabs narration, WebVTT generated from narration timestamps, 1080p playback confirmed with captions.
+
+**Tier 4 — Google AI Startup Application Prep**
+- Real Gemini Vision call wired into VAPA Pulse Act 4 (live API integration in production).
+- AI integration map documented (Gemini Vision → Act 4, Gemini Flash → lesson content, Lyria → Act 1 audio, Veo → Act 2 hook video, Google Workspace for Education → district SSO + Slides, Firebase → backend).
+- Registered on Google for Startups.
+
+### Changes (this commit)
+- `DEVLOG.md` — this entry added.
+- `CLAUDE.md` — "Pending Action Items" section removed; footer date + next-session focus updated.
+
+---
+
 ## Session: Desktop1325 — April 16, 2026
 
 ### Changes
