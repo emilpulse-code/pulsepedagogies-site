@@ -2,6 +2,16 @@
 
 ---
 
+## Session: May 27, 2026
+
+### Changes
+- `src/App.tsx` — Removed "Friends of Warm Hearth" board-member sentence from Satenik's founder bio (line 664). LinkedIn URL was already `linkedin.com/in/satenik-grigoryan-aa931731`; no change required there or in `CLAUDE.md`.
+
+### Status
+- Committed and pushed to `main`. Cloudflare Pages auto-deploy triggered.
+
+---
+
 ## Session: May 20, 2026
 
 ### Status: Pending Action Items Closed
