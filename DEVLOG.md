@@ -10,6 +10,7 @@
 
 ### Status
 - Both changes committed and pushed to `main`. Cloudflare Pages auto-deploy triggered.
+- Verified via `gh api repos/.../dependabot/alerts`: all 13 prior alerts now in `state: fixed`, 0 open. The "13 vulnerabilities" banner shown in `git push` output is a stale cached message from GitHub, not a current count.
 
 ---
 
