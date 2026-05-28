@@ -6,9 +6,10 @@
 
 ### Changes
 - `src/App.tsx` — Removed "Friends of Warm Hearth" board-member sentence from Satenik's founder bio (line 664). LinkedIn URL was already `linkedin.com/in/satenik-grigoryan-aa931731`; no change required there or in `CLAUDE.md`.
+- `package-lock.json` — Ran `npm audit fix` to resolve 7 advisories (1 critical, 6 moderate) flagged by Dependabot: `protobufjs` (RCE GHSA-xq3m-2v4x-88gg + 7 related), `postcss` (XSS), `qs` (DoS, cascading to `express` + `body-parser`), `ws` (memory disclosure), `@protobufjs/utf8` (overlong UTF-8). All transitive; no breaking changes. `npm run build` verified green (402 kB JS, 37.6 kB CSS).
 
 ### Status
-- Committed and pushed to `main`. Cloudflare Pages auto-deploy triggered.
+- Both changes committed and pushed to `main`. Cloudflare Pages auto-deploy triggered.
 
 ---
 
