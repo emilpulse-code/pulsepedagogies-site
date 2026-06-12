@@ -155,12 +155,12 @@ export function Work({onOpenForm}: {onOpenForm: () => void}) {
                   </span>
                 </div>
                 {app.image && (
-                  <div className="rounded-2xl overflow-hidden border border-brand-paper/10 mb-6 bg-black/20">
+                  <div className="mb-6 flex items-center justify-center">
                     <img
                       src={app.image}
                       alt={`${app.name} interface preview`}
                       loading="lazy"
-                      className="w-full aspect-[4/3] object-cover object-top group-hover:scale-[1.04] transition-transform duration-700"
+                      className="w-full aspect-[4/3] object-contain drop-shadow-[0_24px_48px_rgba(0,0,0,0.55)] group-hover:scale-[1.04] transition-transform duration-700"
                     />
                   </div>
                 )}

@@ -24,7 +24,7 @@ export interface Suite {
 export const complianceOps: AppEntry[] = [
   {
     id: 'cpq',
-    image: '/pipeline/cpq.jpg',
+    image: '/pipeline/cpq.webp',
     name: 'CPQ',
     subtitle: 'Categorical Program Qualifier',
     audience: 'Administrators & Program Directors',
@@ -38,7 +38,7 @@ export const complianceOps: AppEntry[] = [
   },
   {
     id: 'adjunct-central',
-    image: '/pipeline/adjunct-central.jpg',
+    image: '/pipeline/adjunct-central.webp',
     name: 'AdjunctCentral',
     subtitle: '',
     audience: 'Adjunct Professors',
@@ -52,7 +52,7 @@ export const complianceOps: AppEntry[] = [
   },
   {
     id: 'signet',
-    image: '/pipeline/signet.jpg',
+    image: '/pipeline/signet.webp',
     name: 'Signet',
     subtitle: '',
     audience: 'K–12, Corporate & Government HR',
@@ -66,7 +66,7 @@ export const complianceOps: AppEntry[] = [
   },
   {
     id: 'vitae',
-    image: '/pipeline/vitae.jpg',
+    image: '/pipeline/vitae.webp',
     name: 'Vitae',
     subtitle: '',
     audience: 'College Faculty',
@@ -85,7 +85,7 @@ export const complianceOps: AppEntry[] = [
 export const intelligentClassroom: AppEntry[] = [
   {
     id: 'focusbridge',
-    image: '/pipeline/focusbridge.jpg',
+    image: '/pipeline/focusbridge.webp',
     name: 'FocusBridge',
     subtitle: '',
     audience: 'Teachers',
@@ -99,7 +99,7 @@ export const intelligentClassroom: AppEntry[] = [
   },
   {
     id: 'skillvault',
-    image: '/pipeline/skillvault.jpg',
+    image: '/pipeline/skillvault.webp',
     name: 'SkillVault',
     subtitle: '',
     audience: 'High School Students, Teachers & Mentors',
@@ -113,7 +113,7 @@ export const intelligentClassroom: AppEntry[] = [
   },
   {
     id: 'clearear',
-    image: '/pipeline/clearear.jpg',
+    image: '/pipeline/clearear.webp',
     name: 'ClearEar',
     subtitle: '',
     audience: 'Students & Teachers',
@@ -132,7 +132,7 @@ export const intelligentClassroom: AppEntry[] = [
 export const specializedSupport: AppEntry[] = [
   {
     id: 'fieldnote',
-    image: '/pipeline/fieldnote.jpg',
+    image: '/pipeline/fieldnote.webp',
     name: 'FieldNote',
     subtitle: '',
     audience: 'Special Education Teams',
@@ -146,7 +146,7 @@ export const specializedSupport: AppEntry[] = [
   },
   {
     id: 'meridian',
-    image: '/pipeline/meridian.jpg',
+    image: '/pipeline/meridian.webp',
     name: 'Meridian',
     subtitle: '',
     audience: 'School Counselors',
