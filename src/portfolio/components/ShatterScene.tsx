@@ -21,20 +21,20 @@ const VERTEX = /* glsl */ `
     // Per-shard stagger — every fragment leaves on its own schedule
     float p = smoothstep(aRand.x * 0.5, 1.0, uProgress);
 
-    // Outward + toward the camera
-    vec3 dir = normalize(vec3(aCenter * 0.55 + (aRand.xy - 0.5) * 1.7, 1.2 + aRand.z * 1.9));
+    // Outward + toward the camera — kept tight for a subtle break
+    vec3 dir = normalize(vec3(aCenter * 0.4 + (aRand.xy - 0.5) * 0.9, 1.2 + aRand.z * 1.6));
 
-    // Tumble the 3D shard around its own center (two axes)
+    // Gentle tumble around the shard's own center (two axes)
     vec3 l = position - vec3(aCenter, 0.0);
-    l.xy = rot((aRand.y - 0.5) * 6.2831 * p) * l.xy;
-    l.yz = rot((aRand.z - 0.5) * 4.2 * p) * l.yz;
+    l.xy = rot((aRand.y - 0.5) * 2.4 * p) * l.xy;
+    l.yz = rot((aRand.z - 0.5) * 1.6 * p) * l.yz;
     vec3 pos = vec3(aCenter, 0.0) + l;
 
     // Idle breathing — global, not per-shard, so the resting image stays
     // perfectly seamless and recognizable until the break begins
     pos.z += sin(uTime * 1.2) * 0.04;
 
-    pos += dir * p * p * 4.4;
+    pos += dir * p * p * 2.3;
     vFade = 1.0 - smoothstep(0.55, 1.0, p);
     vUv = uv;
     vFace = aFace;
@@ -189,8 +189,8 @@ export function ShatterScene({
     const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 30);
     camera.position.z = DIST;
 
-    // Square artwork, contain-fit: plane height ~92% of the view height
-    const planeH = 2 * DIST * Math.tan((FOV * Math.PI) / 360) * 0.92;
+    // Square artwork, fit just inside the frame: plane height ≈ view height
+    const planeH = 2 * DIST * Math.tan((FOV * Math.PI) / 360) * 0.99;
     const small = window.innerWidth < 768;
     const geometry = buildShards(planeH, planeH, small ? 14 : 22, small ? 14 : 22);
 

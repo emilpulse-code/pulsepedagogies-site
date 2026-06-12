@@ -41,6 +41,8 @@ export function Reveal() {
             },
           })
           .fromTo('.pp-reveal-frame', {scale: 0.3}, {scale: 1, ease: 'none', duration: 1.6})
+          // the artwork itself keeps growing on top of the frame growth
+          .fromTo('.pp-reveal-media', {scale: 1}, {scale: 1.5, ease: 'none', duration: 2.0}, 0)
           .to('.pp-reveal-outline', {autoAlpha: 0, duration: 0.25}, 0.25)
           // hide the static poster just before the shards start tearing away,
           // so the gaps they leave show ink — not a frozen copy of the image
@@ -57,6 +59,7 @@ export function Reveal() {
       // Reduced motion: everything simply visible, no pin, no scrub
       mm.add('(prefers-reduced-motion: reduce)', () => {
         gsap.set('.pp-reveal-frame', {scale: 1});
+        gsap.set('.pp-reveal-media', {scale: 1});
         gsap.set('.pp-reveal-outline', {autoAlpha: 0});
         gsap.set('.pp-reveal-shade', {opacity: 1});
         gsap.set('.pp-reveal-phrase', {autoAlpha: 1, y: 0});
@@ -69,18 +72,21 @@ export function Reveal() {
     <section ref={rootRef} aria-label="Studio statement" className="relative bg-brand-ink text-brand-paper">
       <div className="pp-reveal-stage relative h-svh overflow-hidden flex items-center justify-center">
         {/* The scaling frame — full-viewport box scaled down to a window */}
-        <div className="pp-reveal-frame absolute inset-0 will-change-transform bg-brand-ink">
-          {/* Poster under the WebGL layer: visible until the texture paints,
-              and the fallback for reduced motion / no WebGL */}
-          <img
-            src={POSTER}
-            alt=""
-            loading="lazy"
-            className="pp-reveal-poster absolute inset-0 w-full h-full object-contain py-[4svh]"
-          />
-          <Suspense fallback={null}>
-            <ShatterScene src={POSTER} progressRef={shatterP} className="absolute inset-0" />
-          </Suspense>
+        <div className="pp-reveal-frame absolute inset-0 will-change-transform bg-brand-ink overflow-hidden">
+          {/* The growing artwork layer */}
+          <div className="pp-reveal-media absolute inset-0 will-change-transform">
+            {/* Poster under the WebGL layer: visible until the texture paints,
+                and the fallback for reduced motion / no WebGL */}
+            <img
+              src={POSTER}
+              alt=""
+              loading="lazy"
+              className="pp-reveal-poster absolute inset-0 w-full h-full object-contain"
+            />
+            <Suspense fallback={null}>
+              <ShatterScene src={POSTER} progressRef={shatterP} className="absolute inset-0" />
+            </Suspense>
+          </div>
           <div className="pp-reveal-shade absolute inset-0 bg-brand-ink/55 opacity-0" />
         </div>
 

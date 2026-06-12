@@ -3,9 +3,17 @@ import {gsap} from '../lib/gsapSetup';
 import {PIPELINE, type PipelineApp} from '../../data/apps';
 import {AppDetail} from '../components/AppDetail';
 
-// The back half of the pipeline orbits here; the front half lives in the
-// flipping works list inside the Work section.
-const SHOTS = PIPELINE.slice(5);
+// These four orbit here; the rest live in the flipping works list inside the
+// Work section. Web apps get the 3D laptop shell; CPQ and FocusBridge ship
+// with their own baked-in device frames (tablet / phone), so they orbit bare —
+// already in the form factor they're shaped for.
+const ORBIT: {id: string; shell: 'laptop' | 'bare'; width: string}[] = [
+  {id: 'skillvault', shell: 'laptop', width: 'w-[60vw] sm:w-[340px] lg:w-[400px]'},
+  {id: 'cpq', shell: 'bare', width: 'w-[48vw] sm:w-[300px] lg:w-[340px]'},
+  {id: 'clearear', shell: 'laptop', width: 'w-[60vw] sm:w-[340px] lg:w-[400px]'},
+  {id: 'focusbridge', shell: 'bare', width: 'w-[34vw] sm:w-[200px] lg:w-[230px]'},
+];
+const SHOTS = ORBIT.map((o) => ({...o, app: PIPELINE.find((a) => a.id === o.id)!}));
 
 /**
  * Pinned 3D ring carousel (the lukebaffait.fr gallery). One full revolution
@@ -86,45 +94,57 @@ export function RingGallery() {
                 <button
                   key={shot.id}
                   type="button"
-                  onClick={() => setDetail(shot)}
-                  aria-label={`${shot.name} — read the full description`}
-                  className="absolute left-1/2 top-1/2 w-[60vw] sm:w-[340px] lg:w-[400px] [transform-style:preserve-3d] pointer-events-auto cursor-pointer group"
+                  onClick={() => setDetail(shot.app)}
+                  aria-label={`${shot.app.name} — read the full description`}
+                  className={`absolute left-1/2 top-1/2 ${shot.width} [transform-style:preserve-3d] pointer-events-auto cursor-pointer group`}
                 >
-                  {/* Screen assembly — back slab gives the housing real depth */}
-                  <span className="block relative [transform-style:preserve-3d]">
-                    <span
-                      aria-hidden="true"
-                      className="absolute inset-0 rounded-2xl bg-slate-800 [transform:translateZ(-14px)] shadow-[0_48px_90px_rgba(0,0,0,0.65)]"
-                    />
-                    <span className="relative block rounded-2xl border border-white/10 bg-[#0c0c0e] overflow-hidden transition-transform duration-300 group-hover:[transform:translateZ(10px)]">
-                      {/* Browser chrome — these are web apps, shown as web apps */}
-                      <span className="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/5 bg-[#16161a]">
-                        <span className="w-2 h-2 rounded-full bg-red-400/70" />
-                        <span className="w-2 h-2 rounded-full bg-amber-400/70" />
-                        <span className="w-2 h-2 rounded-full bg-emerald-400/70" />
-                        <span className="ml-2 flex-1 max-w-[180px] px-2.5 py-0.5 rounded bg-white/5 text-left text-[8px] font-sans text-brand-paper/40 truncate">
-                          pulse{shot.id.replace(/-/g, '')}.app
+                  {shot.shell === 'laptop' ? (
+                    <>
+                      {/* Screen assembly — back slab gives the housing real depth */}
+                      <span className="block relative [transform-style:preserve-3d]">
+                        <span
+                          aria-hidden="true"
+                          className="absolute inset-0 rounded-2xl bg-slate-800 [transform:translateZ(-14px)] shadow-[0_48px_90px_rgba(0,0,0,0.65)]"
+                        />
+                        <span className="relative block rounded-2xl border border-white/10 bg-[#0c0c0e] overflow-hidden transition-transform duration-300 group-hover:[transform:translateZ(10px)]">
+                          {/* Browser chrome — these are web apps, shown as web apps */}
+                          <span className="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/5 bg-[#16161a]">
+                            <span className="w-2 h-2 rounded-full bg-red-400/70" />
+                            <span className="w-2 h-2 rounded-full bg-amber-400/70" />
+                            <span className="w-2 h-2 rounded-full bg-emerald-400/70" />
+                            <span className="ml-2 flex-1 max-w-[180px] px-2.5 py-0.5 rounded bg-white/5 text-left text-[8px] font-sans text-brand-paper/40 truncate">
+                              pulse{shot.id.replace(/-/g, '')}.app
+                            </span>
+                          </span>
+                          {/* Viewport */}
+                          <span className="block aspect-[16/10] bg-slate-950 overflow-hidden">
+                            <img
+                              src={shot.app.image}
+                              alt={`${shot.app.name} interface preview`}
+                              loading="lazy"
+                              className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.05]"
+                            />
+                          </span>
                         </span>
                       </span>
-                      {/* Viewport */}
-                      <span className="block aspect-[16/10] bg-slate-950 overflow-hidden">
-                        <img
-                          src={shot.image}
-                          alt={`${shot.name} interface preview`}
-                          loading="lazy"
-                          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.05]"
-                        />
-                      </span>
-                    </span>
-                  </span>
-                  {/* Laptop deck + hinge */}
-                  <span
-                    aria-hidden="true"
-                    className="block h-2.5 w-[114%] -mx-[7%] rounded-[4px] bg-gradient-to-b from-slate-600 via-slate-800 to-slate-900 shadow-[0_20px_36px_rgba(0,0,0,0.55)]"
-                  />
-                  <span aria-hidden="true" className="block mx-auto h-1 w-[26%] rounded-b-md bg-slate-900" />
+                      {/* Laptop deck + hinge */}
+                      <span
+                        aria-hidden="true"
+                        className="block h-2.5 w-[114%] -mx-[7%] rounded-[4px] bg-gradient-to-b from-slate-600 via-slate-800 to-slate-900 shadow-[0_20px_36px_rgba(0,0,0,0.55)]"
+                      />
+                      <span aria-hidden="true" className="block mx-auto h-1 w-[26%] rounded-b-md bg-slate-900" />
+                    </>
+                  ) : (
+                    /* Already device-framed artwork (tablet / phone) — orbit as-is */
+                    <img
+                      src={shot.app.image}
+                      alt={`${shot.app.name} interface preview`}
+                      loading="lazy"
+                      className="w-full object-contain drop-shadow-[0_36px_70px_rgba(0,0,0,0.65)] transition-transform duration-300 group-hover:scale-[1.05]"
+                    />
+                  )}
                   <span className="block mt-3 text-center text-[10px] font-bold uppercase tracking-[0.25em] text-brand-paper/0 group-hover:text-brand-paper/60 transition-colors font-sans">
-                    {shot.name} — view details
+                    {shot.app.name} — view details
                   </span>
                 </button>
               ))}
