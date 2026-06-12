@@ -2,6 +2,35 @@
 
 ---
 
+## Session: June 11–12, 2026 — Award-site motion overhaul + narrative Project Builder
+
+Two major workstreams shipped together.
+
+### 1. Narrative Project Builder (`/builder` reimagined)
+
+The category wizard is gone. The builder is now a plain-language interview:
+- **Intro card first**: honest framing — a simple planning tool, no commitment; specs (the visitor's answers + generated blueprint) are saved and we reach out by email to discuss possibilities and development costs.
+- **Five open questions** (The Idea / The People / The Moment / The Magic / The Fit) in free-text, any kind of app welcome (`src/builder/data.ts` rewritten).
+- **Gemini imagines the app live**: new Cloudflare Pages Function `functions/api/imagine.ts` (model `gemini-2.5-flash`, structured-JSON output, thinking disabled for latency) turns the answers into a renderable Blueprint (name, palette, nav, stats, work rows, widgets, integrations, insight, summary). Client (`src/builder/imagine.ts`) re-imagines ~1.4s after typing pauses with abort/stale-guard; canvas shows an "Imagining…" shimmer and an "Imagined by Gemini" / "Studio sketch" badge. **Local keyword fallback** (`localImagine`) keeps the page fully functional with no key.
+- Web3Forms submission now carries all five answers verbatim + blueprint JSON.
+- **ACTION REQUIRED:** set `GEMINI_API_KEY` in Cloudflare Pages → Settings → Environment variables, or the live sketch quietly stays on the local fallback (503 → client falls back).
+
+### 2. Landing page: lukebaffait.fr-class scroll & 3D effects
+
+Inspected lukebaffait.fr (GSAP + ScrollTrigger + Lenis) and a screen recording of it; replicated the vocabulary with Pulse content:
+- **Lenis smooth scroll** (`lib/useLenis.ts`) driven by GSAP's ticker; anchors eased; reduced-motion no-op. `scroll-behavior: smooth` removed from CSS.
+- **Hero**: pulse wave made dramatic (bigger lub-dub rings, hot crest glow, larger points, faster cycle); fbm **ember aurora backdrop plane** in the same WebGL scene; scroll dive (camera descends, `uBoost` swells the wave) + hero copy parallax-out.
+- **Reveal section** (new, after hero): pinned corner-bracketed frame scales to fullscreen over new edtech-sphere artwork (`public/reveal-shatter.webp`, checkerboard stripped to real alpha via `scripts/prep-reveal.mjs`). Inside is `ShatterScene.tsx`: the image tessellated into **3D blocks (random depth) + triangle splinters** that hold intact for the first ⅓ of the pin (global breathing + sway only), then tear off and tumble toward the viewer. depthWrite ON is load-bearing (sides otherwise overpaint front faces).
+- **Work section**: Development Pipeline became a **flipping works list** (first 5 apps; roll-up name flip on hover, sticky preview card swaps mockups, click → `AppDetail` dialog with full description) + flagship video block retained. **Orange ribbon** draws down the section with progressively wilder curves, exiting right (rerouted to avoid the CTA row; CTA lettering switched to paper to never melt into it).
+- **RingGallery** (new): remaining 4 apps orbit in a CSS preserve-3d ring, pinned full revolution; each app housed in a **3D laptop/browser shell** (back slab translateZ, chrome bar, real domain, deck+hinge); click opens AppDetail. At the 4th app's pass the whole ring **flies toward the viewer and dissolves** into the next section.
+- **Founders** (04): cinematic pinned deck — Satenik first, large and in focus; Emil behind in the distance (scaled, blurred, dimmed). Subtle drift → **dramatic mid-pin focus flip** (z-order swap) → subtle settle. Landscape cards show far more portrait; mobile/reduced-motion stack normally. Pin triggers off the stage so the heading scrolls away and cards lock dead-center.
+- **Chrome**: scramble-text nav hover (`lib/scramble.ts`), `(42)` scroll percentage + filling timeline bar (`ScrollProgress.tsx`), ASCII **EKG heartbeat** footer art (`AsciiPulse.tsx`) + giant "Pulse Pedagogies." wordmark in Contact.
+- `src/data/apps.ts`: new `PIPELINE` flat export (suite label attached) shared by Work/RingGallery/AppDetail.
+
+Build: 5 entries + Pages Function; `tsc --noEmit` clean; three.js split into shared chunk (no >500kB warning).
+
+---
+
 ## Session: June 11, 2026 (later) — Project Builder
 
 **New `/builder` page** — interactive "Digital Web Wizard" (`builder.html` → `src/builder/`): split-screen layout with a 5-step card-based wizard on the left (Vertical → Persona → Engine → Capabilities multi-select → Integrations multi-select) and a sticky live device mockup on the right (mobile/desktop toggle). Selections re-theme the mockup (sky/indigo/emerald per vertical), swap the persona dashboard, rebuild the nav per engine, and inject capability widgets (AI panel, chat bubble, live video tile, badges, biometric chip, signature row) plus integration pills in real time via Framer Motion (`motion/react`). Completing the wizard reveals a glowing "Construct & Compile App Blueprint" button → 3-second compile sequence (progress bar + terminal lines + mockup pulse) → lead-capture email form with the trust hand-off note. Submissions post the full blueprint (vertical/persona/engine/capabilities/integrations) to Web3Forms. Data structures in `src/builder/data.ts`; slate/indigo/violet dark aesthetic.

@@ -1,4 +1,5 @@
 import {ArrowRight, ArrowUpRight, Mail, Phone} from 'lucide-react';
+import {AsciiPulse} from '../components/AsciiPulse';
 
 export function Contact({onOpenForm}: {onOpenForm: () => void}) {
   return (
@@ -46,6 +47,18 @@ export function Contact({onOpenForm}: {onOpenForm: () => void}) {
             (619) 663-8382
           </a>
         </div>
+
+        {/* ASCII heartbeat + giant closing wordmark (lukebaffait footer idiom) */}
+        <div className="pp-reveal -mx-6 md:-mx-10">
+          <AsciiPulse className="w-full" />
+        </div>
+        <p
+          aria-hidden="true"
+          className="pp-reveal select-none text-center font-serif font-light leading-[0.85] tracking-tight whitespace-nowrap text-[clamp(3rem,11.5vw,12.5rem)] mt-6 mb-2"
+        >
+          Pulse <span className="italic text-brand-orange">Pedagogies</span>
+          <span className="text-brand-orange">.</span>
+        </p>
 
         <footer className="border-t border-brand-paper/10 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 text-[10px] font-bold uppercase tracking-[0.25em] text-brand-paper/35 font-sans">
           <p>© 2026 Pulse Pedagogies, LLC · Glendale, CA · All Rights Reserved</p>

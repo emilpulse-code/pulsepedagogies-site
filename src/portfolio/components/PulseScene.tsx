@@ -1,10 +1,11 @@
 import {useEffect, useRef} from 'react';
 import * as THREE from 'three';
-import {prefersReducedMotion} from '../lib/gsapSetup';
+import {ScrollTrigger, prefersReducedMotion} from '../lib/gsapSetup';
 
 const VERTEX = /* glsl */ `
   uniform float uTime;
   uniform float uSize;
+  uniform float uBoost;
   uniform vec2 uPointer;
   attribute float aRand;
   varying float vElev;
@@ -19,23 +20,23 @@ const VERTEX = /* glsl */ `
     float d = length(pos.xy);
     float t = uTime;
 
-    // Ambient interference waves
+    // Ambient interference waves — the rolling orange swell
     float e = 0.0;
-    e += sin(pos.x * 0.55 + t * 0.7) * cos(pos.y * 0.45 - t * 0.45) * 0.35;
-    e += sin((pos.x + pos.y) * 0.25 + t * 0.35) * 0.25;
+    e += sin(pos.x * 0.55 + t * 0.7) * cos(pos.y * 0.45 - t * 0.45) * 0.55;
+    e += sin((pos.x + pos.y) * 0.25 + t * 0.35) * 0.4;
 
     // Heartbeat — a "lub-dub" pair of rings expanding from the center
-    float cycle = 3.4;
+    float cycle = 3.0;
     float tt = mod(t, cycle);
     float atten = smoothstep(17.0, 2.0, d);
-    e += ring(d - tt * 5.2, 1.1) * 1.7 * atten;
-    e += ring(d - (tt - 0.34) * 5.2, 1.1) * 0.95 * atten * step(0.34, tt);
+    e += ring(d - tt * 5.2, 0.85) * 2.9 * atten;
+    e += ring(d - (tt - 0.34) * 5.2, 0.85) * 1.7 * atten * step(0.34, tt);
 
     // Pointer lift
     float pd = distance(pos.xy, uPointer);
-    e += exp(-pd * pd * 0.07) * 0.9;
+    e += exp(-pd * pd * 0.07) * 1.25;
 
-    pos.z += e;
+    pos.z += e * (1.0 + uBoost);
     vElev = e;
     vDist = d;
 
@@ -51,11 +52,58 @@ const FRAGMENT = /* glsl */ `
 
   void main() {
     float a = smoothstep(0.5, 0.08, length(gl_PointCoord - 0.5));
-    vec3 dim = vec3(0.30, 0.26, 0.24);
+    vec3 dim = vec3(0.34, 0.25, 0.20);
     vec3 orange = vec3(1.0, 0.388, 0.129);
-    vec3 col = mix(dim, orange, clamp(vElev * 0.55 + 0.12, 0.0, 1.0));
+    vec3 hot = vec3(1.0, 0.62, 0.32);
+    vec3 col = mix(dim, orange, clamp(vElev * 0.8 + 0.18, 0.0, 1.0));
+    col = mix(col, hot, smoothstep(1.6, 2.8, vElev)); // crests glow hotter
     float fade = smoothstep(18.0, 6.0, vDist);
-    gl_FragColor = vec4(col, a * (0.22 + 0.78 * fade));
+    gl_FragColor = vec4(col, a * (0.3 + 0.7 * fade));
+  }
+`;
+
+// Fluid ember atmosphere — slow fbm clouds behind the particle field,
+// after the blurred red fluid backdrop on lukebaffait.fr
+const AURORA_VERT = /* glsl */ `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+const AURORA_FRAG = /* glsl */ `
+  uniform float uTime;
+  uniform float uDive;
+  varying vec2 vUv;
+
+  float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+  float noise(vec2 p) {
+    vec2 i = floor(p), f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    return mix(
+      mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
+      mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x),
+      f.y
+    );
+  }
+  float fbm(vec2 p) {
+    float v = 0.0, a = 0.5;
+    for (int i = 0; i < 4; i++) { v += a * noise(p); p *= 2.1; a *= 0.5; }
+    return v;
+  }
+
+  void main() {
+    vec2 uv = vUv;
+    float t = uTime * 0.045;
+    float n = fbm(uv * 2.4 + vec2(t, -t * 0.6) + fbm(uv * 3.2 - t) * 0.55);
+    vec3 ember = vec3(0.42, 0.06, 0.02);
+    vec3 orange = vec3(1.0, 0.388, 0.129);
+    vec3 col = mix(ember, orange, smoothstep(0.38, 0.95, n));
+    float a = smoothstep(0.32, 0.85, n) * 0.38 * (1.0 - uDive * 0.45);
+    float vign = smoothstep(0.0, 0.22, uv.x) * smoothstep(1.0, 0.78, uv.x)
+               * smoothstep(0.0, 0.18, uv.y) * smoothstep(1.0, 0.55, uv.y);
+    gl_FragColor = vec4(col, a * vign);
   }
 `;
 
@@ -127,7 +175,8 @@ export function PulseScene({className = ''}: {className?: string}) {
       blending: THREE.AdditiveBlending,
       uniforms: {
         uTime: {value: 0},
-        uSize: {value: 38 * renderer.getPixelRatio()},
+        uSize: {value: 46 * renderer.getPixelRatio()},
+        uBoost: {value: 0},
         uPointer: {value: new THREE.Vector2(40, 40)}, // off-field until moved
       },
     });
@@ -135,6 +184,21 @@ export function PulseScene({className = ''}: {className?: string}) {
     const points = new THREE.Points(geometry, material);
     points.rotation.x = -Math.PI / 2;
     scene.add(points);
+
+    // Backdrop atmosphere plane, far behind the field
+    const auroraGeo = new THREE.PlaneGeometry(96, 48);
+    const auroraMat = new THREE.ShaderMaterial({
+      vertexShader: AURORA_VERT,
+      fragmentShader: AURORA_FRAG,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      uniforms: {uTime: {value: 0}, uDive: {value: 0}},
+    });
+    const aurora = new THREE.Mesh(auroraGeo, auroraMat);
+    aurora.position.set(0, 7, -18);
+    aurora.renderOrder = -1;
+    scene.add(aurora);
 
     const resize = () => {
       const {clientWidth: w, clientHeight: h} = mount;
@@ -179,6 +243,19 @@ export function PulseScene({className = ''}: {className?: string}) {
     });
     io.observe(mount);
 
+    // Scroll scrub: as the hero leaves, the camera dives toward the field
+    // and the wave amplitude swells (lukebaffait.fr-style scrubbed hero)
+    let scrollP = 0;
+    let dive = 0;
+    const st = reduced
+      ? null
+      : ScrollTrigger.create({
+          trigger: mount,
+          start: 'top top',
+          end: 'bottom top',
+          onUpdate: (self) => (scrollP = self.progress),
+        });
+
     const clock = new THREE.Clock();
     let raf = 0;
     const uniforms = material.uniforms;
@@ -186,9 +263,15 @@ export function PulseScene({className = ''}: {className?: string}) {
     const renderFrame = () => {
       uniforms.uTime.value = clock.getElapsedTime();
       uniforms.uPointer.value.lerp(pointerTarget, 0.06);
+      dive += (scrollP - dive) * 0.08;
+      uniforms.uBoost.value = dive * 1.3;
+      auroraMat.uniforms.uTime.value = uniforms.uTime.value;
+      auroraMat.uniforms.uDive.value = dive;
       camera.position.x += (cameraDrift.x * 0.7 - camera.position.x) * 0.04;
-      camera.position.y += (5.4 + cameraDrift.y * 0.4 - camera.position.y) * 0.04;
-      camera.lookAt(0, 0.4, 0);
+      camera.position.y +=
+        (5.4 + cameraDrift.y * 0.4 - dive * 3.2 - camera.position.y) * 0.04;
+      camera.position.z = 9.5 - dive * 2.6;
+      camera.lookAt(0, 0.4 - dive * 0.6, 0);
       renderer.render(scene, camera);
     };
 
@@ -207,11 +290,14 @@ export function PulseScene({className = ''}: {className?: string}) {
 
     return () => {
       cancelAnimationFrame(raf);
+      st?.kill();
       window.removeEventListener('pointermove', onPointerMove);
       ro.disconnect();
       io.disconnect();
       geometry.dispose();
       material.dispose();
+      auroraGeo.dispose();
+      auroraMat.dispose();
       renderer.dispose();
       mount.removeChild(renderer.domElement);
     };
