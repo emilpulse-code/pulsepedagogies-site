@@ -1,5 +1,6 @@
 import {useLayoutEffect, useState} from 'react';
 import {gsap, ScrollTrigger} from './lib/gsapSetup';
+import {DemoModal} from '../components/DemoModal';
 import {Loader} from './components/Loader';
 import {Cursor} from './components/Cursor';
 import {Nav} from './components/Nav';
@@ -14,6 +15,8 @@ import {Contact} from './sections/Contact';
 
 export default function PortfolioPage() {
   const [loaded, setLoaded] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
+  const openForm = () => setFormOpen(true);
 
   // Generic scroll reveals for everything tagged .pp-reveal
   useLayoutEffect(() => {
@@ -38,18 +41,20 @@ export default function PortfolioPage() {
       <Loader onDone={() => setLoaded(true)} />
       <Cursor />
       <div className="pp-noise" aria-hidden="true" />
-      <Nav />
+      <Nav onOpenForm={openForm} />
 
       <main>
-        <Hero start={loaded} />
+        <Hero start={loaded} onOpenForm={openForm} />
         <Marquee />
         <Manifesto />
-        <Work />
+        <Work onOpenForm={openForm} />
         <Studio />
         <Founders />
         <Capabilities />
-        <Contact />
+        <Contact onOpenForm={openForm} />
       </main>
+
+      <DemoModal isOpen={formOpen} onClose={() => setFormOpen(false)} />
     </div>
   );
 }

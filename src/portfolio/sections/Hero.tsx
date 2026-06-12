@@ -1,5 +1,5 @@
 import {Suspense, lazy, useLayoutEffect, useRef} from 'react';
-import {ArrowDown, ArrowRight} from 'lucide-react';
+import {ArrowDown, ArrowRight, TrendingUp} from 'lucide-react';
 import {gsap} from '../lib/gsapSetup';
 import {Chars} from '../components/Chars';
 
@@ -8,7 +8,7 @@ const PulseScene = lazy(() =>
   import('../components/PulseScene').then((m) => ({default: m.PulseScene})),
 );
 
-export function Hero({start}: {start: boolean}) {
+export function Hero({start, onOpenForm}: {start: boolean; onOpenForm: () => void}) {
   const rootRef = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
@@ -81,14 +81,40 @@ export function Hero({start}: {start: boolean}) {
               View selected work
               <ArrowDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
             </a>
-            <a
-              href="mailto:emil@pulsepedagogies.com?subject=Project%20inquiry%20%E2%80%94%20Pulse%20Pedagogies"
-              className="group inline-flex items-center gap-2 border border-brand-paper/25 px-8 py-4 rounded-full font-medium hover:border-brand-orange hover:text-brand-orange transition-colors"
+            <button
+              type="button"
+              onClick={onOpenForm}
+              className="group inline-flex items-center gap-2 border border-brand-paper/25 px-8 py-4 rounded-full font-medium hover:border-brand-orange hover:text-brand-orange transition-colors cursor-pointer"
             >
               Start a project
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
+            </button>
           </div>
+        </div>
+
+        {/* ── Investment opportunity banner ── */}
+        <div className="pp-hero-fade mt-12 md:mt-16 max-w-4xl rounded-[28px] border border-brand-orange/30 bg-brand-orange/10 backdrop-blur-sm p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
+          <div className="flex-1">
+            <p className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-orange mb-3 font-sans">
+              <TrendingUp className="w-3.5 h-3.5" />
+              Investment Opportunity
+            </p>
+            <h2 className="font-serif font-light text-2xl md:text-3xl mb-2">
+              Interested in Investing in Pulse Pedagogies?
+            </h2>
+            <p className="text-brand-paper/60 leading-relaxed text-sm md:text-base">
+              Pulse Pedagogies, LLC is the company behind VAPA Pulse. Learn more about
+              our mission, traction, and investment opportunity.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onOpenForm}
+            className="group shrink-0 inline-flex items-center gap-2 bg-brand-orange text-white px-7 py-4 rounded-full font-medium hover:bg-brand-paper hover:text-brand-ink transition-colors cursor-pointer w-fit"
+          >
+            Learn more
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </button>
         </div>
       </div>
 
