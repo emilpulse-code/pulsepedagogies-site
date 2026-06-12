@@ -4,7 +4,9 @@
 
 ## Session: June 11, 2026 — Portfolio becomes the landing page
 
-Branch: `claude/kind-ramanujan-hb3j99` (not yet merged to `main`)
+Branch: `claude/kind-ramanujan-hb3j99` — **merged to `main` and deployed June 11, 2026.** All four pages (/, /company, /compliance, /prop28) verified live in production. Follow-up commits on the branch before shipping: Capabilities accordion content, industry-agnostic compliance page, flagship video moved under the pills, Studio nav link removed, inquiry form wired to 5 CTAs, full-color animated nav emblem, hero investment banner, all emails unified to emil@pulsepedagogies.com.
+
+**Open item:** the Web3Forms access key in `DemoModal.tsx` was provisioned for emil@vapapulse.com — form submissions still deliver to that inbox. Generate a new key at web3forms.com for emil@pulsepedagogies.com and swap it in.
 
 ### Changes
 
