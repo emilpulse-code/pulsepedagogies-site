@@ -2,6 +2,30 @@
 
 ---
 
+## Session: June 12, 2026
+
+### New: UI/UX Design Portfolio landing page (`/portfolio`)
+
+A standalone, award-style portfolio landing page built as a second Vite entry — the main site at `/` is untouched.
+
+**Stack additions:** `gsap@3.15` (ScrollTrigger), `three@0.184` (+ `@types/three`).
+
+**Files**
+- `portfolio.html` — second Vite entry (served at `/portfolio` via Cloudflare Pages pretty URLs, `/portfolio.html` in dev).
+- `vite.config.ts` — multi-page `rollupOptions.input` (main + portfolio).
+- `src/portfolio/` — page source:
+  - `PortfolioPage.tsx` — shell; generic `.pp-reveal` ScrollTrigger batch; font-load refresh.
+  - `components/PulseScene.tsx` — Three.js GPU particle field (custom shaders) that beats like an EKG; pointer-reactive; lazy-loaded in its own chunk; lighter grid on mobile; static frame under reduced motion; pauses offscreen.
+  - `components/Loader.tsx`, `Cursor.tsx`, `Nav.tsx` (mix-blend-difference, auto-hides on scroll down), `Chars.tsx`.
+  - `sections/` — Hero (char-split reveal over WebGL), Marquee, Manifesto (word-scrub + stat counters), Work (flagship VAPA Pulse + GSAP-pinned horizontal suite gallery on desktop / snap-scroll on mobile, cards driven by `src/data/apps.ts`), Process (scrubbed progress line), Capabilities, Contact.
+  - `portfolio.css` — grain overlay, marquee keyframes, cursor, animation initial states gated behind `prefers-reduced-motion: no-preference`.
+
+**Verification** — headless Chromium (Playwright) against the production build at 1440×900, 390×844 (iPhone emulation), and with `reducedMotion: reduce`: zero console/page errors, zero horizontal overflow on mobile, WebGL canvas renders, pinned gallery scrubs correctly, reduced-motion users get a fully visible static page. Portfolio entry is 145 kB JS (54 kB gzip) with Three.js code-split into a deferred 500 kB chunk.
+
+**Known pre-existing issue (untouched):** `npm run lint` fails on `DemoModal.tsx` / `LegalModal.tsx` (`Cannot find namespace 'React'`) — present before this session.
+
+---
+
 ## Session: May 27, 2026
 
 ### Changes
