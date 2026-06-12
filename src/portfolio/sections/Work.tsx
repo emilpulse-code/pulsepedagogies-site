@@ -146,7 +146,7 @@ export function Work({onOpenForm}: {onOpenForm: () => void}) {
               className="group snap-start shrink-0 w-[80vw] sm:w-[420px] lg:w-[460px] min-h-[440px] md:min-h-[500px] rounded-[28px] md:rounded-[36px] border border-brand-paper/10 bg-gradient-to-b from-white/[0.06] to-white/[0.015] p-8 md:p-10 flex flex-col justify-between hover:border-brand-orange/40 transition-colors duration-500"
             >
               <div>
-                <div className="flex items-start justify-between mb-8">
+                <div className="flex items-start justify-between mb-6">
                   <span className="font-serif italic font-light text-6xl md:text-7xl leading-none text-brand-paper/15 group-hover:text-brand-orange/60 transition-colors duration-500">
                     {String(i + 1).padStart(2, '0')}
                   </span>
@@ -154,6 +154,16 @@ export function Work({onOpenForm}: {onOpenForm: () => void}) {
                     {app.suite}
                   </span>
                 </div>
+                {app.image && (
+                  <div className="rounded-2xl overflow-hidden border border-brand-paper/10 mb-6 bg-black/20">
+                    <img
+                      src={app.image}
+                      alt={`${app.name} interface preview`}
+                      loading="lazy"
+                      className="w-full aspect-[4/3] object-cover object-top group-hover:scale-[1.04] transition-transform duration-700"
+                    />
+                  </div>
+                )}
                 <h4 className="font-serif text-4xl md:text-5xl font-light mb-1">{app.name}</h4>
                 {app.subtitle && (
                   <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-paper/35 mb-4 font-sans">
