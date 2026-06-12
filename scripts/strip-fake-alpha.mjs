@@ -1,13 +1,18 @@
-// Remove baked-in "fake transparency" (checkerboard/light bg) from the CPQ
-// mockup: flood-fill light, low-saturation pixels from the image border and
-// turn them into real alpha. The dark tablet bezel bounds the fill, so white
-// UI inside the screen is never reached.
+// Strip baked-in "fake transparency" (checkerboard / light margins) from a
+// mockup image: flood-fill light, near-gray pixels from the border and turn
+// them into real alpha, then emit a 900px alpha WebP.
+//
+// Usage: node scripts/strip-fake-alpha.mjs "<source image>" <app-id>
 import sharp from 'sharp';
 
-const SRC = 'C:/Users/emila/Downloads/ChatGPT Image Jun 11, 2026, 09_57_17 PM.png';
-const OUT = 'C:/Users/emila/pulasepedagogies-site/public/pipeline/cpq.webp';
+const [src, id] = process.argv.slice(2);
+if (!src || !id) {
+  console.error('Usage: node scripts/strip-fake-alpha.mjs "<source image>" <app-id>');
+  process.exit(1);
+}
+const OUT = `C:/Users/emila/pulasepedagogies-site/public/pipeline/${id}.webp`;
 
-const {data, info} = await sharp(SRC).ensureAlpha().raw().toBuffer({resolveWithObject: true});
+const {data, info} = await sharp(src).ensureAlpha().raw().toBuffer({resolveWithObject: true});
 const {width: W, height: H} = info;
 
 const px = (x, y) => (y * W + x) * 4;
@@ -16,12 +21,6 @@ const isBg = (i) => {
   const max = Math.max(r, g, b), min = Math.min(r, g, b);
   return max - min < 22 && (r + g + b) / 3 > 165; // light + near-gray (checker squares / white)
 };
-
-// Log corners + a couple of interior samples for sanity
-for (const [x, y, label] of [[2, 2, 'top-left'], [W - 3, 2, 'top-right'], [40, 40, '40,40'], [Math.floor(W / 2), Math.floor(H / 2), 'center']]) {
-  const i = px(x, y);
-  console.log(`${label}: rgb(${data[i]},${data[i + 1]},${data[i + 2]}) a=${data[i + 3]} bg=${isBg(i)}`);
-}
 
 // BFS flood fill from every border pixel
 const mask = new Uint8Array(W * H); // 1 = background
@@ -66,4 +65,4 @@ const out = await sharp(data, {raw: {width: W, height: H, channels: 4}})
   .resize({width: 900, withoutEnlargement: true})
   .webp({quality: 82, alphaQuality: 90})
   .toFile(OUT);
-console.log(`cpq.webp  ${(out.size / 1024).toFixed(0)} KB`);
+console.log(`${id}.webp  ${(out.size / 1024).toFixed(0)} KB`);
