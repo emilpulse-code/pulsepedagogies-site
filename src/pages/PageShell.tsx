@@ -24,7 +24,7 @@ export function PageShell({
           Pulse Pedagogies
         </a>
         <a
-          href="mailto:emil@vapapulse.com?subject=Project%20inquiry%20%E2%80%94%20Pulse%20Pedagogies"
+          href="mailto:emil@pulsepedagogies.com?subject=Project%20inquiry%20%E2%80%94%20Pulse%20Pedagogies"
           className="whitespace-nowrap border border-brand-paper/25 rounded-full px-4 md:px-5 py-2 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] hover:border-brand-orange hover:text-brand-orange transition-colors font-sans"
         >
           Start a project
@@ -49,11 +49,11 @@ export function PageShell({
         <div className="max-w-[100rem] mx-auto px-6 md:px-10 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 text-[10px] font-bold uppercase tracking-[0.25em] text-brand-paper/35 font-sans">
           <p>© 2026 Pulse Pedagogies, LLC · Glendale, CA · All Rights Reserved</p>
           <a
-            href="mailto:emil@vapapulse.com"
+            href="mailto:emil@pulsepedagogies.com"
             className="inline-flex items-center gap-2 hover:text-brand-orange transition-colors"
           >
             <Mail className="w-4 h-4" />
-            emil@vapapulse.com
+            emil@pulsepedagogies.com
           </a>
         </div>
       </footer>

@@ -70,8 +70,8 @@ export function Work() {
         </h2>
 
         {/* ── Flagship: VAPA Pulse ── */}
-        <div className="pp-flagship grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-28 md:mb-36">
-          <div className="pp-reveal order-2 lg:order-1">
+        <div className="pp-flagship max-w-5xl mb-28 md:mb-36">
+          <div className="pp-reveal">
             <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/15 text-brand-orange text-[11px] font-bold uppercase tracking-[0.2em] mb-6 font-sans">
               Flagship · In Development
             </p>
@@ -90,18 +90,9 @@ export function Work() {
                 </li>
               ))}
             </ul>
-            <a
-              href="https://vapapulse.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 text-lg font-medium text-brand-orange hover:text-brand-paper transition-colors"
-            >
-              Visit the live proof of concept
-              <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            </a>
           </div>
 
-          <div className="pp-reveal order-1 lg:order-2 relative">
+          <div className="pp-reveal relative mb-10">
             <div className="relative rounded-[32px] md:rounded-[40px] overflow-hidden border border-brand-paper/10 shadow-[0_60px_120px_-30px_rgba(0,0,0,0.6)] bg-black">
               <div className="relative w-full aspect-video">
                 <iframe
@@ -119,6 +110,16 @@ export function Work() {
             </div>
             <div className="absolute -bottom-10 -right-10 w-44 h-44 bg-brand-orange/25 rounded-full blur-3xl pointer-events-none" />
           </div>
+
+          <a
+            href="https://vapapulse.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pp-reveal group inline-flex items-center gap-2 text-lg font-medium text-brand-orange hover:text-brand-paper transition-colors"
+          >
+            Visit the live proof of concept
+            <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+          </a>
         </div>
 
         {/* ── Suite gallery header ── */}
@@ -175,7 +176,7 @@ export function Work() {
 
           {/* End-cap CTA card */}
           <a
-            href="mailto:emil@vapapulse.com?subject=Project%20inquiry%20%E2%80%94%20Pulse%20Pedagogies"
+            href="mailto:emil@pulsepedagogies.com?subject=Project%20inquiry%20%E2%80%94%20Pulse%20Pedagogies"
             className="group snap-start shrink-0 w-[80vw] sm:w-[420px] lg:w-[460px] min-h-[440px] md:min-h-[500px] rounded-[28px] md:rounded-[36px] bg-brand-orange text-brand-ink p-8 md:p-10 flex flex-col justify-between hover:bg-brand-paper transition-colors duration-500"
           >
             <span className="font-serif italic font-light text-6xl md:text-7xl leading-none opacity-30">

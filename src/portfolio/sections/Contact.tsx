@@ -23,11 +23,11 @@ export function Contact() {
 
         <div className="pp-reveal flex flex-col md:flex-row md:items-center gap-6 md:gap-10 mb-24 md:mb-32">
           <a
-            href="mailto:emil@vapapulse.com?subject=Project%20inquiry%20%E2%80%94%20Pulse%20Pedagogies"
+            href="mailto:emil@pulsepedagogies.com?subject=Project%20inquiry%20%E2%80%94%20Pulse%20Pedagogies"
             className="group inline-flex items-center gap-3 bg-brand-orange text-white px-9 py-5 rounded-full text-lg font-medium hover:bg-brand-paper hover:text-brand-ink transition-colors w-fit"
           >
             <Mail className="w-5 h-5" />
-            emil@vapapulse.com
+            emil@pulsepedagogies.com
             <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </a>
           <a
