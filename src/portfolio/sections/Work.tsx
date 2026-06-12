@@ -10,9 +10,10 @@ const FLAGSHIP_VIDEO =
     'https://customer-40uk5te8zbrtkkan.cloudflarestream.com/d6785457b28b6961ba6611def16225ac/thumbnails/thumbnail.jpg?time=&height=900',
   );
 
-// First half of the pipeline lives here as the flipping works list;
-// the remaining apps orbit in the RingGallery section that follows.
-const LIST_APPS = PIPELINE.slice(0, 5);
+// These five live in the flipping works list; the rest orbit in the
+// RingGallery section that follows.
+const LIST_IDS = ['fieldnote', 'adjunct-central', 'signet', 'vitae', 'meridian'];
+const LIST_APPS = LIST_IDS.map((id) => PIPELINE.find((a) => a.id === id)!);
 
 export function Work({onOpenForm}: {onOpenForm: () => void}) {
   const rootRef = useRef<HTMLElement>(null);

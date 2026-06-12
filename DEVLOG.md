@@ -2,6 +2,13 @@
 
 ---
 
+## Session: June 12, 2026 — Reveal zoom polish + pipeline swap
+
+- **Reveal**: artwork starts fit just inside the frame (99% height, fallback padding dropped); a second `.pp-reveal-media` layer zooms the art 1×→1.5× across the whole pin on top of the frame growth (frame now clips overflow); shatter softened — flight 4.4→2.3, tumble ~⅓, spread tightened. Holds-intact-first-third unchanged.
+- **Pipeline swap**: works list is now FieldNote, AdjunctCentral, Signet, Vitae, Meridian (explicit `LIST_IDS`); orbit is SkillVault → CPQ → ClearEar → FocusBridge (`ORBIT` config with per-app shell). CPQ (tablet-framed art) and FocusBridge (phone-framed art) orbit **bare** in their native form factors; the two web apps keep the 3D laptop shells.
+
+---
+
 ## Session: June 11–12, 2026 — Award-site motion overhaul + narrative Project Builder
 
 Two major workstreams shipped together.
