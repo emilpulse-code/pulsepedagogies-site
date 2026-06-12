@@ -20,7 +20,8 @@ The category wizard is gone. The builder is now a plain-language interview:
 - **Five open questions** (The Idea / The People / The Moment / The Magic / The Fit) in free-text, any kind of app welcome (`src/builder/data.ts` rewritten).
 - **Gemini imagines the app live**: new Cloudflare Pages Function `functions/api/imagine.ts` (model `gemini-2.5-flash`, structured-JSON output, thinking disabled for latency) turns the answers into a renderable Blueprint (name, palette, nav, stats, work rows, widgets, integrations, insight, summary). Client (`src/builder/imagine.ts`) re-imagines ~1.4s after typing pauses with abort/stale-guard; canvas shows an "Imagining…" shimmer and an "Imagined by Gemini" / "Studio sketch" badge. **Local keyword fallback** (`localImagine`) keeps the page fully functional with no key.
 - Web3Forms submission now carries all five answers verbatim + blueprint JSON.
-- **ACTION REQUIRED:** set `GEMINI_API_KEY` in Cloudflare Pages → Settings → Environment variables, or the live sketch quietly stays on the local fallback (503 → client falls back).
+- ~~ACTION REQUIRED: set `GEMINI_API_KEY`~~ **Done June 12, 2026** — key set in Cloudflare Pages secrets, redeployed (`92aa2fa`), verified live in production: `/api/imagine` generated FieldTripFlow (education prompt) and PinPal (bowling-league prompt, correct chat+gamification widgets, no education bias). Builder badge now reads "Imagined by Gemini."
+- **Web3Forms (June 12, 2026):** instead of a new key (paid feature), the account email was changed to emil@pulsepedagogies.com — same key `32c86…`, no code change. Pending: one live-form submission to confirm the inbox reroute (server-side test posts are blocked on the free plan).
 
 ### 2. Landing page: lukebaffait.fr-class scroll & 3D effects
 
