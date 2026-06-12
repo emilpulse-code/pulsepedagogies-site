@@ -47,6 +47,19 @@ export const complianceOps: AppEntry[] = [
     collectsStudentData: false,
   },
   {
+    id: 'signet',
+    name: 'Signet',
+    subtitle: '',
+    audience: 'K–12, Corporate & Government HR',
+    tagline: 'Gamified micro-credentials that turn employee growth into visible, verifiable recognition.',
+    problemStatement:
+      'Employee recognition is an afterthought in most organizations — generic, infrequent, and invisible to the people deciding promotions.',
+    description:
+      'Signet is a gamification utility for human resources teams: assign micro-credentials — digital badges — to employees as a motivating mechanism for professional growth, training completion, and exceptional contribution. Designed for K–12 districts as well as corporate and government HR departments, Signet makes recognition systematic instead of sporadic: badge criteria are defined once, awards are tracked automatically, and every employee builds a visible record of verified accomplishment. Entirely employee-facing — never student-facing — so there is no student data in the system at all.',
+    pricing: 'paid',
+    collectsStudentData: false,
+  },
+  {
     id: 'vitae',
     name: 'Vitae',
     subtitle: '',

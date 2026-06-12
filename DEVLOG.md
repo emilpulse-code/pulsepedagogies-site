@@ -2,6 +2,42 @@
 
 ---
 
+## Session: June 11, 2026 — Portfolio becomes the landing page
+
+Branch: `claude/kind-ramanujan-hb3j99` (not yet merged to `main`)
+
+### Changes
+
+**The portfolio page is now the site root.** `index.html` mounts `src/portfolio/main.tsx`; the original marketing site moved to `company.html` (served at `/company`). `portfolio.html` deleted. A small Vite plugin rewrites `/company`, `/compliance`, `/prop28` in dev to mirror Cloudflare Pages pretty URLs.
+
+**Copy**
+- Hero badge: "UI/UX Studio · K–12 EdTech · Glendale, CA" → "Digital Development Studio · Glendale, CA"; nav subtitle "Design Portfolio" → "Digital Development Studio"
+- Manifesto replaced with: "We build web and mobile applications for education organizations — led by educators, built for education."
+- Removed the "05 arts disciplines covered, TK–6" stat (stats grid now 3-up)
+
+**Products**
+- Added **Signet** to `src/data/apps.ts` (Compliance & Operations): gamified micro-credential badges for employees — K–12, corporate & government HR; never student-facing. Gallery now numbers 01–09 + CTA card 10 (CTA number computed from `CARDS.length`).
+- "Nine products" → "Ten products"; hero strip "09 Products" → "10 Products"; company site "Eight tools" → "Nine tools"
+
+**Sections**
+- **Removed Process** ("From classroom to launch") — `sections/Process.tsx` deleted
+- **New Studio section** (03): "Built by educators. Built for schools." — Who We Are, What We Build, 26+ stat, Education First / Custom Built / AI-Powered pillars
+- **New Founders section** (04): Emil + Satenik cards ported from the company site `#founders`
+- Capabilities renumbered 05, Contact 06; nav links now Work / Studio / Founders / Capabilities
+
+**Flagship video** — Work-section flagship visual is now the playable Cloudflare Stream iframe (poster preserved, no autoplay) instead of a static thumbnail; parallax tween removed.
+
+**New standalone pages** (linked from the Contact footer menu)
+- `/compliance` — Security, Architecture & Compliance: the 3-layer stack (Client / Google Cloud Backend / Frontier AI + Edge Video CDN), the four-card posture grid (Zero-PII, Managed AI Access, UDL, Static Curriculum CDN), privacy-by-design notes. Source: vapapulse.com/compliance.
+- `/prop28` — Proposition 28 research: mandate numbers, the 80/20/1 compliance framework, the staffing/trust gap, and how VAPA Pulse + CPQ respond. Source: "Strategic Software Development Pipeline for Proposition 28 Compliance and Arts Education Optimization" (May 2026).
+- Shared chrome in `src/pages/PageShell.tsx`; entries `compliance.html` / `prop28.html` added to `vite.config.ts`.
+
+### Verification
+- `npm run build` green (4 HTML entries); `npx tsc --noEmit` clean except the two pre-existing DemoModal/LegalModal errors
+- `/`, `/company`, `/compliance`, `/prop28` all return 200 on the dev server
+
+---
+
 ## Session: June 12, 2026
 
 ### New: UI/UX Design Portfolio landing page (`/portfolio`)

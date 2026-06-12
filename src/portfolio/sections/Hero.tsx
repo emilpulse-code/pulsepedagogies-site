@@ -49,7 +49,7 @@ export function Hero({start}: {start: boolean}) {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-orange opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-orange" />
           </span>
-          UI/UX Studio · K–12 EdTech · Glendale, CA
+          Digital Development Studio · Glendale, CA
         </p>
 
         <h1
@@ -69,10 +69,9 @@ export function Hero({start}: {start: boolean}) {
 
         <div className="mt-10 md:mt-12 flex flex-col md:flex-row md:items-end gap-10 md:gap-16">
           <p className="pp-hero-fade max-w-md text-lg text-brand-paper/65 leading-relaxed">
-            The design portfolio of{' '}
             <strong className="text-brand-paper font-semibold">Pulse Pedagogies, LLC</strong> —
-            AI-powered web &amp; mobile products for K–12 classrooms, designed and
-            engineered by educators.
+            AI-powered web &amp; mobile applications for education organizations,
+            designed and engineered by educators.
           </p>
           <div className="pp-hero-fade flex flex-wrap gap-4">
             <a
@@ -96,7 +95,7 @@ export function Hero({start}: {start: boolean}) {
       <div className="pp-hero-fade relative z-10 max-w-[100rem] mx-auto w-full px-6 md:px-10 pb-8 flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.3em] text-brand-paper/35 font-sans">
         <span>Scroll</span>
         <span className="hidden sm:block">Built by educators — for the classroom</span>
-        <span>09 Products · 03 Suites</span>
+        <span>10 Products · 03 Suites</span>
       </div>
     </section>
   );

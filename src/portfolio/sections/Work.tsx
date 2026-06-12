@@ -3,8 +3,11 @@ import {ArrowRight, ArrowUpRight} from 'lucide-react';
 import {gsap} from '../lib/gsapSetup';
 import {SUITES} from '../../data/apps';
 
-const FLAGSHIP_POSTER =
-  'https://customer-40uk5te8zbrtkkan.cloudflarestream.com/d6785457b28b6961ba6611def16225ac/thumbnails/thumbnail.jpg?time=&height=900';
+const FLAGSHIP_VIDEO =
+  'https://customer-40uk5te8zbrtkkan.cloudflarestream.com/d6785457b28b6961ba6611def16225ac/iframe?poster=' +
+  encodeURIComponent(
+    'https://customer-40uk5te8zbrtkkan.cloudflarestream.com/d6785457b28b6961ba6611def16225ac/thumbnails/thumbnail.jpg?time=&height=900',
+  );
 
 const PRICING_LABEL = {free: 'Free', freemium: 'Freemium', paid: 'Paid'} as const;
 
@@ -44,18 +47,6 @@ export function Work() {
         });
       });
 
-      // Subtle parallax on the flagship visual
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
-        gsap.fromTo(
-          '.pp-flagship-img',
-          {yPercent: -7},
-          {
-            yPercent: 7,
-            ease: 'none',
-            scrollTrigger: {trigger: '.pp-flagship', start: 'top bottom', end: 'bottom top', scrub: true},
-          },
-        );
-      });
     }, root);
     return () => ctx.revert();
   }, []);
@@ -74,7 +65,7 @@ export function Work() {
         </div>
 
         <h2 className="pp-reveal font-serif font-light text-[clamp(2.8rem,7vw,6.5rem)] leading-[0.95] mb-20 md:mb-28">
-          Nine products. <br />
+          Ten products. <br />
           <span className="italic text-brand-orange">One heartbeat.</span>
         </h2>
 
@@ -111,15 +102,18 @@ export function Work() {
           </div>
 
           <div className="pp-reveal order-1 lg:order-2 relative">
-            <div className="relative rounded-[32px] md:rounded-[40px] overflow-hidden border border-brand-paper/10 shadow-[0_60px_120px_-30px_rgba(0,0,0,0.6)]">
-              <img
-                src={FLAGSHIP_POSTER}
-                alt="VAPA Pulse app interface preview"
-                loading="lazy"
-                className="pp-flagship-img w-full aspect-[16/10] object-cover scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/70 via-transparent to-transparent" />
-              <p className="absolute bottom-5 left-6 right-6 text-[10px] font-bold uppercase tracking-[0.25em] text-brand-paper/50 font-sans">
+            <div className="relative rounded-[32px] md:rounded-[40px] overflow-hidden border border-brand-paper/10 shadow-[0_60px_120px_-30px_rgba(0,0,0,0.6)] bg-black">
+              <div className="relative w-full aspect-video">
+                <iframe
+                  src={FLAGSHIP_VIDEO}
+                  title="VAPA Pulse — flagship product video"
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full border-0"
+                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                  allowFullScreen
+                />
+              </div>
+              <p className="pointer-events-none absolute top-4 left-6 right-6 text-[10px] font-bold uppercase tracking-[0.25em] text-brand-paper/50 font-sans">
                 Artistic Intelligence Engine · vapapulse.com
               </p>
             </div>
@@ -185,7 +179,7 @@ export function Work() {
             className="group snap-start shrink-0 w-[80vw] sm:w-[420px] lg:w-[460px] min-h-[440px] md:min-h-[500px] rounded-[28px] md:rounded-[36px] bg-brand-orange text-brand-ink p-8 md:p-10 flex flex-col justify-between hover:bg-brand-paper transition-colors duration-500"
           >
             <span className="font-serif italic font-light text-6xl md:text-7xl leading-none opacity-30">
-              10
+              {String(CARDS.length + 1).padStart(2, '0')}
             </span>
             <div>
               <h4 className="font-serif font-light text-4xl md:text-5xl leading-tight mb-6">

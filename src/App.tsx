@@ -423,7 +423,7 @@ export default function App() {
                 Beyond the <span className="italic text-brand-orange">Flagship</span>
               </h2>
               <p className="text-xl text-brand-ink/60 leading-relaxed">
-                Every tool we build starts with a real problem inside a real school. Three suites. Eight tools.
+                Every tool we build starts with a real problem inside a real school. Three suites. Nine tools.
               </p>
             </div>
 

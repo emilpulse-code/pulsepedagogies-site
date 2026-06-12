@@ -3,10 +3,23 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig, loadEnv} from 'vite';
 
+// Cloudflare Pages serves /company.html at /company; mirror that in the dev server.
+const prettyUrls = () => ({
+  name: 'pretty-html-urls',
+  configureServer(server: {middlewares: {use: (fn: (req: {url?: string}, res: unknown, next: () => void) => void) => void}}) {
+    const pages = ['/company', '/compliance', '/prop28'];
+    server.middlewares.use((req, _res, next) => {
+      const url = req.url?.split('?')[0];
+      if (url && pages.includes(url)) req.url = url + '.html';
+      next();
+    });
+  },
+});
+
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
-    plugins: [react(), tailwindcss()],
+    plugins: [react(), tailwindcss(), prettyUrls()],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },
@@ -19,7 +32,9 @@ export default defineConfig(({mode}) => {
       rollupOptions: {
         input: {
           main: path.resolve(__dirname, 'index.html'),
-          portfolio: path.resolve(__dirname, 'portfolio.html'),
+          company: path.resolve(__dirname, 'company.html'),
+          compliance: path.resolve(__dirname, 'compliance.html'),
+          prop28: path.resolve(__dirname, 'prop28.html'),
         },
       },
     },
