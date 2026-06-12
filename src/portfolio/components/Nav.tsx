@@ -8,7 +8,7 @@ const LINKS = [
   {name: 'Capabilities', href: '#capabilities'},
 ];
 
-export function Nav({onOpenForm}: {onOpenForm: () => void}) {
+export function Nav() {
   const ref = useRef<HTMLElement>(null);
 
   // Hide on scroll down, return on scroll up
@@ -60,13 +60,13 @@ export function Nav({onOpenForm}: {onOpenForm: () => void}) {
           ))}
         </ul>
 
-        <button
-          type="button"
-          onClick={onOpenForm}
-          className="whitespace-nowrap mix-blend-difference text-[#F5F2ED] border border-current rounded-full px-4 md:px-5 py-2 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-[#F5F2ED] hover:text-[#1A1A1A] transition-colors cursor-pointer"
+        {/* Prominent pill — solid orange reads true over light and dark, so no blend */}
+        <a
+          href="/builder"
+          className="whitespace-nowrap bg-brand-orange text-white rounded-full px-5 md:px-7 py-2.5 md:py-3 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] shadow-[0_0_28px_rgba(255,99,33,0.55)] hover:bg-brand-paper hover:text-brand-ink hover:shadow-[0_0_24px_rgba(245,242,237,0.45)] hover:scale-105 transition-all duration-300"
         >
           Start a project
-        </button>
+        </a>
       </nav>
     </header>
   );

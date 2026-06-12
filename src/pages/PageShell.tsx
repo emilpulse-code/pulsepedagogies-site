@@ -24,8 +24,8 @@ export function PageShell({
           Pulse Pedagogies
         </a>
         <a
-          href="mailto:emil@pulsepedagogies.com?subject=Project%20inquiry%20%E2%80%94%20Pulse%20Pedagogies"
-          className="whitespace-nowrap border border-brand-paper/25 rounded-full px-4 md:px-5 py-2 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] hover:border-brand-orange hover:text-brand-orange transition-colors font-sans"
+          href="/builder"
+          className="whitespace-nowrap bg-brand-orange text-white rounded-full px-4 md:px-6 py-2 md:py-2.5 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] shadow-[0_0_24px_rgba(255,99,33,0.45)] hover:bg-brand-paper hover:text-brand-ink transition-all font-sans"
         >
           Start a project
         </a>
