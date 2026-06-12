@@ -8,12 +8,14 @@ import {
   CircleCheckBig,
   Cpu,
   Fingerprint,
+  Gamepad2,
   Loader2,
   Lock,
   Mail,
   MessageCircle,
   Monitor,
   PenLine,
+  Scan,
   ShieldCheck,
   Smartphone,
   Sparkles,
@@ -979,6 +981,50 @@ function MockScreen({
                   <p className="text-xs font-semibold">Live session — Room A</p>
                   <p className="text-[9px] text-slate-500">14 watching now</p>
                 </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* AR view tile */}
+          <AnimatePresence>
+            {has('ar') && (
+              <motion.div
+                initial={{opacity: 0, y: 10}}
+                animate={{opacity: 1, y: 0}}
+                exit={{opacity: 0}}
+                className="rounded-xl bg-slate-900 border border-white/5 p-3 flex items-center gap-3"
+              >
+                <span className="relative w-14 h-9 rounded-md bg-slate-800 flex items-center justify-center overflow-hidden">
+                  <Scan className={`w-4 h-4 ${theme.text}`} />
+                  <span className="absolute top-1 right-1 text-[7px] font-bold text-slate-400">AR</span>
+                </span>
+                <div>
+                  <p className="text-xs font-semibold">AR view ready</p>
+                  <p className="text-[9px] text-slate-500">Point your camera to place it in the room</p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Game tile */}
+          <AnimatePresence>
+            {has('game') && (
+              <motion.div
+                initial={{opacity: 0, y: 10}}
+                animate={{opacity: 1, y: 0}}
+                exit={{opacity: 0}}
+                className="rounded-xl bg-slate-900 border border-white/5 p-3 flex items-center justify-between"
+              >
+                <div className="flex items-center gap-3">
+                  <span className={`w-9 h-9 rounded-lg ${theme.softBg} flex items-center justify-center`}>
+                    <Gamepad2 className={`w-4 h-4 ${theme.text}`} />
+                  </span>
+                  <div>
+                    <p className="text-xs font-semibold">Continue — Level 3</p>
+                    <p className="text-[9px] text-slate-500">High score 4,820 · 2 players online</p>
+                  </div>
+                </div>
+                <span className={`text-[10px] font-bold ${theme.text}`}>Play →</span>
               </motion.div>
             )}
           </AnimatePresence>

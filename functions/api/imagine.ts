@@ -50,7 +50,7 @@ const RESPONSE_SCHEMA = {
     },
     widgets: {
       type: 'ARRAY',
-      items: {type: 'STRING', enum: ['ai', 'chat', 'video', 'gamification', 'biometric', 'signatures']},
+      items: {type: 'STRING', enum: ['ai', 'chat', 'video', 'gamification', 'ar', 'game', 'biometric', 'signatures']},
       description: 'Only widgets the answers actually imply',
     },
     integrations: {
@@ -95,12 +95,12 @@ export async function onRequestPost(context: {request: Request; env: Env}): Prom
     'already exists, and return a blueprint for rendering a believable mockup of it.',
     '',
     'Rules:',
-    '- The app can be ANY kind of application. Take the client literally; do not force it into education.',
+    '- The app can be ANY kind of application — including an augmented-reality experience or a computer game. Take the client literally; do not force it into education.',
     '- appName: a brandable working title, max 16 characters, CamelCase preferred, no generic words like "App".',
     '- nav: exactly 4 short labels matching how THIS app would actually be organized.',
     '- stats: exactly 3, with realistic values a real dashboard would show on a typical morning.',
     '- rows: exactly 3 concrete work items written in the vocabulary of the client\'s world, each with a short meta note and progress pct between 10 and 95.',
-    '- widgets: include only what the answers imply. ai = assistant/automation, chat = messaging, video = live video, gamification = badges/streaks, biometric = strong privacy/secure access, signatures = approvals/e-sign.',
+    '- widgets: include only what the answers imply. ai = assistant/automation, chat = messaging, video = live video, gamification = badges/streaks layered onto a non-game app, ar = augmented reality / camera overlays / 3D in the real world, game = the product itself is a playable game or ships built-in mini-games, biometric = strong privacy/secure access, signatures = approvals/e-sign.',
     '- integrations: up to 4 short product names, only ones the client implied.',
     '- welcome/subtitle: greet the primary daily user.',
     '- insight: one sentence the app\'s AI might genuinely surface, specific to this app.',
