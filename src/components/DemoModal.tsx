@@ -1,5 +1,6 @@
 import { X, ArrowRight, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { useState } from 'react';
+import type { ChangeEvent, FormEvent } from 'react';
 
 // Replace with your key from web3forms.com
 const WEB3FORMS_KEY = '32c86377-fb57-4110-a513-67fd523cf413';
@@ -21,7 +22,7 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setStatus('sending');
 
@@ -31,7 +32,7 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
-          subject: `Demo Request — ${form.name}${form.school ? `, ${form.school}` : ''}`,
+          subject: `Pulse Pedagogies Inquiry — ${form.name}${form.school ? `, ${form.school}` : ''}`,
           name: form.name,
           email: form.email,
           'School / District': form.school || 'Not provided',
@@ -46,7 +47,7 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
@@ -72,7 +73,7 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
             <CheckCircle className="w-16 h-16 text-brand-orange mb-6" />
             <h3 className="text-3xl font-serif mb-3">You're on our radar.</h3>
             <p className="text-brand-ink/50 text-sm mb-8 max-w-xs">
-              We received your request and will be in touch shortly to schedule your live walkthrough.
+              We received your message and will be in touch shortly.
             </p>
             <button
               onClick={handleClose}
@@ -83,9 +84,10 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
           </div>
         ) : (
           <>
-            <h3 className="text-3xl font-serif mb-2">Request a Live Demo</h3>
+            <h3 className="text-3xl font-serif mb-2">Start the Conversation</h3>
             <p className="text-brand-ink/50 text-sm mb-8">
-              Fill in the details below — we'll reach out to schedule a live walkthrough.
+              A project, a demo, or the investment opportunity — tell us what's on your
+              mind and we'll reach out shortly.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -121,7 +123,7 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
 
               <div>
                 <label className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/40 block mb-2">
-                  School / District
+                  Organization / District
                 </label>
                 <input
                   name="school"
@@ -157,14 +159,14 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
                   value={form.message}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-2xl border border-brand-ink/10 bg-white focus:outline-none focus:border-brand-orange transition-colors text-sm resize-none"
-                  placeholder="Tell us about your school or district and what you're looking for..."
+                  placeholder="Tell us about your school, district, project, or investment interest..."
                 />
               </div>
 
               {status === 'error' && (
                 <div className="flex items-center gap-2 text-red-500 text-sm">
                   <AlertCircle className="w-4 h-4 shrink-0" />
-                  Something went wrong. Please try again or email us directly at emil@vapapulse.com.
+                  Something went wrong. Please try again or email us directly at emil@pulsepedagogies.com.
                 </div>
               )}
 
@@ -180,7 +182,7 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
                   </>
                 ) : (
                   <>
-                    Send Demo Request
+                    Send Message
                     <ArrowRight className="w-4 h-4" />
                   </>
                 )}

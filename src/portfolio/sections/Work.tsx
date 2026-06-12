@@ -15,7 +15,7 @@ const CARDS = SUITES.flatMap((suite) =>
   suite.apps.map((app) => ({...app, suite: suite.label})),
 );
 
-export function Work() {
+export function Work({onOpenForm}: {onOpenForm: () => void}) {
   const rootRef = useRef<HTMLElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -174,10 +174,11 @@ export function Work() {
             </article>
           ))}
 
-          {/* End-cap CTA card */}
-          <a
-            href="mailto:emil@pulsepedagogies.com?subject=Project%20inquiry%20%E2%80%94%20Pulse%20Pedagogies"
-            className="group snap-start shrink-0 w-[80vw] sm:w-[420px] lg:w-[460px] min-h-[440px] md:min-h-[500px] rounded-[28px] md:rounded-[36px] bg-brand-orange text-brand-ink p-8 md:p-10 flex flex-col justify-between hover:bg-brand-paper transition-colors duration-500"
+          {/* End-cap CTA card — opens the inquiry form */}
+          <button
+            type="button"
+            onClick={onOpenForm}
+            className="group snap-start shrink-0 w-[80vw] sm:w-[420px] lg:w-[460px] min-h-[440px] md:min-h-[500px] rounded-[28px] md:rounded-[36px] bg-brand-orange text-brand-ink p-8 md:p-10 flex flex-col justify-between text-left cursor-pointer hover:bg-brand-paper transition-colors duration-500"
           >
             <span className="font-serif italic font-light text-6xl md:text-7xl leading-none opacity-30">
               {String(CARDS.length + 1).padStart(2, '0')}
@@ -192,7 +193,7 @@ export function Work() {
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
               </span>
             </div>
-          </a>
+          </button>
         </div>
       </div>
     </section>

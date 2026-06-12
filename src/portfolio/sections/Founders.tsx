@@ -16,7 +16,7 @@ const FOUNDERS: Founder[] = [
     role: 'CEO & CTO · Co-Founder',
     photo: 'https://pbs.twimg.com/profile_images/1727193455175294976/535c3hgh_400x400.jpg',
     linkedin: 'https://www.linkedin.com/in/emil-ahangarzadeh',
-    email: 'emil@vapapulse.com',
+    email: 'emil@pulsepedagogies.com',
     dark: true,
     bio: [
       'Emil Ahangarzadeh, Ed.D. is a veteran educator, performing arts professional, and education technologist whose career spans the classroom, the stage, and the highest levels of district and state leadership. He has served as Administrator of Visual and Performing Arts for a southern California school district, and teaches concurrently as a professor in fine art and education.',
@@ -29,7 +29,7 @@ const FOUNDERS: Founder[] = [
     role: 'COO · Co-Founder',
     photo: '/satenik.jpg',
     linkedin: 'https://www.linkedin.com/in/satenik-grigoryan-aa931731',
-    email: 'coo@vapapulse.com',
+    email: 'emil@pulsepedagogies.com',
     dark: false,
     bio: [
       "A career educator with over 17 years of experience in southern California schools, Satenik has spent her career serving students with disabilities as a Special Education Teacher and Teacher Specialist. She served as Department Chairperson for Special Education and Committee Member for Inclusive Settings — developing district-wide systems that ensure every student has access to rigorous, equitable instruction. As COO of Pulse Pedagogies, Satenik brings a practitioner's lens to every product decision — ensuring that VAPA Pulse and all future tools are truly accessible, inclusive, and effective for every learner.",

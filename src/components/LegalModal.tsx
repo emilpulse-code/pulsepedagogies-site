@@ -1,4 +1,5 @@
 import { X } from 'lucide-react';
+import type { ReactNode } from 'react';
 
 export type LegalDoc = 'privacy' | 'terms' | 'coppa' | null;
 
@@ -9,7 +10,7 @@ interface LegalModalProps {
 
 const EFFECTIVE_DATE = 'April 14, 2026';
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="mb-8">
       <h3 className="text-lg font-bold text-brand-ink mb-3">{title}</h3>
@@ -18,7 +19,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-const DOCS: Record<NonNullable<LegalDoc>, { title: string; content: React.ReactNode }> = {
+const DOCS: Record<NonNullable<LegalDoc>, { title: string; content: ReactNode }> = {
   privacy: {
     title: 'Privacy Policy',
     content: (
@@ -46,7 +47,7 @@ const DOCS: Record<NonNullable<LegalDoc>, { title: string; content: React.ReactN
         </Section>
 
         <Section title="Children's Privacy">
-          <p>This marketing Site is not directed to children under the age of 13, and we do not knowingly collect personal information from children under 13 on this Site. If you believe a child under 13 has submitted information through this Site, please contact us immediately at emil@vapapulse.com and we will promptly delete it.</p>
+          <p>This marketing Site is not directed to children under the age of 13, and we do not knowingly collect personal information from children under 13 on this Site. If you believe a child under 13 has submitted information through this Site, please contact us immediately at emil@pulsepedagogies.com and we will promptly delete it.</p>
           <p><strong>Student data in our products.</strong> Most of our products — including VAPA Pulse, FieldNote, Meridian, FocusBridge, ClearEar, and the CPQ (Categorical Program Qualifier) — do not create student accounts or store student personally identifiable information. SkillVault is the exception: it maintains student accounts and credential records in order to allow students to view and share their earned badges. SkillVault accounts are provisioned exclusively by the district and are never self-created by students. The full details of SkillVault's student data practices, COPPA compliance architecture, and FERPA obligations are described in our COPPA/FERPA Compliance Statement.</p>
         </Section>
 
@@ -55,7 +56,7 @@ const DOCS: Record<NonNullable<LegalDoc>, { title: string; content: React.ReactN
         </Section>
 
         <Section title="Your Rights">
-          <p>You may request access to, correction of, or deletion of any personal information you have submitted to us by contacting us at emil@vapapulse.com. We will respond to all reasonable requests within 30 days.</p>
+          <p>You may request access to, correction of, or deletion of any personal information you have submitted to us by contacting us at emil@pulsepedagogies.com. We will respond to all reasonable requests within 30 days.</p>
         </Section>
 
         <Section title="Changes to This Policy">
@@ -63,7 +64,7 @@ const DOCS: Record<NonNullable<LegalDoc>, { title: string; content: React.ReactN
         </Section>
 
         <Section title="Contact Us">
-          <p>Pulse Pedagogies, LLC<br />Glendale, California<br />Email: <a href="mailto:emil@vapapulse.com" className="text-brand-orange hover:underline">emil@vapapulse.com</a></p>
+          <p>Pulse Pedagogies, LLC<br />Glendale, California<br />Email: <a href="mailto:emil@pulsepedagogies.com" className="text-brand-orange hover:underline">emil@pulsepedagogies.com</a></p>
         </Section>
       </>
     ),
@@ -119,7 +120,7 @@ const DOCS: Record<NonNullable<LegalDoc>, { title: string; content: React.ReactN
         </Section>
 
         <Section title="Contact Us">
-          <p>For questions about these Terms, please contact:<br />Pulse Pedagogies, LLC<br />Glendale, California<br />Email: <a href="mailto:emil@vapapulse.com" className="text-brand-orange hover:underline">emil@vapapulse.com</a></p>
+          <p>For questions about these Terms, please contact:<br />Pulse Pedagogies, LLC<br />Glendale, California<br />Email: <a href="mailto:emil@pulsepedagogies.com" className="text-brand-orange hover:underline">emil@pulsepedagogies.com</a></p>
         </Section>
       </>
     ),
@@ -135,7 +136,7 @@ const DOCS: Record<NonNullable<LegalDoc>, { title: string; content: React.ReactN
 
         <Section title="This Marketing Site">
           <p>The pulsepedagogies.com marketing website is not directed at students or children under the age of 13. We do not knowingly collect personal information from children under 13 on this Site. The only information we collect is submitted voluntarily by educators, administrators, and other adult professionals through our demo request form.</p>
-          <p>If you believe a child has submitted information through this Site, please contact us at emil@vapapulse.com and we will promptly delete it.</p>
+          <p>If you believe a child has submitted information through this Site, please contact us at emil@pulsepedagogies.com and we will promptly delete it.</p>
         </Section>
 
         <Section title="COPPA Compliance in Our Products">
@@ -180,7 +181,7 @@ const DOCS: Record<NonNullable<LegalDoc>, { title: string; content: React.ReactN
 
         <Section title="Contact for Privacy & Compliance Questions">
           <p>If you are a parent, guardian, educator, district administrator, or compliance officer with questions about our data practices, please contact us directly:</p>
-          <p>Pulse Pedagogies, LLC<br />Glendale, California<br />Email: <a href="mailto:emil@vapapulse.com" className="text-brand-orange hover:underline">emil@vapapulse.com</a></p>
+          <p>Pulse Pedagogies, LLC<br />Glendale, California<br />Email: <a href="mailto:emil@pulsepedagogies.com" className="text-brand-orange hover:underline">emil@pulsepedagogies.com</a></p>
           <p>We are committed to responding to all privacy and compliance inquiries within five (5) business days.</p>
         </Section>
       </>

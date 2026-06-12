@@ -635,7 +635,7 @@ export default function App() {
                       <Linkedin className="w-5 h-5" />
                     </a>
                     <a
-                      href="mailto:emil@vapapulse.com"
+                      href="mailto:emil@pulsepedagogies.com"
                       className="w-10 h-10 rounded-full border border-brand-paper/20 flex items-center justify-center hover:bg-brand-orange hover:border-brand-orange transition-all"
                     >
                       <Mail className="w-5 h-5" />
@@ -673,7 +673,7 @@ export default function App() {
                       <Linkedin className="w-5 h-5" />
                     </a>
                     <a
-                      href="mailto:coo@vapapulse.com"
+                      href="mailto:emil@pulsepedagogies.com"
                       className="w-10 h-10 rounded-full border border-brand-ink/20 flex items-center justify-center hover:bg-brand-orange hover:border-brand-orange hover:text-white transition-all text-brand-ink"
                     >
                       <Mail className="w-5 h-5" />
@@ -707,11 +707,11 @@ export default function App() {
                       <p className="text-brand-orange text-xs font-bold uppercase tracking-widest">CEO & CTO · Co-Founder</p>
                     </div>
                     <a
-                      href="mailto:emil@vapapulse.com"
+                      href="mailto:emil@pulsepedagogies.com"
                       className="flex items-center gap-3 text-brand-paper/70 hover:text-brand-orange transition-colors group"
                     >
                       <Mail className="w-4 h-4 shrink-0 group-hover:text-brand-orange" />
-                      <span className="text-sm font-medium">emil@vapapulse.com</span>
+                      <span className="text-sm font-medium">emil@pulsepedagogies.com</span>
                     </a>
                     <a
                       href="tel:6196638382"
@@ -748,7 +748,7 @@ export default function App() {
                 <Phone className="w-4 h-4" />
                 (619) 663-8382
               </a>
-              <a href="mailto:emil@vapapulse.com" className="text-brand-ink/40 hover:text-brand-orange transition-colors">
+              <a href="mailto:emil@pulsepedagogies.com" className="text-brand-ink/40 hover:text-brand-orange transition-colors">
                 <Mail className="w-5 h-5" />
               </a>
             </div>
@@ -757,7 +757,7 @@ export default function App() {
               <ul className="space-y-4 text-sm font-medium">
                 <li><a href="#mission" className="hover:text-brand-orange transition-colors">Mission</a></li>
                 <li><a href="#founders" className="hover:text-brand-orange transition-colors">Founders</a></li>
-                <li><a href="mailto:coo@vapapulse.com" className="hover:text-brand-orange transition-colors">Contact</a></li>
+                <li><a href="mailto:emil@pulsepedagogies.com" className="hover:text-brand-orange transition-colors">Contact</a></li>
               </ul>
             </div>
             <div>
