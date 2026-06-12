@@ -41,7 +41,7 @@ export default function PortfolioPage() {
       <Loader onDone={() => setLoaded(true)} />
       <Cursor />
       <div className="pp-noise" aria-hidden="true" />
-      <Nav onOpenForm={openForm} />
+      <Nav />
 
       <main>
         <Hero start={loaded} onOpenForm={openForm} />

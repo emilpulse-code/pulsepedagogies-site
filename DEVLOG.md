@@ -2,6 +2,16 @@
 
 ---
 
+## Session: June 11, 2026 (later) — Project Builder
+
+**New `/builder` page** — interactive "Digital Web Wizard" (`builder.html` → `src/builder/`): split-screen layout with a 5-step card-based wizard on the left (Vertical → Persona → Engine → Capabilities multi-select → Integrations multi-select) and a sticky live device mockup on the right (mobile/desktop toggle). Selections re-theme the mockup (sky/indigo/emerald per vertical), swap the persona dashboard, rebuild the nav per engine, and inject capability widgets (AI panel, chat bubble, live video tile, badges, biometric chip, signature row) plus integration pills in real time via Framer Motion (`motion/react`). Completing the wizard reveals a glowing "Construct & Compile App Blueprint" button → 3-second compile sequence (progress bar + terminal lines + mockup pulse) → lead-capture email form with the trust hand-off note. Submissions post the full blueprint (vertical/persona/engine/capabilities/integrations) to Web3Forms. Data structures in `src/builder/data.ts`; slate/indigo/violet dark aesthetic.
+
+**Start a Project CTAs** now route to `/builder`: the nav pill is prominent (solid orange, glow, scale-on-hover, no longer blend-differenced), the hero secondary button links there, and the PageShell header CTA matches. The DemoModal form remains wired to "Start the conversation" (Work end-card, Contact) and the investment banner.
+
+Build green (5 HTML entries), `tsc --noEmit` clean. Note: this project has no direct `@types/react` dep; custom components receiving `key` need it declared in props (see `ChoiceCard`).
+
+---
+
 ## Session: June 11, 2026 — Portfolio becomes the landing page
 
 Branch: `claude/kind-ramanujan-hb3j99` — **merged to `main` and deployed June 11, 2026.** All four pages (/, /company, /compliance, /prop28) verified live in production. Follow-up commits on the branch before shipping: Capabilities accordion content, industry-agnostic compliance page, flagship video moved under the pills, Studio nav link removed, inquiry form wired to 5 CTAs, full-color animated nav emblem, hero investment banner, all emails unified to emil@pulsepedagogies.com.

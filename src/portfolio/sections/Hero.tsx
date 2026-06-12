@@ -81,14 +81,13 @@ export function Hero({start, onOpenForm}: {start: boolean; onOpenForm: () => voi
               View selected work
               <ArrowDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
             </a>
-            <button
-              type="button"
-              onClick={onOpenForm}
-              className="group inline-flex items-center gap-2 border border-brand-paper/25 px-8 py-4 rounded-full font-medium hover:border-brand-orange hover:text-brand-orange transition-colors cursor-pointer"
+            <a
+              href="/builder"
+              className="group inline-flex items-center gap-2 border border-brand-paper/25 px-8 py-4 rounded-full font-medium hover:border-brand-orange hover:text-brand-orange transition-colors"
             >
               Start a project
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </a>
           </div>
         </div>
 
