@@ -10,7 +10,7 @@ export function Contact() {
 
       <div className="max-w-[100rem] mx-auto relative">
         <div className="flex items-baseline gap-4 mb-12 md:mb-16 text-[11px] font-bold uppercase tracking-[0.3em] text-brand-paper/40 font-sans">
-          <span className="text-brand-orange">05</span>
+          <span className="text-brand-orange">06</span>
           <span className="w-10 h-px bg-brand-paper/20 self-center" />
           <span>Contact</span>
         </div>
@@ -43,18 +43,18 @@ export function Contact() {
           <p>© 2026 Pulse Pedagogies, LLC · Glendale, CA · All Rights Reserved</p>
           <div className="flex flex-wrap gap-8">
             <a
-              href="https://pulsepedagogies.com"
-              className="hover:text-brand-orange transition-colors"
-            >
-              Company site
-            </a>
-            <a
               href="https://vapapulse.com"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-brand-orange transition-colors"
             >
               VAPA Pulse
+            </a>
+            <a href="/compliance" className="hover:text-brand-orange transition-colors">
+              Security &amp; Compliance
+            </a>
+            <a href="/prop28" className="hover:text-brand-orange transition-colors">
+              Prop 28 Research
             </a>
             <a href="#top" className="hover:text-brand-orange transition-colors">
               Back to top ↑

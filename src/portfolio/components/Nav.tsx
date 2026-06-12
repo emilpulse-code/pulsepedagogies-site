@@ -3,8 +3,8 @@ import {gsap, ScrollTrigger} from '../lib/gsapSetup';
 
 const LINKS = [
   {name: 'Work', href: '#work'},
-  {name: 'Philosophy', href: '#philosophy'},
-  {name: 'Process', href: '#process'},
+  {name: 'Studio', href: '#studio'},
+  {name: 'Founders', href: '#founders'},
   {name: 'Capabilities', href: '#capabilities'},
 ];
 
@@ -64,7 +64,7 @@ export function Nav() {
               Pulse Pedagogies
             </span>
             <span className="block text-[10px] uppercase tracking-[0.25em] opacity-50">
-              Design Portfolio
+              Digital Development Studio
             </span>
           </span>
         </a>

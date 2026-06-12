@@ -2,12 +2,11 @@ import {useLayoutEffect, useRef} from 'react';
 import {gsap} from '../lib/gsapSetup';
 
 const MANIFESTO =
-  'We design for the busiest professionals on earth — teachers. Every product begins in a real classroom, treats student privacy law as a design constraint, and ships beautiful enough to love, simple enough to use mid-lesson.';
+  'We build web and mobile applications for education organizations — led by educators, built for education.';
 
 const STATS = [
-  {value: 26, suffix: '+', label: 'Years of K–12 classroom & district leadership'},
-  {value: 9, suffix: '', pad: 2, label: 'Products designed, in build, or shipping'},
-  {value: 5, suffix: '', pad: 2, label: 'Arts disciplines covered, TK–6'},
+  {value: 26, suffix: '+', label: 'Combined years of California K–12 classroom and district leadership'},
+  {value: 10, suffix: '', pad: 2, label: 'Products designed, in build, or shipping'},
   {value: 100, suffix: '%', label: 'COPPA / FERPA compliant by design'},
 ];
 
@@ -73,7 +72,7 @@ export function Manifesto() {
           ))}
         </p>
 
-        <div className="mt-20 md:mt-28 grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-14">
+        <div className="mt-20 md:mt-28 grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
           {STATS.map((s) => (
             <div key={s.label} className="pp-reveal border-t border-brand-ink/15 pt-6">
               <div className="font-serif font-light text-6xl md:text-7xl text-brand-ink">

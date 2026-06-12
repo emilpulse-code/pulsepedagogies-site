@@ -7,7 +7,8 @@ import {Hero} from './sections/Hero';
 import {Marquee} from './sections/Marquee';
 import {Manifesto} from './sections/Manifesto';
 import {Work} from './sections/Work';
-import {Process} from './sections/Process';
+import {Studio} from './sections/Studio';
+import {Founders} from './sections/Founders';
 import {Capabilities} from './sections/Capabilities';
 import {Contact} from './sections/Contact';
 
@@ -44,7 +45,8 @@ export default function PortfolioPage() {
         <Marquee />
         <Manifesto />
         <Work />
-        <Process />
+        <Studio />
+        <Founders />
         <Capabilities />
         <Contact />
       </main>
