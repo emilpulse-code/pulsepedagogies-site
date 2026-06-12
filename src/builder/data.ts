@@ -3,8 +3,16 @@
 export type PaletteId = 'sky' | 'indigo' | 'emerald' | 'amber' | 'rose' | 'violet';
 
 /** Widgets the live canvas knows how to render. */
-export type WidgetId = 'ai' | 'chat' | 'video' | 'gamification' | 'biometric' | 'signatures';
-export const WIDGET_IDS: WidgetId[] = ['ai', 'chat', 'video', 'gamification', 'biometric', 'signatures'];
+export type WidgetId =
+  | 'ai'
+  | 'chat'
+  | 'video'
+  | 'gamification'
+  | 'ar'
+  | 'game'
+  | 'biometric'
+  | 'signatures';
+export const WIDGET_IDS: WidgetId[] = ['ai', 'chat', 'video', 'gamification', 'ar', 'game', 'biometric', 'signatures'];
 
 // ── The imagined app blueprint (rendered on the live canvas) ─────────────────
 
@@ -138,7 +146,7 @@ export const QUESTIONS: Question[] = [
     label: 'The Idea',
     prompt: 'What are you imagining?',
     helper:
-      'In your own words — what is this app, and what problem does it make disappear? Any kind of application is on the table: web, mobile, an internal tool, a public product.',
+      'In your own words — what is this app, and what problem does it make disappear? Any kind of application is on the table: web, mobile, an internal tool, a public product, an augmented-reality experience, even a computer game.',
     placeholder:
       'e.g. An app that lets our parent volunteers sign up for field trips without twelve reply-all emails…',
   },
@@ -165,7 +173,7 @@ export const QUESTIONS: Question[] = [
     label: 'The Magic',
     prompt: 'What would make it indispensable?',
     helper:
-      'Anything goes — AI helpers, live updates, badges, signatures, dashboards, translations. If you’ve seen it somewhere and loved it, say so.',
+      'Anything goes — AI helpers, live updates, badges, augmented reality, mini-games, signatures, dashboards, translations. If you’ve seen it somewhere and loved it, say so.',
     placeholder:
       'e.g. It should write the weekly summary for me, and message families in their own language…',
   },

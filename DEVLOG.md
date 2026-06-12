@@ -6,6 +6,7 @@
 
 - **Reveal**: artwork starts fit just inside the frame (99% height, fallback padding dropped); a second `.pp-reveal-media` layer zooms the art 1×→1.5× across the whole pin on top of the frame growth (frame now clips overflow); shatter softened — flight 4.4→2.3, tumble ~⅓, spread tightened. Holds-intact-first-third unchanged.
 - **Pipeline swap**: works list is now FieldNote, AdjunctCentral, Signet, Vitae, Meridian (explicit `LIST_IDS`); orbit is SkillVault → CPQ → ClearEar → FocusBridge (`ORBIT` config with per-app shell). CPQ (tablet-framed art) and FocusBridge (phone-framed art) orbit **bare** in their native form factors; the two web apps keep the 3D laptop shells.
+- **Builder: AR + computer-game options**: two new widgets (`ar`, `game`) wired through the full pipeline — widget vocabulary + interview copy (`src/builder/data.ts`), Gemini schema enum + prompt rules (`functions/api/imagine.ts`; `game` = the product is playable, distinct from `gamification` = badges layered on), local keyword fallback (`src/builder/imagine.ts`; bare "game" moved from the gamification trigger to the game widget), and two new canvas tiles (AR camera-scan tile, gamepad "Continue — Level 3" tile) in `ProjectBuilder.tsx`.
 
 ---
 

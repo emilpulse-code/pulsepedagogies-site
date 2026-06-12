@@ -181,7 +181,9 @@ export function localImagine(answers: Answers): Blueprint {
   if (has(/\bai\b|smart|automat|generat|summar|assist|intelligen|translat/i)) widgets.push('ai');
   if (has(/chat|messag|communicat|notify|notification/i)) widgets.push('chat');
   if (has(/video|stream|broadcast|webinar|live class/i)) widgets.push('video');
-  if (has(/badge|streak|level|point|game|gamif|reward|leaderboard|credential/i)) widgets.push('gamification');
+  if (has(/badge|streak|level|point|gamif|reward|leaderboard|credential/i)) widgets.push('gamification');
+  if (has(/augmented[\s-]*reality|\bar experience|camera overlay|hologra/i) || /\bAR\b/.test(all)) widgets.push('ar');
+  if (has(/\b(?:video|computer|mobile|mini)[\s-]*game\b|\bgame\b|gameplay|arcade|platformer|multiplayer|side[\s-]?scroller|playable/i)) widgets.push('game');
   if (has(/biometric|face ?id|fingerprint|privacy|ferpa|hipaa|secure/i)) widgets.push('biometric');
   if (has(/\bsign|signature|approv|contract|consent|permission slip/i)) widgets.push('signatures');
 
