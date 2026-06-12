@@ -3,7 +3,6 @@ import {gsap, ScrollTrigger} from '../lib/gsapSetup';
 
 const LINKS = [
   {name: 'Work', href: '#work'},
-  {name: 'Studio', href: '#studio'},
   {name: 'Founders', href: '#founders'},
   {name: 'Capabilities', href: '#capabilities'},
 ];
@@ -83,7 +82,7 @@ export function Nav() {
         </ul>
 
         <a
-          href="mailto:emil@vapapulse.com?subject=Project%20inquiry%20%E2%80%94%20Pulse%20Pedagogies"
+          href="mailto:emil@pulsepedagogies.com?subject=Project%20inquiry%20%E2%80%94%20Pulse%20Pedagogies"
           className="whitespace-nowrap border border-current rounded-full px-4 md:px-5 py-2 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-[#F5F2ED] hover:text-[#1A1A1A] transition-colors"
         >
           Start a project

@@ -82,7 +82,7 @@ export function Hero({start}: {start: boolean}) {
               <ArrowDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
             </a>
             <a
-              href="mailto:emil@vapapulse.com?subject=Project%20inquiry%20%E2%80%94%20Pulse%20Pedagogies"
+              href="mailto:emil@pulsepedagogies.com?subject=Project%20inquiry%20%E2%80%94%20Pulse%20Pedagogies"
               className="group inline-flex items-center gap-2 border border-brand-paper/25 px-8 py-4 rounded-full font-medium hover:border-brand-orange hover:text-brand-orange transition-colors"
             >
               Start a project

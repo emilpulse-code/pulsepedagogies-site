@@ -18,25 +18,25 @@ const LAYERS: Layer[] = [
     id: 'Layer 1',
     name: 'Client',
     blurb:
-      'Teacher-facing single-page web app — runs in any modern browser on any device, with no install required.',
+      'A single-page web app — runs in any modern browser on any device, with no install required.',
     items: [
       {title: 'Browser-Native SPA', note: 'No install · no app store'},
       {title: 'Component UI Framework', note: 'Responsive mobile-first layout'},
-      {title: 'Animated Transitions', note: 'Smooth classroom experience'},
+      {title: 'Animated Transitions', note: 'Smooth, calm user experience'},
       {title: 'WCAG 2.1 AA', note: 'Audited contrast + focus rings'},
       {title: 'Auth Client SDK', note: 'Secure session management'},
     ],
   },
   {
     id: 'Layer 2',
-    name: 'Google Cloud Backend',
+    name: 'Secure Cloud Backend',
     blurb:
-      "All application logic runs within Google's secure cloud infrastructure — authentication, data, serverless functions, and asset delivery.",
+      'All application logic runs within enterprise-grade cloud infrastructure — authentication, data, serverless functions, and asset delivery.',
     items: [
-      {title: 'Cloud Authentication', note: 'Firebase Google Sign-In'},
-      {title: 'Identity Store', note: 'Auth sessions + teacher profiles'},
-      {title: 'Client-Side AI', note: 'Firebase AI Logic · Artistic Intelligence Engine'},
-      {title: 'Origin-Locked Media', note: 'Cloudflare R2 buckets'},
+      {title: 'Cloud Authentication', note: 'Managed single sign-on'},
+      {title: 'Identity Store', note: 'Auth sessions + user profiles'},
+      {title: 'Serverless AI Logic', note: 'All AI calls brokered server-side'},
+      {title: 'Origin-Locked Media', note: 'Access-controlled storage buckets'},
       {title: 'Global CDN Hosting', note: 'Auto SSL · edge-distributed'},
       {title: 'Managed AI Access', note: 'No raw API key shipped in the bundle'},
     ],
@@ -45,14 +45,14 @@ const LAYERS: Layer[] = [
     id: 'Layer 3A',
     name: 'Frontier AI Intelligence',
     blurb:
-      'Five specialized AI models — each mapped to a specific act. All calls are serverless-proxied. Zero student data is ever transmitted or retained.',
+      'Specialized AI models, each mapped to a specific product function. Every call is serverless-proxied. Zero sensitive data is ever transmitted or retained.',
     items: [
-      {title: 'AI Audio Engine', note: 'Act 1 — in-situ teacher PD'},
-      {title: 'AI Video Engine', note: 'Act 2 — cinematic hook'},
-      {title: 'Instruction AI', note: 'Act 3 — studio step-by-step'},
-      {title: 'AI Vision Engine', note: 'Act 4 — student work analysis'},
-      {title: 'Advocacy AI', note: 'Act 5 — parent summary'},
-      {title: 'Neural Voice Synthesis', note: 'Narration + teacher tips'},
+      {title: 'AI Audio Engine', note: 'Generated audio experiences'},
+      {title: 'AI Video Engine', note: 'Cinematic video generation'},
+      {title: 'Instruction AI', note: 'Step-by-step guided content'},
+      {title: 'AI Vision Engine', note: 'Real-time image analysis'},
+      {title: 'Summary AI', note: 'Stakeholder-ready narratives'},
+      {title: 'Neural Voice Synthesis', note: 'Narration + voiceover'},
     ],
   },
   {
@@ -61,9 +61,9 @@ const LAYERS: Layer[] = [
     blurb: 'All video served from a dedicated edge CDN with adaptive bitrate delivery.',
     items: [
       {title: 'Adaptive Bitrate Video', note: 'HLS streaming for any network'},
-      {title: 'Accessibility Captions', note: 'WebVTT — UDL compliant'},
-      {title: 'Origin-Locked Buckets', note: 'Read-only curriculum from CDN'},
-      {title: 'Engagement Analytics', note: 'PD library viewing insights'},
+      {title: 'Accessibility Captions', note: 'WebVTT on every asset'},
+      {title: 'Origin-Locked Buckets', note: 'Read-only content delivery'},
+      {title: 'Engagement Analytics', note: 'Library viewing insights'},
     ],
   },
 ];
@@ -72,22 +72,22 @@ const POSTURE = [
   {
     icon: EyeOff,
     title: 'Zero-PII Posture',
-    body: 'Student images captured in Act 4 are sent to the Artistic Intelligence Engine in-flight and immediately discarded by VAPA Pulse — never stored, logged, or retained anywhere in our system.',
+    body: 'Images and media submitted for AI analysis are processed in-flight and immediately discarded — never stored, logged, or retained anywhere in our systems.',
   },
   {
     icon: KeyRound,
     title: 'Managed AI Access',
-    body: 'Artistic Intelligence calls route through Firebase AI Logic — no raw API key is shipped in the bundle or exposed in network traffic.',
+    body: 'Every AI call routes through a managed server-side layer — no raw API key is shipped in the bundle or exposed in network traffic.',
   },
   {
     icon: Captions,
-    title: 'UDL Compliance',
-    body: 'Always-on captions for every audio and video asset, plus EL and GATE differentiation strategies built into every lesson.',
+    title: 'Accessibility Compliance',
+    body: 'Always-on captions for every audio and video asset, WCAG 2.1 AA contrast and focus management, and differentiation strategies built into content from the start.',
   },
   {
     icon: ShieldCheck,
-    title: 'Static Curriculum CDN',
-    body: 'All curriculum media is pre-vetted and served read-only from origin-locked CDN buckets. No student-generated content is ever uploaded to or stored on the CDN.',
+    title: 'Static Content CDN',
+    body: 'All published media is pre-vetted and served read-only from origin-locked CDN buckets. No user-generated content is ever uploaded to or stored on the CDN.',
   },
 ];
 
@@ -100,7 +100,7 @@ export default function CompliancePage() {
           Engineered for <span className="italic text-brand-orange">trust.</span>
         </>
       }
-      intro="Built from the ground up to meet K–12 district compliance requirements. No student data is ever at risk — by design, not by policy. Three distinct layers engineered to operate cohesively with zero direct client-side exposure to any AI service or credential."
+      intro="Every Pulse Pedagogies product is built on the same architecture: three distinct layers engineered to operate cohesively with zero direct client-side exposure to any AI service or credential. Designed from the ground up for regulated environments — education, government, and enterprise — so sensitive data is never at risk, by design, not by policy."
     >
       {/* ── System architecture ── */}
       <section className="mb-24 md:mb-32">
@@ -150,22 +150,24 @@ export default function CompliancePage() {
         </div>
       </section>
 
-      {/* ── Privacy-by-design across the suite ── */}
+      {/* ── Privacy by design ── */}
       <section>
         <SectionLabel n="03">Privacy by Design, Across Every Product</SectionLabel>
         <div className="max-w-4xl space-y-6 text-lg text-brand-paper/65 leading-relaxed">
           <p>
-            COPPA and FERPA are treated as architectural constraints, not legal review
-            checkboxes. Where product architecture permits, we design for session-only
-            processing: FieldNote analyzes photos in real time and stores nothing between
-            sessions, and FocusBridge check-in alerts are ephemeral by design. When data
-            does not need to persist, we ensure it does not.
+            Regulatory frameworks are treated as architectural constraints, not legal
+            review checkboxes. Where product architecture permits, we design for
+            session-only processing: data that does not need to persist is never stored
+            in the first place. Alerts are ephemeral by design, analysis happens in
+            real time, and nothing is reconstructed from retained records.
           </p>
           <p>
-            Products that touch student records — like SkillVault — provision accounts
-            exclusively through district-controlled SIS integration or spreadsheet upload.
-            No student self-registers, and every credential is teacher- or mentor-granted.
-            Employee-facing tools like Signet contain no student data at all.
+            In education deployments this means COPPA and FERPA compliance by
+            construction — accounts provisioned exclusively through
+            organization-controlled rosters, never self-registration. The same posture
+            carries to our workforce and HR products, where employee records stay
+            scoped to the organization that owns them. Whatever the industry, the
+            principle holds: the safest data is the data we never keep.
           </p>
         </div>
       </section>
