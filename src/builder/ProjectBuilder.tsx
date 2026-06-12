@@ -1,5 +1,5 @@
-import {useEffect, useMemo, useState} from 'react';
-import type {ElementType, FormEvent} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
+import type {FormEvent, KeyboardEvent} from 'react';
 import {AnimatePresence, motion} from 'motion/react';
 import {
   ArrowLeft,
@@ -23,43 +23,78 @@ import {
 } from 'lucide-react';
 import {PulseEmblem} from '../portfolio/components/PulseEmblem';
 import {
-  CAPABILITIES,
   COMPILE_LINES,
-  EMPTY_SELECTIONS,
-  ENGINES,
-  INTEGRATIONS,
+  EMPTY_ANSWERS,
   NEUTRAL_THEME,
-  PERSONAS,
-  THEMES,
-  VERTICALS,
-  type CapabilityId,
-  type EngineId,
-  type IntegrationId,
-  type PersonaId,
-  type Selections,
+  PALETTES,
+  QUESTIONS,
+  type Answers,
+  type Blueprint,
   type Theme,
-  type VerticalId,
+  type WidgetId,
 } from './data';
+import {imagineApp, type SketchSource} from './imagine';
 
 const WEB3FORMS_KEY = '32c86377-fb57-4110-a513-67fd523cf413';
 
-type Phase = 'wizard' | 'compiling' | 'capture' | 'done';
+type Phase = 'intro' | 'interview' | 'compiling' | 'capture' | 'done';
 type Device = 'mobile' | 'desktop';
-
-const STEP_LABELS = ['Vertical', 'Persona', 'Engine', 'Capabilities', 'Integrations'];
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Master component
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function ProjectBuilder() {
-  const [sel, setSel] = useState<Selections>(EMPTY_SELECTIONS);
-  const [step, setStep] = useState(0);
-  const [phase, setPhase] = useState<Phase>('wizard');
+  const [phase, setPhase] = useState<Phase>('intro');
+  const [answers, setAnswers] = useState<Answers>(EMPTY_ANSWERS);
+  const [qIndex, setQIndex] = useState(0);
   const [device, setDevice] = useState<Device>('desktop');
+  const [blueprint, setBlueprint] = useState<Blueprint | null>(null);
+  const [source, setSource] = useState<SketchSource | null>(null);
+  const [imagining, setImagining] = useState(false);
 
-  const theme = sel.vertical ? THEMES[sel.vertical] : NEUTRAL_THEME;
-  const wizardComplete = step === 4 && sel.vertical && sel.persona && sel.engine;
+  const seqRef = useRef(0);
+  const abortRef = useRef<AbortController | null>(null);
+  const lastPayloadRef = useRef('');
+
+  const theme = blueprint ? PALETTES[blueprint.palette] : NEUTRAL_THEME;
+
+  const runImagine = useCallback(async (current: Answers, force = false) => {
+    const payload = JSON.stringify(current);
+    if (!force && payload === lastPayloadRef.current) return;
+    if (!Object.values(current).some((a) => a.trim().length >= 16)) return;
+    lastPayloadRef.current = payload;
+
+    const seq = ++seqRef.current;
+    abortRef.current?.abort();
+    const ctrl = new AbortController();
+    abortRef.current = ctrl;
+    setImagining(true);
+    try {
+      const result = await imagineApp(current, ctrl.signal);
+      if (seq === seqRef.current) {
+        setBlueprint(result.blueprint);
+        setSource(result.source);
+      }
+    } catch {
+      // aborted — a fresher imagination is already underway
+    } finally {
+      if (seq === seqRef.current) setImagining(false);
+    }
+  }, []);
+
+  // Live re-imagining while the visitor writes (debounced)
+  useEffect(() => {
+    if (phase !== 'interview') return;
+    const t = setTimeout(() => runImagine(answers), 1400);
+    return () => clearTimeout(t);
+  }, [answers, phase, runImagine]);
+
+  const advance = () => {
+    runImagine(answers);
+    if (qIndex < QUESTIONS.length - 1) setQIndex(qIndex + 1);
+    else setPhase('compiling');
+  };
 
   return (
     <div className="min-h-svh bg-slate-950 text-slate-100 selection:bg-indigo-500 selection:text-white font-sans">
@@ -89,107 +124,42 @@ export default function ProjectBuilder() {
 
       <main className="max-w-[100rem] mx-auto px-6 md:px-10 py-10 md:py-16">
         <div className="mb-10 md:mb-14 max-w-2xl">
-          <p className={`text-[11px] font-bold uppercase tracking-[0.3em] mb-4 ${theme.text}`}>
-            Build your app in 60 seconds
+          <p className={`text-[11px] font-bold uppercase tracking-[0.3em] mb-4 ${blueprint ? theme.text : 'text-violet-400'}`}>
+            A simple planning tool
           </p>
           <h1 className="font-serif font-light text-4xl md:text-6xl leading-[1.02] mb-4">
-            Design it. Watch it <span className={`italic ${theme.text}`}>come alive.</span>
+            Describe it. Watch it <span className={`italic ${blueprint ? theme.text : 'text-violet-400'}`}>take shape.</span>
           </h1>
           <p className="text-slate-400 leading-relaxed">
-            Five quick choices — no forms, no jargon. The live canvas on the right builds
-            your app in real time as you decide.
+            Five questions in plain language — no menus, no jargon. As you write, the
+            canvas imagines your app in real time. When you finish, your specs are saved
+            and we&rsquo;ll reach out by email to discuss possibilities and development costs.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-16 items-start">
-          {/* ── Left: the wizard ── */}
-          <section aria-label="Project wizard">
-            {phase === 'wizard' && (
-              <>
-                <StepIndicator step={step} theme={theme} onJump={(i) => i < step && setStep(i)} />
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={step}
-                    initial={{opacity: 0, x: 24}}
-                    animate={{opacity: 1, x: 0}}
-                    exit={{opacity: 0, x: -24}}
-                    transition={{duration: 0.3, ease: 'easeOut'}}
-                  >
-                    <WizardStep
-                      step={step}
-                      sel={sel}
-                      theme={theme}
-                      onSelect={(next, autoAdvance) => {
-                        setSel(next);
-                        if (autoAdvance) setTimeout(() => setStep((s) => Math.min(s + 1, 4)), 320);
-                      }}
-                    />
-                  </motion.div>
-                </AnimatePresence>
+          {/* ── Left: the conversation ── */}
+          <section aria-label="Project interview">
+            {phase === 'intro' && <Intro onStart={() => setPhase('interview')} />}
 
-                <div className="mt-8 flex items-center justify-between">
-                  <button
-                    type="button"
-                    onClick={() => setStep((s) => Math.max(s - 1, 0))}
-                    disabled={step === 0}
-                    className="inline-flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
-                  >
-                    <ArrowLeft className="w-4 h-4" /> Back
-                  </button>
-                  {step >= 3 && step < 4 && (
-                    <button
-                      type="button"
-                      onClick={() => setStep(4)}
-                      className={`inline-flex items-center gap-2 ${theme.bg} text-white px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity cursor-pointer`}
-                    >
-                      Continue <ArrowRight className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
-
-                {/* The Hero Build Sequence trigger */}
-                <AnimatePresence>
-                  {wizardComplete && (
-                    <motion.div
-                      initial={{opacity: 0, y: 24, scale: 0.96}}
-                      animate={{opacity: 1, y: 0, scale: 1}}
-                      exit={{opacity: 0}}
-                      transition={{duration: 0.45, ease: 'easeOut'}}
-                      className="mt-10"
-                    >
-                      <motion.button
-                        type="button"
-                        onClick={() => setPhase('compiling')}
-                        animate={{
-                          boxShadow: [
-                            '0 0 24px rgba(129,140,248,0.35)',
-                            '0 0 56px rgba(167,139,250,0.65)',
-                            '0 0 24px rgba(129,140,248,0.35)',
-                          ],
-                        }}
-                        transition={{duration: 2.2, repeat: Infinity, ease: 'easeInOut'}}
-                        whileHover={{scale: 1.02}}
-                        whileTap={{scale: 0.98}}
-                        className="w-full bg-gradient-to-r from-indigo-500 via-violet-500 to-indigo-500 bg-[length:200%_100%] text-white rounded-2xl px-8 py-6 text-lg font-bold tracking-wide flex items-center justify-center gap-3 cursor-pointer"
-                      >
-                        <Cpu className="w-6 h-6" />
-                        Construct &amp; Compile App Blueprint
-                        <Zap className="w-5 h-5" />
-                      </motion.button>
-                      <p className="mt-3 text-center text-xs text-slate-500">
-                        Generates a technical blueprint from your exact selections.
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </>
+            {phase === 'interview' && (
+              <Interview
+                answers={answers}
+                qIndex={qIndex}
+                theme={theme}
+                onChange={(next) => setAnswers(next)}
+                onBack={() => setQIndex(Math.max(0, qIndex - 1))}
+                onAdvance={advance}
+              />
             )}
 
             {phase === 'compiling' && <CompileSequence onDone={() => setPhase('capture')} />}
 
             {(phase === 'capture' || phase === 'done') && (
               <LeadCapture
-                sel={sel}
+                answers={answers}
+                blueprint={blueprint}
+                source={source}
                 theme={theme}
                 done={phase === 'done'}
                 onDone={() => setPhase('done')}
@@ -199,36 +169,97 @@ export default function ProjectBuilder() {
 
           {/* ── Right: the live canvas ── */}
           <section className="lg:sticky lg:top-10" aria-label="Live app preview">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-4 gap-3">
               <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-slate-500">
                 Live Canvas
               </p>
-              <div className="inline-flex rounded-full border border-white/10 p-1 bg-slate-900">
-                {(['desktop', 'mobile'] as Device[]).map((d) => (
-                  <button
-                    key={d}
-                    type="button"
-                    onClick={() => setDevice(d)}
-                    aria-pressed={device === d}
-                    className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-colors cursor-pointer ${
-                      device === d ? `${theme.bg} text-white` : 'text-slate-400 hover:text-white'
-                    }`}
-                  >
-                    {d === 'desktop' ? <Monitor className="w-3.5 h-3.5" /> : <Smartphone className="w-3.5 h-3.5" />}
-                    {d === 'desktop' ? 'Desktop' : 'Mobile'}
-                  </button>
-                ))}
+              <div className="flex items-center gap-3">
+                <AnimatePresence mode="wait">
+                  {imagining ? (
+                    <motion.span
+                      key="imagining"
+                      initial={{opacity: 0}}
+                      animate={{opacity: 1}}
+                      exit={{opacity: 0}}
+                      className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-violet-300"
+                    >
+                      <Loader2 className="w-3 h-3 animate-spin" /> Imagining…
+                    </motion.span>
+                  ) : source ? (
+                    <motion.span
+                      key={source}
+                      initial={{opacity: 0}}
+                      animate={{opacity: 1}}
+                      exit={{opacity: 0}}
+                      className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500"
+                    >
+                      <Sparkles className="w-3 h-3" />
+                      {source === 'gemini' ? 'Imagined by Gemini' : 'Studio sketch'}
+                    </motion.span>
+                  ) : null}
+                </AnimatePresence>
+                <div className="inline-flex rounded-full border border-white/10 p-1 bg-slate-900">
+                  {(['desktop', 'mobile'] as Device[]).map((d) => (
+                    <button
+                      key={d}
+                      type="button"
+                      onClick={() => setDevice(d)}
+                      aria-pressed={device === d}
+                      className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-colors cursor-pointer ${
+                        device === d ? `${theme.bg} text-white` : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      {d === 'desktop' ? <Monitor className="w-3.5 h-3.5" /> : <Smartphone className="w-3.5 h-3.5" />}
+                      {d === 'desktop' ? 'Desktop' : 'Mobile'}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 
             <motion.div
+              className="relative"
               animate={phase === 'compiling' ? {scale: [1, 1.015, 1]} : {scale: 1}}
               transition={
                 phase === 'compiling' ? {duration: 0.7, repeat: Infinity, ease: 'easeInOut'} : {}
               }
             >
-              <DeviceMockup sel={sel} theme={theme} device={device} />
+              <DeviceMockup blueprint={blueprint} theme={theme} device={device} />
+              {/* Imagination shimmer */}
+              <AnimatePresence>
+                {imagining && (
+                  <motion.div
+                    initial={{opacity: 0}}
+                    animate={{opacity: 1}}
+                    exit={{opacity: 0}}
+                    className="pointer-events-none absolute inset-0 rounded-2xl overflow-hidden"
+                  >
+                    <motion.div
+                      animate={{x: ['-100%', '160%']}}
+                      transition={{duration: 1.4, repeat: Infinity, ease: 'easeInOut'}}
+                      className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-violet-400/10 to-transparent"
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
+
+            {/* Concept summary under the canvas */}
+            <AnimatePresence>
+              {blueprint?.summary && phase !== 'intro' && (
+                <motion.div
+                  initial={{opacity: 0, y: 12}}
+                  animate={{opacity: 1, y: 0}}
+                  exit={{opacity: 0}}
+                  className={`mt-5 rounded-2xl border ${theme.border} ${theme.softBg} p-5`}
+                >
+                  <p className={`text-[10px] font-bold uppercase tracking-[0.25em] ${theme.text} mb-2`}>
+                    {blueprint.appName} — concept read
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">{blueprint.summary}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </section>
         </div>
       </main>
@@ -237,277 +268,198 @@ export default function ProjectBuilder() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Step indicator
+// Intro — what this is, before anything else
 // ─────────────────────────────────────────────────────────────────────────────
 
-function StepIndicator({
-  step,
-  theme,
-  onJump,
-}: {
-  step: number;
-  theme: Theme;
-  onJump: (i: number) => void;
-}) {
+function Intro({onStart}: {onStart: () => void}) {
+  const points: {icon: typeof PenLine; text: string}[] = [
+    {
+      icon: PenLine,
+      text: 'Answer five plain-language questions about the app you’re imagining — any kind of application, for any audience.',
+    },
+    {
+      icon: Sparkles,
+      text: 'As you write, a live concept sketch takes shape on the canvas, imagined in as close to real time as we can manage.',
+    },
+    {
+      icon: Mail,
+      text: 'When you finish, your specs — your own words plus the generated blueprint — are saved, and Pulse Pedagogies will reach out by email to discuss possibilities and development costs.',
+    },
+  ];
+
   return (
-    <ol className="flex items-center gap-2 mb-8" aria-label="Wizard progress">
-      {STEP_LABELS.map((label, i) => (
-        <li key={label} className="flex items-center gap-2 flex-1 last:flex-none">
+    <motion.div
+      initial={{opacity: 0, y: 20}}
+      animate={{opacity: 1, y: 0}}
+      transition={{duration: 0.45}}
+      className="rounded-3xl border border-white/10 bg-slate-900 p-8 md:p-10"
+    >
+      <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/15 text-violet-300 text-[10px] font-bold uppercase tracking-[0.2em] mb-6">
+        <Sparkles className="w-3 h-3" /> Before we begin
+      </p>
+      <h2 className="font-serif font-light text-3xl md:text-4xl mb-4">
+        This is a planning tool — <span className="italic text-violet-400">not a commitment.</span>
+      </h2>
+      <p className="text-slate-400 leading-relaxed mb-8">
+        Think of it as the first sketch on a napkin, with better handwriting. Here&rsquo;s
+        exactly how it works:
+      </p>
+
+      <ul className="space-y-5 mb-10">
+        {points.map(({icon: Icon, text}) => (
+          <li key={text} className="flex gap-4">
+            <span className="shrink-0 w-10 h-10 rounded-xl bg-slate-800 text-violet-300 flex items-center justify-center">
+              <Icon className="w-4.5 h-4.5" />
+            </span>
+            <p className="text-sm text-slate-300 leading-relaxed">{text}</p>
+          </li>
+        ))}
+      </ul>
+
+      <button
+        type="button"
+        onClick={onStart}
+        className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-2xl px-8 py-5 text-lg font-bold tracking-wide flex items-center justify-center gap-3 hover:opacity-90 transition-opacity cursor-pointer"
+      >
+        Start imagining <ArrowRight className="w-5 h-5" />
+      </button>
+      <p className="mt-3 text-center text-xs text-slate-500">
+        No payment, no obligation — just a clearer picture of what we&rsquo;d build together.
+      </p>
+    </motion.div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// The narrative interview
+// ─────────────────────────────────────────────────────────────────────────────
+
+function Interview({
+  answers,
+  qIndex,
+  theme,
+  onChange,
+  onBack,
+  onAdvance,
+}: {
+  answers: Answers;
+  qIndex: number;
+  theme: Theme;
+  onChange: (next: Answers) => void;
+  onBack: () => void;
+  onAdvance: () => void;
+}) {
+  const q = QUESTIONS[qIndex];
+  const value = answers[q.id];
+  const isLast = qIndex === QUESTIONS.length - 1;
+  const canAdvance = q.optional || value.trim().length >= 10;
+
+  const keyAdvance = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter' && canAdvance) {
+      e.preventDefault();
+      onAdvance();
+    }
+  };
+
+  return (
+    <div>
+      {/* Progress chips */}
+      <ol className="flex items-center gap-2 mb-8 flex-wrap" aria-label="Interview progress">
+        {QUESTIONS.map((question, i) => (
+          <li key={question.id} className="flex items-center gap-2">
+            <span
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.15em] transition-colors ${
+                i < qIndex
+                  ? `${theme.softBg} ${theme.text}`
+                  : i === qIndex
+                    ? 'bg-white/10 text-white ring-1 ring-white/20'
+                    : 'bg-slate-900 text-slate-600'
+              }`}
+              aria-current={i === qIndex ? 'step' : undefined}
+            >
+              {i < qIndex && <Check className="w-3 h-3" />}
+              {question.label}
+            </span>
+          </li>
+        ))}
+      </ol>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={q.id}
+          initial={{opacity: 0, x: 24}}
+          animate={{opacity: 1, x: 0}}
+          exit={{opacity: 0, x: -24}}
+          transition={{duration: 0.3, ease: 'easeOut'}}
+        >
+          <h2 className="font-serif font-light text-3xl md:text-4xl mb-3">{q.prompt}</h2>
+          <p className="text-slate-400 text-sm leading-relaxed mb-6">{q.helper}</p>
+
+          <textarea
+            value={value}
+            onChange={(e) => onChange({...answers, [q.id]: e.target.value})}
+            onKeyDown={keyAdvance}
+            placeholder={q.placeholder}
+            rows={6}
+            autoFocus
+            className="w-full px-5 py-4 rounded-2xl bg-slate-900 border border-white/10 focus:outline-none focus:border-violet-400 transition-colors text-[15px] leading-relaxed resize-none placeholder:text-slate-600"
+          />
+          <p className="mt-2 text-xs text-slate-600">
+            {q.optional
+              ? 'Optional — skip if you’re not sure.'
+              : 'A sentence is enough. A paragraph is better.'}
+            <span className="hidden md:inline"> Ctrl+Enter to continue.</span>
+          </p>
+        </motion.div>
+      </AnimatePresence>
+
+      <div className="mt-8 flex items-center justify-between">
+        <button
+          type="button"
+          onClick={onBack}
+          disabled={qIndex === 0}
+          className="inline-flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+        >
+          <ArrowLeft className="w-4 h-4" /> Back
+        </button>
+
+        {isLast ? (
+          <motion.button
+            type="button"
+            onClick={onAdvance}
+            disabled={!canAdvance}
+            animate={
+              canAdvance
+                ? {
+                    boxShadow: [
+                      '0 0 24px rgba(129,140,248,0.35)',
+                      '0 0 56px rgba(167,139,250,0.65)',
+                      '0 0 24px rgba(129,140,248,0.35)',
+                    ],
+                  }
+                : {}
+            }
+            transition={{duration: 2.2, repeat: Infinity, ease: 'easeInOut'}}
+            whileHover={canAdvance ? {scale: 1.02} : {}}
+            whileTap={canAdvance ? {scale: 0.98} : {}}
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-indigo-500 via-violet-500 to-indigo-500 bg-[length:200%_100%] text-white rounded-2xl px-7 py-4 text-base font-bold tracking-wide disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+          >
+            <Cpu className="w-5 h-5" />
+            Compile the Concept Blueprint
+            <Zap className="w-4 h-4" />
+          </motion.button>
+        ) : (
           <button
             type="button"
-            onClick={() => onJump(i)}
-            className={`flex items-center gap-2 ${i < step ? 'cursor-pointer' : 'cursor-default'}`}
-            aria-current={i === step ? 'step' : undefined}
+            onClick={onAdvance}
+            disabled={!canAdvance}
+            className={`inline-flex items-center gap-2 ${theme.bg} text-white px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer`}
           >
-            <span
-              className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold transition-colors ${
-                i < step
-                  ? `${theme.bg} text-white`
-                  : i === step
-                    ? `${theme.softBg} ${theme.text} ring-1 ${theme.ring}`
-                    : 'bg-slate-800 text-slate-500'
-              }`}
-            >
-              {i < step ? <Check className="w-3.5 h-3.5" /> : i + 1}
-            </span>
-            <span
-              className={`hidden xl:block text-[10px] font-bold uppercase tracking-[0.15em] ${
-                i === step ? 'text-white' : 'text-slate-500'
-              }`}
-            >
-              {label}
-            </span>
+            {q.optional && !value.trim() ? 'Skip' : 'Continue'} <ArrowRight className="w-4 h-4" />
           </button>
-          {i < STEP_LABELS.length - 1 && <span className="h-px flex-1 bg-slate-800" />}
-        </li>
-      ))}
-    </ol>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Wizard steps
-// ─────────────────────────────────────────────────────────────────────────────
-
-function WizardStep({
-  step,
-  sel,
-  theme,
-  onSelect,
-}: {
-  step: number;
-  sel: Selections;
-  theme: Theme;
-  onSelect: (next: Selections, autoAdvance: boolean) => void;
-}) {
-  const personas = useMemo(
-    () => PERSONAS.filter((p) => !sel.vertical || p.verticals.includes(sel.vertical)),
-    [sel.vertical],
-  );
-  const engines = useMemo(
-    () => ENGINES.filter((e) => !sel.vertical || e.verticals.includes(sel.vertical)),
-    [sel.vertical],
-  );
-
-  const heading = (title: string, sub: string) => (
-    <div className="mb-6">
-      <h2 className="font-serif font-light text-3xl md:text-4xl mb-2">{title}</h2>
-      <p className="text-slate-400 text-sm">{sub}</p>
-    </div>
-  );
-
-  switch (step) {
-    case 0:
-      return (
-        <div>
-          {heading('Who is this for?', 'Your vertical sets the theme, branding, and defaults.')}
-          <div className="grid sm:grid-cols-3 gap-4">
-            {VERTICALS.map((v) => (
-              <ChoiceCard
-                key={v.id}
-                icon={v.icon}
-                label={v.label}
-                blurb={v.blurb}
-                theme={THEMES[v.id]}
-                selected={sel.vertical === v.id}
-                onClick={() =>
-                  onSelect(
-                    {...EMPTY_SELECTIONS, vertical: v.id as VerticalId},
-                    true,
-                  )
-                }
-              />
-            ))}
-          </div>
-        </div>
-      );
-    case 1:
-      return (
-        <div>
-          {heading('Who opens it every day?', 'The dashboard reshapes itself around your primary user.')}
-          <div className="grid sm:grid-cols-2 gap-4">
-            {personas.map((p) => (
-              <ChoiceCard
-                key={p.id}
-                icon={p.icon}
-                label={p.label}
-                blurb={p.blurb}
-                theme={theme}
-                selected={sel.persona === p.id}
-                onClick={() => onSelect({...sel, persona: p.id as PersonaId}, true)}
-              />
-            ))}
-          </div>
-        </div>
-      );
-    case 2:
-      return (
-        <div>
-          {heading('Pick the core engine', 'This defines the main navigation and primary workflow.')}
-          <div className="grid sm:grid-cols-2 gap-4">
-            {engines.map((e) => (
-              <ChoiceCard
-                key={e.id}
-                icon={e.icon}
-                label={e.label}
-                blurb={e.blurb}
-                theme={theme}
-                selected={sel.engine === e.id}
-                onClick={() => onSelect({...sel, engine: e.id as EngineId}, true)}
-              />
-            ))}
-          </div>
-        </div>
-      );
-    case 3:
-      return (
-        <div>
-          {heading('Layer in capabilities', 'Select as many as you like — watch them appear live.')}
-          <div className="grid sm:grid-cols-2 gap-4">
-            {CAPABILITIES.map((c) => {
-              const active = sel.capabilities.includes(c.id);
-              return (
-                <ChoiceCard
-                  key={c.id}
-                  icon={c.icon}
-                  label={c.label}
-                  blurb={c.blurb}
-                  theme={theme}
-                  selected={active}
-                  multi
-                  onClick={() =>
-                    onSelect(
-                      {
-                        ...sel,
-                        capabilities: active
-                          ? sel.capabilities.filter((x) => x !== c.id)
-                          : [...sel.capabilities, c.id as CapabilityId],
-                      },
-                      false,
-                    )
-                  }
-                />
-              );
-            })}
-          </div>
-        </div>
-      );
-    case 4:
-      return (
-        <div>
-          {heading('Connect your stack', 'Enterprise integrations your tools already speak.')}
-          <div className="grid sm:grid-cols-2 gap-4">
-            {INTEGRATIONS.map((i) => {
-              const active = sel.integrations.includes(i.id);
-              return (
-                <ChoiceCard
-                  key={i.id}
-                  icon={i.icon}
-                  label={i.label}
-                  blurb={`Sync with ${i.label}`}
-                  theme={theme}
-                  selected={active}
-                  multi
-                  onClick={() =>
-                    onSelect(
-                      {
-                        ...sel,
-                        integrations: active
-                          ? sel.integrations.filter((x) => x !== i.id)
-                          : [...sel.integrations, i.id as IntegrationId],
-                      },
-                      false,
-                    )
-                  }
-                />
-              );
-            })}
-          </div>
-        </div>
-      );
-    default:
-      return null;
-  }
-}
-
-function ChoiceCard({
-  icon: Icon,
-  label,
-  blurb,
-  theme,
-  selected,
-  multi = false,
-  onClick,
-}: {
-  /* `key` is consumed by React, but this project's transitive react types
-     lack JSX.IntrinsicAttributes, so it must be declared to satisfy tsc */
-  key?: string;
-  icon: ElementType;
-  label: string;
-  blurb: string;
-  theme: Theme;
-  selected: boolean;
-  multi?: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <motion.button
-      type="button"
-      onClick={onClick}
-      whileHover={{y: -3}}
-      whileTap={{scale: 0.98}}
-      aria-pressed={selected}
-      className={`relative text-left rounded-2xl border p-5 md:p-6 transition-colors cursor-pointer ${
-        selected
-          ? `${theme.softBg} ${theme.border} ${theme.glow}`
-          : 'bg-slate-900 border-white/10 hover:border-white/25'
-      }`}
-    >
-      <span
-        className={`inline-flex w-11 h-11 rounded-xl items-center justify-center mb-4 ${
-          selected ? `${theme.bg} text-white` : 'bg-slate-800 text-slate-300'
-        }`}
-      >
-        <Icon className="w-5 h-5" />
-      </span>
-      <span className="block font-semibold mb-1">{label}</span>
-      <span className="block text-sm text-slate-400 leading-snug">{blurb}</span>
-      <AnimatePresence>
-        {selected && (
-          <motion.span
-            initial={{scale: 0}}
-            animate={{scale: 1}}
-            exit={{scale: 0}}
-            className={`absolute top-4 right-4 w-6 h-6 rounded-full ${theme.bg} text-white flex items-center justify-center`}
-          >
-            <Check className="w-3.5 h-3.5" />
-          </motion.span>
         )}
-      </AnimatePresence>
-      {multi && !selected && (
-        <span className="absolute top-4 right-4 w-6 h-6 rounded-full border border-white/15" />
-      )}
-    </motion.button>
+      </div>
+    </div>
   );
 }
 
@@ -573,12 +525,16 @@ function CompileSequence({onDone}: {onDone: () => void}) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function LeadCapture({
-  sel,
+  answers,
+  blueprint,
+  source,
   theme,
   done,
   onDone,
 }: {
-  sel: Selections;
+  answers: Answers;
+  blueprint: Blueprint | null;
+  source: SketchSource | null;
   theme: Theme;
   done: boolean;
   onDone: () => void;
@@ -586,17 +542,6 @@ function LeadCapture({
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'sending' | 'error'>('idle');
-
-  const blueprint = useMemo(() => {
-    const v = VERTICALS.find((x) => x.id === sel.vertical)?.label ?? '—';
-    const p = PERSONAS.find((x) => x.id === sel.persona)?.label ?? '—';
-    const e = ENGINES.find((x) => x.id === sel.engine)?.label ?? '—';
-    const caps =
-      sel.capabilities.map((c) => CAPABILITIES.find((x) => x.id === c)?.label).join(', ') || 'None';
-    const ints =
-      sel.integrations.map((i) => INTEGRATIONS.find((x) => x.id === i)?.label).join(', ') || 'None';
-    return {v, p, e, caps, ints};
-  }, [sel]);
 
   const submit = async (ev: FormEvent) => {
     ev.preventDefault();
@@ -607,15 +552,19 @@ function LeadCapture({
         headers: {'Content-Type': 'application/json', Accept: 'application/json'},
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
-          subject: `App Blueprint — ${name || email}`,
+          subject: `App Concept — ${blueprint?.appName ?? 'Untitled'} (${name || email})`,
           name: name || 'Not provided',
           email,
-          'Industry Vertical': blueprint.v,
-          'Primary Persona': blueprint.p,
-          'Core Engine': blueprint.e,
-          'Capabilities': blueprint.caps,
-          'Integrations': blueprint.ints,
-          message: 'Project Builder blueprint submission from pulsepedagogies.com/builder',
+          'Concept Name': blueprint?.appName ?? '—',
+          'Concept Summary': blueprint?.summary || blueprint?.tagline || '—',
+          'The Idea': answers.vision || '—',
+          'The People': answers.people || '—',
+          'The Moment': answers.moment || '—',
+          'The Magic': answers.magic || '—',
+          'The Fit (systems & constraints)': answers.connections || '—',
+          'Generated Blueprint (JSON)': blueprint ? JSON.stringify(blueprint) : '—',
+          'Sketch Source': source === 'gemini' ? 'Google Gemini' : 'Local studio sketch',
+          message: 'Project Builder narrative submission from pulsepedagogies.com/builder',
         }),
       });
       const json = await res.json();
@@ -634,10 +583,10 @@ function LeadCapture({
         className="rounded-3xl border border-white/10 bg-slate-900 p-10 text-center"
       >
         <CircleCheckBig className={`w-14 h-14 mx-auto mb-6 ${theme.text}`} />
-        <h2 className="font-serif font-light text-3xl mb-3">Blueprint received.</h2>
+        <h2 className="font-serif font-light text-3xl mb-3">Blueprint saved.</h2>
         <p className="text-slate-400 leading-relaxed max-w-sm mx-auto mb-8">
-          Your configuration is in our engineering queue. We&rsquo;ll reach out within one
-          business day to schedule your discovery call.
+          Your answers and the concept sketch are in our queue. We&rsquo;ll reach out by
+          email to discuss possibilities, timelines, and development costs.
         </p>
         <a
           href="/"
@@ -655,17 +604,17 @@ function LeadCapture({
       <div className={`rounded-2xl border ${theme.border} ${theme.softBg} p-6 mb-6 flex gap-4`}>
         <ShieldCheck className={`w-6 h-6 shrink-0 ${theme.text}`} />
         <p className="text-sm leading-relaxed text-slate-200">
-          Your exact design selections, feature configurations, and mockup architecture
-          have been securely packaged. Our engineering team is reviewing these technical
-          specifications right now so we can hit the ground running on our discovery
-          call. <span className="font-semibold">Your time is fully preserved.</span>
+          Your blueprint — your answers in your own words, plus the concept sketch we
+          imagined together — has been packaged with this inquiry. Send it, and we&rsquo;ll
+          review it and reach out by email to discuss possibilities, timelines, and
+          development costs. <span className="font-semibold">Your time is fully preserved.</span>
         </p>
       </div>
 
       <form onSubmit={submit} className="rounded-3xl border border-white/10 bg-slate-900 p-8 md:p-10">
-        <h2 className="font-serif font-light text-3xl mb-2">Where should we send it?</h2>
+        <h2 className="font-serif font-light text-3xl mb-2">Where should we follow up?</h2>
         <p className="text-slate-400 text-sm mb-8">
-          Drop your email and the blueprint — plus next steps — lands in your inbox.
+          Drop your email and your saved blueprint — plus next steps — lands in your inbox.
         </p>
 
         <div className="space-y-4 mb-6">
@@ -699,11 +648,12 @@ function LeadCapture({
 
         {/* Blueprint summary */}
         <div className="rounded-xl bg-slate-950 border border-white/5 p-4 mb-6 text-xs text-slate-400 space-y-1">
-          <p><span className="text-slate-500">Vertical:</span> {blueprint.v}</p>
-          <p><span className="text-slate-500">Persona:</span> {blueprint.p}</p>
-          <p><span className="text-slate-500">Engine:</span> {blueprint.e}</p>
-          <p><span className="text-slate-500">Capabilities:</span> {blueprint.caps}</p>
-          <p><span className="text-slate-500">Integrations:</span> {blueprint.ints}</p>
+          <p><span className="text-slate-500">Working title:</span> {blueprint?.appName ?? '—'}</p>
+          <p><span className="text-slate-500">Concept:</span> {blueprint?.tagline ?? '—'}</p>
+          <p>
+            <span className="text-slate-500">Includes:</span>{' '}
+            Your five answers, verbatim, plus the generated screen blueprint.
+          </p>
         </div>
 
         {status === 'error' && (
@@ -719,11 +669,11 @@ function LeadCapture({
         >
           {status === 'sending' ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin" /> Sending…
+              <Loader2 className="w-4 h-4 animate-spin" /> Saving…
             </>
           ) : (
             <>
-              <Mail className="w-4 h-4" /> Send my blueprint
+              <Mail className="w-4 h-4" /> Save my blueprint
             </>
           )}
         </button>
@@ -736,25 +686,28 @@ function LeadCapture({
 // Device mockup (the live canvas)
 // ─────────────────────────────────────────────────────────────────────────────
 
-function DeviceMockup({sel, theme, device}: {sel: Selections; theme: Theme; device: Device}) {
-  const vertical = VERTICALS.find((v) => v.id === sel.vertical);
-  const persona = PERSONAS.find((p) => p.id === sel.persona);
-  const engine = ENGINES.find((e) => e.id === sel.engine);
-
-  if (!vertical) {
+function DeviceMockup({
+  blueprint,
+  theme,
+  device,
+}: {
+  blueprint: Blueprint | null;
+  theme: Theme;
+  device: Device;
+}) {
+  if (!blueprint) {
     return (
       <div className="rounded-[28px] border-2 border-dashed border-white/10 min-h-[460px] flex flex-col items-center justify-center text-center p-10">
         <Sparkles className="w-8 h-8 text-slate-600 mb-4" />
         <p className="text-slate-500 max-w-xs leading-relaxed">
-          Your live app preview appears here. Pick a vertical to lay the foundation.
+          Your concept sketch appears here. Start describing your app — the canvas draws
+          while you write.
         </p>
       </div>
     );
   }
 
-  const screen = (
-    <MockScreen sel={sel} theme={theme} device={device} vertical={vertical} persona={persona} engine={engine} />
-  );
+  const screen = <MockScreen blueprint={blueprint} theme={theme} device={device} />;
 
   if (device === 'mobile') {
     return (
@@ -780,7 +733,7 @@ function DeviceMockup({sel, theme, device}: {sel: Selections; theme: Theme; devi
         <span className="w-2.5 h-2.5 rounded-full bg-amber-400/70" />
         <span className="w-2.5 h-2.5 rounded-full bg-emerald-400/70" />
         <span className="ml-3 flex-1 max-w-xs px-3 py-1 rounded-md bg-slate-800 text-[10px] text-slate-400 truncate">
-          app.{vertical.brandName.toLowerCase()}.com
+          app.{blueprint.appName.toLowerCase().replace(/[^a-z0-9]/g, '')}.com
         </span>
       </div>
       <div className="h-[480px] relative overflow-hidden">{screen}</div>
@@ -789,22 +742,15 @@ function DeviceMockup({sel, theme, device}: {sel: Selections; theme: Theme; devi
 }
 
 function MockScreen({
-  sel,
+  blueprint,
   theme,
   device,
-  vertical,
-  persona,
-  engine,
 }: {
-  sel: Selections;
+  blueprint: Blueprint;
   theme: Theme;
   device: Device;
-  vertical: NonNullable<ReturnType<typeof VERTICALS.find>>;
-  persona?: ReturnType<typeof PERSONAS.find>;
-  engine?: ReturnType<typeof ENGINES.find>;
 }) {
-  const nav = engine?.nav ?? ['Home', '—', '—', '—'];
-  const has = (c: CapabilityId) => sel.capabilities.includes(c);
+  const has = (w: WidgetId) => blueprint.widgets.includes(w);
   const isMobile = device === 'mobile';
 
   return (
@@ -814,16 +760,16 @@ function MockScreen({
         <aside className="w-44 shrink-0 border-r border-white/5 p-4 flex flex-col gap-1">
           <div className="flex items-center gap-2 mb-5">
             <motion.span
-              key={vertical.id}
+              key={blueprint.appName}
               initial={{scale: 0.6, opacity: 0}}
               animate={{scale: 1, opacity: 1}}
               className={`w-7 h-7 rounded-lg ${theme.gradient}`}
             />
-            <span className="text-xs font-bold truncate">{vertical.brandName}</span>
+            <span className="text-xs font-bold truncate">{blueprint.appName}</span>
           </div>
-          {nav.map((item, i) => (
+          {blueprint.nav.map((item, i) => (
             <motion.span
-              key={`${engine?.id ?? 'none'}-${item}`}
+              key={`${item}-${i}`}
               initial={{opacity: 0, x: -10}}
               animate={{opacity: 1, x: 0}}
               transition={{delay: i * 0.05}}
@@ -836,7 +782,7 @@ function MockScreen({
           ))}
           <div className="mt-auto">
             <AnimatePresence>
-              {sel.integrations.length > 0 && (
+              {blueprint.integrations.length > 0 && (
                 <motion.div
                   initial={{opacity: 0, y: 8}}
                   animate={{opacity: 1, y: 0}}
@@ -847,23 +793,20 @@ function MockScreen({
                     Integrated with
                   </p>
                   <div className="flex flex-wrap gap-1.5">
-                    {sel.integrations.map((id) => {
-                      const integ = INTEGRATIONS.find((x) => x.id === id)!;
-                      return (
-                        <motion.span
-                          key={id}
-                          layout
-                          initial={{scale: 0}}
-                          animate={{scale: 1}}
-                          className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-800 text-[9px] font-semibold text-slate-300"
-                        >
-                          <span className={`w-3.5 h-3.5 rounded-sm ${theme.gradient} text-[7px] text-white flex items-center justify-center font-bold`}>
-                            {integ.monogram[0]}
-                          </span>
-                          {integ.label}
-                        </motion.span>
-                      );
-                    })}
+                    {blueprint.integrations.map((label, i) => (
+                      <motion.span
+                        key={`${label}-${i}`}
+                        layout
+                        initial={{scale: 0}}
+                        animate={{scale: 1}}
+                        className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-800 text-[9px] font-semibold text-slate-300"
+                      >
+                        <span className={`w-3.5 h-3.5 rounded-sm ${theme.gradient} text-[7px] text-white flex items-center justify-center font-bold`}>
+                          {label[0]}
+                        </span>
+                        {label}
+                      </motion.span>
+                    ))}
                   </div>
                 </motion.div>
               )}
@@ -878,11 +821,16 @@ function MockScreen({
         <div className="flex items-center justify-between px-4 py-3 border-b border-white/5">
           {isMobile ? (
             <div className="flex items-center gap-2">
-              <motion.span key={vertical.id} initial={{scale: 0.6}} animate={{scale: 1}} className={`w-6 h-6 rounded-lg ${theme.gradient}`} />
-              <span className="text-xs font-bold">{vertical.brandName}</span>
+              <motion.span
+                key={blueprint.appName}
+                initial={{scale: 0.6}}
+                animate={{scale: 1}}
+                className={`w-6 h-6 rounded-lg ${theme.gradient}`}
+              />
+              <span className="text-xs font-bold">{blueprint.appName}</span>
             </div>
           ) : (
-            <span className="text-xs text-slate-500">{engine?.screenTitle ?? 'Dashboard'}</span>
+            <span className="text-xs text-slate-500">{blueprint.nav[0] ?? 'Dashboard'}</span>
           )}
           <div className="flex items-center gap-2">
             <AnimatePresence>
@@ -892,14 +840,14 @@ function MockScreen({
                   animate={{scale: 1, rotate: 0}}
                   exit={{scale: 0}}
                   className={`inline-flex items-center gap-1 px-2 py-1 rounded-full ${theme.softBg} ${theme.text} text-[9px] font-bold`}
-                  title="Biometric lock enabled"
+                  title="Secure access enabled"
                 >
                   <Fingerprint className="w-3 h-3" /> Secured
                 </motion.span>
               )}
             </AnimatePresence>
             <span className="w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center text-[10px] font-bold">
-              {persona ? persona.label[0] : '?'}
+              {blueprint.appName[0]}
             </span>
           </div>
         </div>
@@ -909,36 +857,32 @@ function MockScreen({
           {/* Welcome */}
           <AnimatePresence mode="wait">
             <motion.div
-              key={persona?.id ?? 'nopersona'}
+              key={blueprint.welcome}
               initial={{opacity: 0, y: 10}}
               animate={{opacity: 1, y: 0}}
               exit={{opacity: 0, y: -10}}
               transition={{duration: 0.3}}
             >
-              <h3 className="font-semibold text-base leading-tight">
-                {persona?.welcome ?? 'Welcome'}
-              </h3>
-              <p className="text-xs text-slate-500">{persona?.subtitle ?? 'Choose a persona to personalize this view.'}</p>
+              <h3 className="font-semibold text-base leading-tight">{blueprint.welcome}</h3>
+              <p className="text-xs text-slate-500">{blueprint.subtitle}</p>
             </motion.div>
           </AnimatePresence>
 
-          {/* Persona stats */}
-          {persona && (
-            <div className="grid grid-cols-3 gap-2">
-              {persona.stats.map((s, i) => (
-                <motion.div
-                  key={`${persona.id}-${s.label}`}
-                  initial={{opacity: 0, y: 12}}
-                  animate={{opacity: 1, y: 0}}
-                  transition={{delay: i * 0.07}}
-                  className="rounded-xl bg-slate-900 border border-white/5 p-3"
-                >
-                  <p className={`text-sm font-bold ${theme.text}`}>{s.value}</p>
-                  <p className="text-[9px] uppercase tracking-wider text-slate-500">{s.label}</p>
-                </motion.div>
-              ))}
-            </div>
-          )}
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-2">
+            {blueprint.stats.map((s, i) => (
+              <motion.div
+                key={`${s.label}-${i}`}
+                initial={{opacity: 0, y: 12}}
+                animate={{opacity: 1, y: 0}}
+                transition={{delay: i * 0.07}}
+                className="rounded-xl bg-slate-900 border border-white/5 p-3"
+              >
+                <p className={`text-sm font-bold ${theme.text}`}>{s.value}</p>
+                <p className="text-[9px] uppercase tracking-wider text-slate-500">{s.label}</p>
+              </motion.div>
+            ))}
+          </div>
 
           {/* Gamification badges */}
           <AnimatePresence>
@@ -964,19 +908,19 @@ function MockScreen({
             )}
           </AnimatePresence>
 
-          {/* Engine rows */}
+          {/* Work rows */}
           <AnimatePresence mode="wait">
             <motion.div
-              key={engine?.id ?? 'noengine'}
+              key={blueprint.rows.map((r) => r.title).join('|')}
               initial={{opacity: 0, y: 14}}
               animate={{opacity: 1, y: 0}}
               exit={{opacity: 0, y: -14}}
               transition={{duration: 0.3}}
               className="space-y-2"
             >
-              {(engine?.rows ?? []).map((r, i) => (
+              {blueprint.rows.map((r, i) => (
                 <motion.div
-                  key={r.title}
+                  key={`${r.title}-${i}`}
                   initial={{opacity: 0, x: 16}}
                   animate={{opacity: 1, x: 0}}
                   transition={{delay: i * 0.08}}
@@ -996,11 +940,6 @@ function MockScreen({
                   </div>
                 </motion.div>
               ))}
-              {!engine && (
-                <div className="rounded-xl border border-dashed border-white/10 p-4 text-center text-[11px] text-slate-600">
-                  Choose a core engine to lay out this screen.
-                </div>
-              )}
             </motion.div>
           </AnimatePresence>
 
@@ -1016,11 +955,7 @@ function MockScreen({
                 <p className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider ${theme.text} mb-1.5`}>
                   <Sparkles className="w-3 h-3" /> AI Insights
                 </p>
-                <p className="text-[11px] text-slate-300 leading-relaxed">
-                  {persona?.id === 'hrlead'
-                    ? 'Attrition risk is trending down 14% this quarter. Two teams need check-ins.'
-                    : 'Based on recent activity, tomorrow is your best focus window — two items can be finished early.'}
-                </p>
+                <p className="text-[11px] text-slate-300 leading-relaxed">{blueprint.insight}</p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -1041,7 +976,7 @@ function MockScreen({
                   </span>
                 </span>
                 <div>
-                  <p className="text-xs font-semibold">Office hours — Room A</p>
+                  <p className="text-xs font-semibold">Live session — Room A</p>
                   <p className="text-[9px] text-slate-500">14 watching now</p>
                 </div>
               </motion.div>
@@ -1067,21 +1002,18 @@ function MockScreen({
           </AnimatePresence>
 
           {/* Mobile integrations footer */}
-          {isMobile && sel.integrations.length > 0 && (
+          {isMobile && blueprint.integrations.length > 0 && (
             <div className="flex flex-wrap gap-1.5 pt-1">
-              {sel.integrations.map((id) => {
-                const integ = INTEGRATIONS.find((x) => x.id === id)!;
-                return (
-                  <motion.span
-                    key={id}
-                    initial={{scale: 0}}
-                    animate={{scale: 1}}
-                    className="px-2 py-1 rounded-full bg-slate-800 text-[9px] font-semibold text-slate-300"
-                  >
-                    {integ.label}
-                  </motion.span>
-                );
-              })}
+              {blueprint.integrations.map((label, i) => (
+                <motion.span
+                  key={`${label}-${i}`}
+                  initial={{scale: 0}}
+                  animate={{scale: 1}}
+                  className="px-2 py-1 rounded-full bg-slate-800 text-[9px] font-semibold text-slate-300"
+                >
+                  {label}
+                </motion.span>
+              ))}
             </div>
           )}
         </div>
@@ -1089,9 +1021,9 @@ function MockScreen({
         {/* Mobile bottom tab bar */}
         {isMobile && (
           <div className="border-t border-white/5 px-2 py-2 grid grid-cols-4 gap-1">
-            {nav.map((item, i) => (
+            {blueprint.nav.map((item, i) => (
               <motion.span
-                key={`${engine?.id ?? 'none'}-tab-${item}`}
+                key={`tab-${item}-${i}`}
                 initial={{opacity: 0, y: 6}}
                 animate={{opacity: 1, y: 0}}
                 transition={{delay: i * 0.05}}
@@ -1132,7 +1064,7 @@ function MockScreen({
               exit={{opacity: 0}}
               className="absolute bottom-16 left-3 inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-slate-900/90 border border-white/10 text-[9px] font-semibold text-slate-300"
             >
-              <Lock className="w-3 h-3" /> Unlocked via FaceID
+              <Lock className="w-3 h-3" /> Unlocked securely
             </motion.div>
           )}
         </AnimatePresence>

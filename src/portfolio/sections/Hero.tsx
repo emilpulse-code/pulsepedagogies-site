@@ -29,6 +29,24 @@ export function Hero({start, onOpenForm}: {start: boolean; onOpenForm: () => voi
     return () => ctx.revert();
   }, [start]);
 
+  // Scrubbed exit: hero copy drifts up and dims while the 3D field dives
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.to('.pp-hero-parallax', {
+          yPercent: -14,
+          opacity: 0.15,
+          ease: 'none',
+          scrollTrigger: {trigger: root, start: 'top top', end: 'bottom top', scrub: true},
+        });
+      });
+    }, rootRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
       ref={rootRef}
@@ -36,14 +54,14 @@ export function Hero({start, onOpenForm}: {start: boolean; onOpenForm: () => voi
       className="relative min-h-svh bg-brand-ink text-brand-paper overflow-hidden flex flex-col"
     >
       {/* WebGL pulse field + legibility gradients */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,99,33,0.07),transparent_65%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,99,33,0.13),transparent_65%)]" />
       <Suspense fallback={null}>
         <PulseScene className="absolute inset-0" />
       </Suspense>
       <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-brand-ink/90 to-transparent pointer-events-none" />
       <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-brand-ink to-transparent pointer-events-none" />
 
-      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[100rem] mx-auto w-full px-6 md:px-10 pt-32 pb-28">
+      <div className="pp-hero-parallax relative z-10 flex-1 flex flex-col justify-center max-w-[100rem] mx-auto w-full px-6 md:px-10 pt-32 pb-28">
         <p className="pp-hero-fade inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.3em] text-brand-paper/50 mb-8 font-sans">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-orange opacity-75" />

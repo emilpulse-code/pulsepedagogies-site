@@ -160,6 +160,11 @@ export const specializedSupport: AppEntry[] = [
   },
 ];
 
+// ── Flat pipeline (suite label attached) for the portfolio page ─────────────
+export interface PipelineApp extends AppEntry {
+  suite: string;
+}
+
 // ── Assembled suites (for ordered rendering) ────────────────────────────────
 export const SUITES: Suite[] = [
   {
@@ -181,3 +186,7 @@ export const SUITES: Suite[] = [
     apps: specializedSupport,
   },
 ];
+
+export const PIPELINE: PipelineApp[] = SUITES.flatMap((suite) =>
+  suite.apps.map((app) => ({...app, suite: suite.label})),
+);

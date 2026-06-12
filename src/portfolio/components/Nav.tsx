@@ -1,5 +1,7 @@
 import {useEffect, useRef} from 'react';
+import type {MouseEvent} from 'react';
 import {gsap, ScrollTrigger} from '../lib/gsapSetup';
+import {scramble} from '../lib/scramble';
 import {PulseEmblem} from './PulseEmblem';
 
 const LINKS = [
@@ -52,6 +54,9 @@ export function Nav() {
             <li key={l.name}>
               <a
                 href={l.href}
+                onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) =>
+                  scramble(e.currentTarget, l.name.toUpperCase())
+                }
                 className="text-[11px] font-bold uppercase tracking-[0.25em] opacity-60 hover:opacity-100 transition-opacity"
               >
                 {l.name}
