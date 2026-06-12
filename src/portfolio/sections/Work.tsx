@@ -125,7 +125,7 @@ export function Work({onOpenForm}: {onOpenForm: () => void}) {
         {/* ── Suite gallery header ── */}
         <div className="flex items-end justify-between mb-10">
           <h3 className="pp-reveal font-serif font-light text-3xl md:text-5xl">
-            The <span className="italic text-brand-orange">Suite</span>
+            The <span className="italic text-brand-orange">Development Pipeline</span>
           </h3>
           <p className="pp-reveal text-[10px] font-bold uppercase tracking-[0.3em] text-brand-paper/35 font-sans">
             <span className="hidden lg:inline">Scroll to explore</span>
