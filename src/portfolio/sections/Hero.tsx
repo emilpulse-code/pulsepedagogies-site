@@ -138,7 +138,7 @@ export function Hero({start, onOpenForm}: {start: boolean; onOpenForm: () => voi
       <div className="pp-hero-fade relative z-10 max-w-[100rem] mx-auto w-full px-6 md:px-10 pb-8 flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.3em] text-brand-paper/35 font-sans">
         <span>Scroll</span>
         <span className="hidden sm:block">Built by educators — for the classroom</span>
-        <span>10 Products · 03 Suites</span>
+        <span>11 Products · 03 Suites</span>
       </div>
     </section>
   );

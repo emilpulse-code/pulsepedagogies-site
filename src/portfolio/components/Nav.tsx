@@ -5,6 +5,7 @@ import {scramble} from '../lib/scramble';
 import {PulseEmblem} from './PulseEmblem';
 
 const LINKS = [
+  {name: 'Live', href: '#shipping'},
   {name: 'Work', href: '#work'},
   {name: 'Founders', href: '#founders'},
   {name: 'Capabilities', href: '#capabilities'},

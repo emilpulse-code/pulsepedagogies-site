@@ -11,7 +11,7 @@ export function Contact({onOpenForm}: {onOpenForm: () => void}) {
 
       <div className="max-w-[100rem] mx-auto relative">
         <div className="flex items-baseline gap-4 mb-12 md:mb-16 text-[11px] font-bold uppercase tracking-[0.3em] text-brand-paper/40 font-sans">
-          <span className="text-brand-orange">06</span>
+          <span className="text-brand-orange">07</span>
           <span className="w-10 h-px bg-brand-paper/20 self-center" />
           <span>Contact</span>
         </div>

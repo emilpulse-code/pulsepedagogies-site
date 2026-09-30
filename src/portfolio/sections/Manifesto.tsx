@@ -6,7 +6,7 @@ const MANIFESTO =
 
 const STATS = [
   {value: 26, suffix: '+', label: 'Combined years of California K–12 classroom and district leadership'},
-  {value: 10, suffix: '', pad: 2, label: 'Products designed, in build, or shipping'},
+  {value: 11, suffix: '', pad: 2, label: 'Products designed, in build, or shipping'},
   {value: 100, suffix: '%', label: 'COPPA / FERPA compliant by design'},
 ];
 

@@ -142,7 +142,7 @@ export function Founders() {
     <section ref={rootRef} id="founders" className="bg-brand-paper overflow-hidden">
       <div className="max-w-[100rem] mx-auto px-6 md:px-10 pt-28 md:pt-40">
         <div className="flex items-baseline gap-4 mb-12 md:mb-16 text-[11px] font-bold uppercase tracking-[0.3em] text-brand-ink/40 font-sans">
-          <span className="text-brand-orange">04</span>
+          <span className="text-brand-orange">05</span>
           <span className="w-10 h-px bg-brand-ink/20 self-center" />
           <span>Founders</span>
         </div>
