@@ -23,7 +23,7 @@ export function Studio() {
     <section id="studio" className="bg-brand-paper py-28 md:py-40 px-6 md:px-10">
       <div className="max-w-[100rem] mx-auto">
         <div className="flex items-baseline gap-4 mb-12 md:mb-16 text-[11px] font-bold uppercase tracking-[0.3em] text-brand-ink/40 font-sans">
-          <span className="text-brand-orange">03</span>
+          <span className="text-brand-orange">04</span>
           <span className="w-10 h-px bg-brand-ink/20 self-center" />
           <span>Studio</span>
         </div>

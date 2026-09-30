@@ -2,6 +2,30 @@
 
 ---
 
+## Session: September 29, 2026 — clearAMS spotlight on the landing page
+
+New landing-page section **`02 · Now Shipping`** featuring clearAMS (live at clearams.app), placed between Philosophy (01) and Selected Work.
+
+**Why there.** Everything in Work is flagship-in-development or pipeline. clearAMS is the one product a visitor can open right now, so burying it under ten unshipped things wasted the page's strongest proof. Kept on `brand-paper` rather than `brand-ink` for two reasons: Work's rounded dark cap needs a light section above it to read, and "shipped" should look different from the dark pipeline that follows.
+
+**Swappable by design.** Content lives in `src/data/spotlight.ts` as one `SPOTLIGHT` object, not a list — the section exists to feature the ONE newest live product, which is a different claim from the pipeline in `apps.ts`. When the next product ships, replace the object. `demo` and `walkthroughs` are both optional; a future spotlight without a spend rule renders the narrative half and skips the widget.
+
+**The dynamic part — `GuardrailDemo.tsx`.** A working client-side re-creation of the clearAMS 80/20 guardrail, not an animation. Toggling the sample plan lines re-runs both Prop 28 rules live: the allocation ceiling and the 80% arts-staffing floor. Default $109,500/$120,000 at 91.3% is compliant; adding the theatre residency trips the ceiling by $500; dropping the music teacher trips the floor at 40.6%. Empty plan is a neutral state, not a divide-by-zero. Real checkboxes inside real labels (keyboard-operable), verdict in an `aria-live` region. Red is the only non-brand hue and only ever means blocked.
+
+**Walkthroughs — `Walkthroughs.tsx`.** All four clearAMS videos: three numbered Acts in a row, plus "And the desk it all runs from" as a wide unnumbered card below a rule. Unnumbered is deliberate and encoded in the type (`act: string | null`) — the three Acts are one plan's lifecycle in order, so numbering the coordinator video `04` would imply a fourth step in a sequence that ends at three. This mirrors the reasoning already commented into `clearAMS/website/src/pages/index.html`.
+
+**Click-to-load facades, not embeds.** Nothing is requested from YouTube until someone asks for a video. Each card is a local poster over a plain link to youtube.com; activation swaps in a `youtube-nocookie` iframe and moves focus into it. Modified clicks fall through to YouTube; with JS off the link just works. This page already ships a 500 kB Three.js chunk — four eager players would have been the heaviest thing on it. Cost instead: 113 kB of lazy posters, +1.7 kB gzipped JS. Only one plays at a time; starting a second returns the first to its poster.
+
+Posters copied from `clearAMS/website/assets/video/` into `public/walkthrough/` with the build hashes stripped (that dir isn't content-hashed by Vite, so the clearAMS hashes were noise).
+
+**Knock-ons.** Inserting a numbered section shifted everything below it: Work 02→03, Studio 03→04, Founders 04→05, Capabilities 05→06, Contact 06→07. clearAMS is also an eleventh product, which made five copy claims wrong — Hero meta bar, Manifesto stat counter, Work headline ("Ten products." → "Eleven products."), and two lines in Capabilities.
+
+Verified in-browser at 1440px and 624px: posters load, both guardrail failure modes trip correctly, playback swaps in place and one-at-a-time, zero console errors, no horizontal overflow. `tsc --noEmit` clean, build clean.
+
+**Stale docs, not touched:** `CLAUDE.md` still names domain purchasing as the focus and claims an empty queue; `HANDSHAKE-PORTFOLIO.md` still describes the portfolio as unmerged on a feature branch. Both predate this session. Also unaddressed: `npm audit` reports 12 vulnerabilities (5 high) from deps that arrived with the portfolio merge.
+
+---
+
 ## Session: June 12, 2026 — Reveal zoom polish + pipeline swap
 
 - **Reveal**: artwork starts fit just inside the frame (99% height, fallback padding dropped); a second `.pp-reveal-media` layer zooms the art 1×→1.5× across the whole pin on top of the frame growth (frame now clips overflow); shatter softened — flight 4.4→2.3, tumble ~⅓, spread tightened. Holds-intact-first-third unchanged.

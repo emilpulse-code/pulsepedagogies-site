@@ -77,13 +77,13 @@ export function Work({onOpenForm}: {onOpenForm: () => void}) {
 
       <div className="relative z-10 max-w-[100rem] mx-auto px-6 md:px-10">
         <div className="flex items-baseline gap-4 mb-12 md:mb-16 text-[11px] font-bold uppercase tracking-[0.3em] text-brand-paper/40 font-sans">
-          <span className="text-brand-orange">02</span>
+          <span className="text-brand-orange">03</span>
           <span className="w-10 h-px bg-brand-paper/20 self-center" />
           <span>Selected Work</span>
         </div>
 
         <h2 className="pp-reveal font-serif font-light text-[clamp(2.8rem,7vw,6.5rem)] leading-[0.95] mb-20 md:mb-28">
-          Ten products. <br />
+          Eleven products. <br />
           <span className="italic text-brand-orange">One heartbeat.</span>
         </h2>
 
