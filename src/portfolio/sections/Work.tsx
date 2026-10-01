@@ -59,7 +59,12 @@ export function Work({onOpenForm}: {onOpenForm: () => void}) {
         aria-hidden="true"
         viewBox="0 0 1000 2400"
         preserveAspectRatio="none"
-        className="absolute left-0 top-0 h-full w-screen pointer-events-none opacity-90"
+        /* w-full, NOT w-screen. 100vw includes the vertical scrollbar gutter,
+           so this svg was ~15px wider than the section — which both pushed the
+           page into horizontal overflow and placed the ribbon's x a few pixels
+           off section 02's spine, which is sized to the section. The two must
+           measure the same to meet. */
+        className="absolute left-0 top-0 h-full w-full pointer-events-none opacity-90"
       >
         <path
           className="pp-ribbon-path"

@@ -82,7 +82,32 @@ const SPINE_D = `M 500 -40
    C 812 740, 190 790, 182 1060
    C 176 1310, 258 1390, 272 1580
    C 296 1880, 812 1850, 800 2090
-   C 792 2258, 470 2330, 330 2400`;
+   C 792 2258, 338 2282, 315.5 2400
+   L 293 2520`;
+
+/* ── Handing off to section 03's ribbon ─────────────────────────────────────
+   Three things have to agree at the boundary or the seam shows, and all three
+   were wrong at some point:
+
+   1. POSITION. 315.5 is not a round number by accident: it is where Work.tsx's
+      ribbon actually crosses y=0, measured rather than guessed. That path
+      starts at `M 330 -80` and has already curved left by the time it reaches
+      the section edge, so ending this one at 330 left a ~20px step.
+
+   2. DIRECTION. The ribbon leaves `M 330 -80` toward `280 160` — about 12° off
+      straight down. This curve used to arrive almost sideways (~64° off), so a
+      dart met a column and the join read as a broken shard no matter how well
+      the x lined up. The last control point is now 338 2282, which brings it in
+      at ~11°.
+
+   3. WIDTH, and no end cap. The taper ends at exactly the ribbon's stroke width
+      (see TAPER_W1), and the path runs 120 units PAST the section bottom. The
+      section clips at 2400, so the shape has no visible end — it is cut by the
+      boundary itself, which is precisely where the ribbon takes over. Trying to
+      land a flat cap exactly on the edge is what produced the wedge.
+
+   Re-draw the ribbon and all three need re-measuring. */
+const VB_H = 2400;
 
 /* The line does not stop at the section boundary — it swells into the ribbon
    section 03 draws down itself, so the two read as one stroke running the
@@ -100,9 +125,13 @@ const SPINE_D = `M 500 -40
    through the Signet seal. It belongs in the empty run below the last station,
    where the only thing it can collide with is the section boundary it is aimed
    at. */
-const TAPER_FROM = 0.86;
+const TAPER_FROM = 0.85;
 const TAPER_W0 = 3;
-const TAPER_W1 = 76; // ≈ the ribbon's 72, which is distorted the same way
+/* Exactly Work.tsx's `strokeWidth="72"`, not an approximation. Both svgs now
+   measure the same pixel width over the same 1000-unit viewBox, and neither
+   uses non-scaling-stroke, so 72 user units is the same number of pixels in
+   both — the widths match by construction rather than by eye. */
+const TAPER_W1 = 72;
 
 function taperedTail(path: SVGPathElement, steps = 64) {
   const total = path.getTotalLength();
@@ -162,18 +191,57 @@ export function Flagships() {
            rect was tried first and read as a wedge floating free of the line,
            because a horizontal edge has nothing to do with where the curve
            actually is. */
+
+        /* Height lookup, so the line can be drawn to a PAGE POSITION rather
+           than to a fraction of its own length.
+         *
+         * Scrubbing length against scroll looks right only if the curve runs
+         * straight down. This one sweeps most of the way across the section
+         * twice, and on those sweeps it spends a lot of length gaining very
+         * little height — so the leading tip fell further and further behind
+         * the reader and ended up hanging in the middle of the screen with
+         * blank paper under it. That is the "break".
+         *
+         * Sampling y at fixed length intervals gives the inverse: ask for a
+         * height, get the length that reaches it. 240 samples over ~3000 user
+         * units is finer than a pixel once scaled, and it is built once. */
+        const SAMPLES = 240;
+        const ys: number[] = [];
+        for (let i = 0; i <= SAMPLES; i++) ys.push(line.getPointAtLength((i / SAMPLES) * len).y);
+
+        const lengthAtY = (y: number) => {
+          if (y <= ys[0]) return 0;
+          for (let i = 1; i <= SAMPLES; i++) {
+            if (ys[i] >= y) {
+              const span = ys[i] - ys[i - 1] || 1;
+              return ((i - 1 + (y - ys[i - 1]) / span) / SAMPLES) * len;
+            }
+          }
+          return len;
+        };
+
+        /* Draw the line to exactly the bottom edge of the viewport. The tip is
+           then always just off-screen, so the line reads as running off the
+           bottom of the page rather than stopping somewhere in it. */
+        const draw = () => {
+          const r = root.getBoundingClientRect();
+          if (r.height <= 0) return;
+          const edge = ((window.innerHeight - r.top) / r.height) * VB_H;
+          const off = String(len - lengthAtY(edge));
+          drawn.forEach((p) => {
+            p.style.strokeDashoffset = off;
+          });
+        };
+
         const st = ScrollTrigger.create({
           trigger: root,
-          start: 'top 70%',
-          end: 'bottom bottom',
-          scrub: 1,
-          onUpdate: (self) => {
-            const off = String(len * (1 - self.progress));
-            drawn.forEach((p) => {
-              p.style.strokeDashoffset = off;
-            });
-          },
+          start: 'top bottom',
+          end: 'bottom top',
+          onUpdate: draw,
+          onRefresh: draw,
         });
+        // Covers a load that restores scroll position inside the section.
+        draw();
 
         return () => st.kill();
       });
@@ -188,9 +256,17 @@ export function Flagships() {
       className="relative bg-brand-paper pb-28 md:pb-40 px-6 md:px-10 overflow-hidden"
     >
       {/* ── The line ──
-          Stretched to the section with preserveAspectRatio="none", so the
-          stroke has to opt out of the scale or it renders as an uneven
-          hairline. Sits above the paper and under the content. */}
+          Stretched to the section with preserveAspectRatio="none". Sits above
+          the paper and under the content.
+
+          NOTE: no `vector-effect="non-scaling-stroke"` on the drawn path, and
+          that is deliberate. It keeps the stroke a constant screen width, but
+          it also makes stroke-dasharray/offset resolve in SCREEN units while
+          getTotalLength() still reports USER units — so the dash and the
+          geometry disagree, and the drawn tip lands short of where it was
+          computed to land. The line now scales with the section the same way
+          section 03's ribbon does, which is also what keeps their widths equal
+          at the seam. */}
       <svg
         aria-hidden="true"
         viewBox="0 0 1000 2400"
@@ -222,9 +298,8 @@ export function Flagships() {
           d={SPINE_D}
           fill="none"
           stroke="#FF6321"
-          strokeWidth="2.5"
+          strokeWidth="2"
           strokeLinecap="round"
-          vectorEffect="non-scaling-stroke"
           opacity="0.55"
         />
       </svg>
