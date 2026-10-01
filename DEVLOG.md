@@ -2,6 +2,50 @@
 
 ---
 
+## Session: September 30, 2026 — Signet promoted in `02 Now Shipping`
+
+A "Next to ship" block under the clearAMS teaser, with two small interactive demos. Source material read from `C:\Users\emila\Signet` — the project brief, the application overview, and the design mockups.
+
+**The site was describing a different product.** `apps.ts` had Signet as *"a gamification utility for human resources teams... for K–12 districts as well as corporate and government HR,"* tagline *"Gamified micro-credentials that turn employee growth into visible, verifiable recognition."* Signet is a professional-learning operations platform: published calendar → registration → approval → attendance → payable hours → signed credential. The seat control, the waitlist, the Meet-report import and the payable-hours rounding — the actual product — were absent. Entry rewritten from the brief, with a corrected subtitle (*Professional Learning Credentials*) and audience (*Professional Learning Departments*, not corporate HR).
+
+**The licence constrains what this page may say, and that is written down now.** Signet ToS §3.1 waives any right to use a licensee's name, logo, **or the existence of their deployment** as a marketing reference, case study, testimonial, customer-list entry, or sales demonstration without separate written authorization, and it survives termination. So: no district named, no deployment hinted at, no "already running in production" claim, and the licensee seal art in the Signet repo's `public/brand/` stays out. Signet is positioned as **Final development**, sold on what it does. The constraint is documented at the top of `src/data/signet.ts` and again on the `apps.ts` entry so the next person editing either does not have to rediscover it.
+
+The internal design mockups in `design/shots/` are also unusable here for a separate reason: every one is branded with a real organization's name and a named staff member. Internally that is placeholder seed data; published on this site it reads as a customer that isn't one. Nothing was copied from them.
+
+**Two widgets instead of a screenshot**, the same call clearAMS got. `CredentialDemo` checks a seal against the issuer's published key, then revokes it — the revoked credential still resolves, still shows its signature sound, and says it was withdrawn, because revocation is recorded rather than deleted. `SeatDemo` demonstrates the decision the brief says shapes everything else: registering is a request, not a reservation. Approving issues the seat, the confirmation and the calendar invitation in one act; approving into a full room waitlists rather than failing; releasing a seat promotes the longest-waiting person automatically. Both are labelled illustrative, both put their outcome in an `aria-live` region, and no key material or crypto ships to the page.
+
+Laid out deliberately unlike the clearAMS block above — narrative full width, demos below — so the shipped product keeps the heavier treatment. No outbound link: Signet has no public site, and the only honest CTA for an unshipped product is the inquiry form, so `Spotlight` now takes `onOpenForm`.
+
+**Bug found and fixed while testing — `useHeightSync`.** Clicking a widget grew the document by 43 px, and every ScrollTrigger below section 02 — including the pinned RingGallery — was still holding pixel positions measured before the change. The page lurched on the next scroll. Measured it (`deltaDoc: 43`, scroll drift 43 → 0 after the fix), then added `src/portfolio/lib/useHeightSync.ts`, which refreshes ScrollTrigger on the frame after a height-changing state change. Applied to both new widgets **and to `GuardrailDemo`**, which has carried the same latent bug since it shipped — its verdict box grows with the number of blocking reasons.
+
+Verified in-browser at 1280px and ~640px: approve → confirmed, approve into a full room → waitlisted, release → longest-waiting promoted, roster heading stops saying "Awaiting approval" once nobody is; check → valid, revoke → struck through with the revocation dated in the chain and the signature still sound. Zero overflow inside section 02 at narrow width, zero scroll drift. `tsc --noEmit` clean, build clean. Landing bundle +17.7 kB raw / +4.1 kB gzipped for both widgets.
+
+**Open, not done here:** Signet has no registered domain — `signet.app` appears 37 times across its repo and in the badge-designer mockup's email-signature snippet, but it is absent from the registry in `CLAUDE.md`, which also omits Signet from the product table entirely. And Signet now appears twice on the landing page: featured in 02 and listed at position 03 of the Development Pipeline in Work. Defensible — it is in development — but worth a decision.
+
+---
+
+## Session: September 30, 2026 — Cut `02 Now Shipping` back to a teaser
+
+The clearAMS section shipped yesterday was the tallest thing on the landing page — roughly the height of all of Selected Work — and it collided with the section above it. Trimmed to a teaser and pointed outward.
+
+**What was wrong.** Two near-identical stat grids back to back: Philosophy's 3-up (`Manifesto.tsx`) and the spotlight's 4-up used the same `border-t` + giant-serif-numeral treatment, same background, nothing between them but an eyebrow — they read as duplicate scoreboards. Four prose layers at four sizes in the narrative column, with the live URL linked twice. "80%" stated five times in one section (intro paragraph, stats row, meter floor marker, verdict copy, share readout) — the intro restated both rules the widget already labels in place. Three competing label systems under one `h2`. `Walkthroughs.tsx` said "Three takes" while rendering four. And `lg:sticky lg:top-32` on the narrative column did nothing, because that column was taller than the guardrail card.
+
+**What it is now.** Status pill, name, headline, one-line tagline, chips, the live guardrail demo, one walkthrough (Act I, "Plan it"), and a single outbound CTA. The stat grid is gone, the long body is gone, three of the four videos are gone, and the duplicate hostname link is gone. The narrative column is now shorter than the demo, so the sticky finally does what it was written to do.
+
+**Why not a `/clearams` page.** Built one first — `PageShell`-based, carrying the long body, all four walkthroughs, and the stats — then checked what `clearams.app` actually serves and deleted it. clearams.app is a full marketing site with Product, How It Works, **Pricing**, Security, and Request Access, opening on the identical headline and tagline. A page here would have been a weaker copy with no pricing and no signup, intercepting people on the way to the real thing. It was also off-pattern: VAPA Pulse gets a teaser block plus a link out to vapapulse.com, and clearAMS should work the same way. `src/data/spotlight.ts` keeps `body` and `stats` as the long-form record even though the section no longer renders them.
+
+**`Walkthroughs.tsx` is now just `WalkthroughStage`.** The heading block, the three-act grid, and the unnumbered fourth card are deleted; the click-to-load facade is unchanged and still the only thing that touches YouTube, still only on activation. Playback state moved to the caller.
+
+**VAPA Pulse is in production, not in development.** Corrected four places that said otherwise: the "Flagship · In Development" pills in `Work.tsx` and `App.tsx` (two of them), and three "proof of concept" CTAs in `Work.tsx`, `App.tsx`, and `Prop28Page.tsx`. Two products are live now, so the spotlight's framing changed from "the one product you can open" to "the newest product to reach production."
+
+**Other knock-ons.** Hero's primary CTA now goes to `#shipping` rather than `#work` — the first click should reach something openable. clearAMS added to `apps.ts` as a catalog entry with a new optional `status: 'live'` and `href`; safe because `PIPELINE` is only ever read through explicit id lookups (`LIST_IDS` in Work, `ORBIT` in RingGallery, whose spin geometry depends on exactly four shots). That made `/company` read "Nine tools" when it had ten — fixed, and live products now get a `LIVE` pill in the suite rows. `Work.tsx` gained a single full-width clearAMS row under the flagship, linking out, so the "Eleven products" headline reconciles on screen without putting a shipped product inside a list headed "The Development Pipeline." `Prop28Page.tsx` section 04 leads with clearAMS as the shipped answer to the compliance framework in sections 02–03; the VAPA Pulse and CPQ cards below are untouched.
+
+Verified in-browser: teaser renders and the sticky column behaves, guardrail still toggles and blocks on both rules, the single facade swaps to a player on click with nothing requested from YouTube before that, pipeline list still 01–05 + end-cap, `/company` reads "Ten tools" with the pill, `/prop28` card renders. `tsc --noEmit` clean, build clean at five HTML entry points.
+
+**Pre-existing, not fixed:** the landing page scrolls horizontally by ~15px. `document.scrollWidth` is 1264 against a 1249px client width, and the offenders are the GSAP `pin-spacer`, the Reveal stage, and the cursor layers — all `100vw`-based sizing that includes the scrollbar. Predates this session. Also: `AdjunctCentral` is clipped to "AdjunctCent" in the pipeline list at 1264px.
+
+---
+
 ## Session: September 29, 2026 — clearAMS spotlight on the landing page
 
 New landing-page section **`02 · Now Shipping`** featuring clearAMS (live at clearams.app), placed between Philosophy (01) and Selected Work.

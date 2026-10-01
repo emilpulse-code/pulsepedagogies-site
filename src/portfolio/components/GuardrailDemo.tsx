@@ -1,6 +1,7 @@
 import {useMemo, useState} from 'react';
 import {Check, TriangleAlert} from 'lucide-react';
 import type {GuardrailDemoConfig} from '../../data/spotlight';
+import {useHeightSync} from '../lib/useHeightSync';
 
 const usd = (n: number) => `$${n.toLocaleString('en-US')}`;
 
@@ -67,6 +68,9 @@ export function GuardrailDemo({config}: {config: GuardrailDemoConfig}) {
   }, [active, lines, allocation, staffFloor]);
 
   const blocked = s.reasons.length > 0;
+
+  // The verdict box grows with the number of reasons — see the hook.
+  useHeightSync([s.reasons.length, s.empty]);
 
   return (
     <div className="rounded-[28px] border border-brand-ink/12 bg-white shadow-[0_40px_80px_-40px_rgba(26,26,26,0.35)] overflow-hidden">

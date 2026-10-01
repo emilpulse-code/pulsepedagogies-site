@@ -56,7 +56,7 @@ export default function PortfolioPage() {
         <Reveal />
         <Marquee />
         <Manifesto />
-        <Spotlight />
+        <Spotlight onOpenForm={openForm} />
         <Work onOpenForm={openForm} />
         <RingGallery />
         <Studio />

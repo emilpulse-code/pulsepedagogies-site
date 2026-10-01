@@ -143,6 +143,39 @@ export default function Prop28Page() {
       {/* ── How Pulse responds ── */}
       <section>
         <SectionLabel n="04">How Pulse Pedagogies Responds</SectionLabel>
+
+        {/* clearAMS leads this section because it is the shipped answer to the
+            compliance framework described above — not a planned one. */}
+        <div className="rounded-[28px] md:rounded-[36px] border border-brand-orange/30 bg-brand-orange/[0.07] p-8 md:p-12 mb-6">
+          <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/15 text-brand-orange text-[10px] font-bold uppercase tracking-[0.2em] mb-6 font-sans">
+            <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+              <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-orange opacity-75" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand-orange" />
+            </span>
+            Live in production
+          </p>
+          <h3 className="font-serif font-light text-4xl md:text-5xl mb-4">clearAMS</h3>
+          <p className="text-brand-paper/70 leading-relaxed mb-8 max-w-3xl">
+            Every rule in the table above — the 80% personnel threshold tested per school, the
+            three-year expenditure window reconciled across allocations, the 2022–23
+            supplement-not-supplant baseline, and the waiver documentation behind a good-cause
+            claim — is what clearAMS enforces and evidences. Principals build site expenditure
+            plans against a live guardrail that blocks a non-compliant plan rather than warning
+            about it; districts review and approve in one queue; and when the annual audit under
+            EC 41020 arrives, the answer is a dated evidence packet rather than a month of
+            reconstruction.
+          </p>
+          <a
+            href="https://clearams.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2 font-medium text-lg text-brand-orange hover:text-brand-paper transition-colors"
+          >
+            See how it works at clearams.app
+            <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+          </a>
+        </div>
+
         <div className="grid lg:grid-cols-2 gap-6">
           <div className="rounded-[28px] md:rounded-[36px] bg-brand-orange text-brand-ink p-8 md:p-12">
             <h3 className="font-serif font-light text-4xl md:text-5xl mb-4">
@@ -161,7 +194,7 @@ export default function Prop28Page() {
               rel="noopener noreferrer"
               className="group inline-flex items-center gap-2 font-medium text-lg"
             >
-              Visit the live proof of concept
+              Visit the live product
               <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </a>
           </div>

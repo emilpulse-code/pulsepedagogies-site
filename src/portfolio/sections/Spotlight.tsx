@@ -1,22 +1,31 @@
+import {useState} from 'react';
 import {ArrowUpRight} from 'lucide-react';
 import {SPOTLIGHT} from '../../data/spotlight';
 import {GuardrailDemo} from '../components/GuardrailDemo';
-import {Walkthroughs} from '../components/Walkthroughs';
+import {NextToShip} from '../components/NextToShip';
+import {WalkthroughStage} from '../components/Walkthroughs';
 
 /**
  * Section 02 — "Now Shipping".
  *
- * Sits between Philosophy and Selected Work on purpose. Everything in Work is
- * flagship-in-development or pipeline; this is the one product a visitor can
- * open right now, which makes it the page's strongest proof and the wrong
- * thing to bury under ten things that haven't shipped.
+ * Sits between Philosophy and Selected Work on purpose: the newest product to
+ * reach production is the page's freshest proof, and the wrong thing to bury
+ * under a pipeline of nine that haven't shipped yet.
+ *
+ * Deliberately a teaser, not the product. Status, name, headline, one line of
+ * what it is, the live guardrail, one walkthrough — then out to clearams.app,
+ * which is the product's own marketing site and does the selling. Same shape as
+ * the VAPA Pulse block in Work: show enough to prove it, then hand off. The
+ * section was the tallest on the page when it tried to be the product page too.
  *
  * Kept on brand-paper rather than brand-ink so Work's rounded dark cap still
  * lands against a light section above it — and so "shipped" reads visually
  * distinct from the dark pipeline that follows.
  */
-export function Spotlight() {
+export function Spotlight({onOpenForm}: {onOpenForm: () => void}) {
   const app = SPOTLIGHT;
+  const featured = app.walkthroughs?.find((w) => w.id === app.featuredWalkthrough);
+  const [playing, setPlaying] = useState(false);
 
   return (
     <section id="shipping" className="bg-brand-paper pb-28 md:pb-40 px-6 md:px-10">
@@ -38,15 +47,6 @@ export function Spotlight() {
                 </span>
                 {app.status}
               </span>
-              <a
-                href={app.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-ink/45 hover:text-brand-ink transition-colors font-sans"
-              >
-                {app.urlLabel}
-                <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </a>
             </div>
 
             <h2 className="pp-reveal font-serif font-light text-[clamp(2.8rem,6.5vw,6rem)] leading-[0.95] mb-5">
@@ -57,12 +57,8 @@ export function Spotlight() {
               {app.headline}
             </p>
 
-            <p className="pp-reveal font-serif font-light text-xl md:text-2xl leading-snug text-brand-ink/85 mb-6 max-w-2xl">
+            <p className="pp-reveal font-serif font-light text-xl md:text-2xl leading-snug text-brand-ink/85 mb-9 max-w-2xl">
               {app.tagline}
-            </p>
-
-            <p className="pp-reveal text-brand-ink/55 leading-relaxed mb-9 max-w-2xl">
-              {app.body}
             </p>
 
             <ul className="pp-reveal flex flex-wrap gap-2.5 mb-12 text-[10px] font-bold uppercase tracking-[0.2em] font-sans">
@@ -76,13 +72,15 @@ export function Spotlight() {
               ))}
             </ul>
 
+            {/* One outbound CTA, not two. The small hostname link that used to
+                sit in the status row above pointed at the same place. */}
             <a
               href={app.url}
               target="_blank"
               rel="noopener noreferrer"
               className="pp-reveal group inline-flex items-center gap-2 text-lg font-medium text-brand-ink hover:text-brand-orange transition-colors"
             >
-              Visit the live product
+              Visit {app.urlLabel}
               <ArrowUpRight className="w-5 h-5 text-brand-orange group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </a>
           </div>
@@ -94,10 +92,10 @@ export function Spotlight() {
                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-orange mb-3 font-sans">
                   Try the guardrail
                 </p>
+                {/* The widget labels both rules in place — don't restate them here. */}
                 <p className="text-brand-ink/55 leading-relaxed max-w-md">
-                  Toggle the lines on this sample plan. Both Prop 28 rules answer live — the
-                  allocation ceiling and the {app.demo.staffFloor * 100}% arts-staffing floor —
-                  so a plan that would create exposure can never be saved in the first place.
+                  Toggle the lines on this sample plan. Both Prop 28 rules answer live, and a
+                  plan that would create exposure can never be saved in the first place.
                 </p>
               </div>
               <GuardrailDemo config={app.demo} />
@@ -105,26 +103,37 @@ export function Spotlight() {
           )}
         </div>
 
-        {/* ── Walkthroughs ── */}
-        {app.walkthroughs && (
-          <div className="mt-24 md:mt-32">
-            <Walkthroughs items={app.walkthroughs} />
+        {/* ── One walkthrough ──
+            Four players here made this section as tall as all of Selected Work;
+            one is enough to prove the thing is real and running. The rest of the
+            product story belongs to clearams.app.
+            No stat grid either — Philosophy's sits a few hundred pixels above,
+            in the same treatment, and the two read as duplicate scoreboards. */}
+        {featured && (
+          <div className="pp-reveal mt-20 md:mt-28 max-w-3xl">
+            <WalkthroughStage
+              item={featured}
+              playing={playing}
+              onPlay={() => setPlaying(true)}
+            />
+            <div className="flex items-baseline gap-3 mt-5 mb-2">
+              {featured.act && (
+                <span
+                  className="font-serif font-light text-2xl text-brand-orange leading-none"
+                  aria-hidden="true"
+                >
+                  {featured.act}
+                </span>
+              )}
+              <h3 className="font-serif font-light text-2xl md:text-3xl leading-none">
+                {featured.title}
+              </h3>
+            </div>
+            <p className="text-brand-ink/55 leading-relaxed">{featured.blurb}</p>
           </div>
         )}
 
-        {/* ── Proof stats ── */}
-        <div className="mt-24 md:mt-32 grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
-          {app.stats.map((stat) => (
-            <div key={stat.label} className="pp-reveal border-t border-brand-ink/15 pt-6">
-              <div className="font-serif font-light text-5xl md:text-6xl text-brand-ink tabular-nums">
-                {stat.value}
-              </div>
-              <p className="mt-3 text-sm text-brand-ink/55 leading-relaxed max-w-[16rem]">
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </div>
+        <NextToShip onOpenForm={onOpenForm} />
       </div>
     </section>
   );
