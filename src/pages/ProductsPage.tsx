@@ -25,10 +25,13 @@ import {PageShell, SectionLabel} from './PageShell';
  * the mechanism, and proof the mechanism runs — with the link out placed where
  * someone who wants to buy will find it.
  *
- * Signet is the exception and has no outbound link, because it has no public
- * site and the licence behind its only deployment forbids using that deployment
- * as a marketing reference. See the standing note at the top of `data/signet.ts`
- * before adding anything about who runs it.
+ * Signet is the exception and has no outbound link. Not for want of a domain —
+ * `signetsystem.net` and `signetsystems.net` are both held in Cloudflare — but
+ * neither is mapped yet, so there is no page to send anyone to, and the licence
+ * behind Signet's only deployment forbids using that deployment as a marketing
+ * reference. When one of those domains goes live this becomes an ordinary
+ * outbound link like the two above it. See the standing note at the top of
+ * `data/signet.ts` before adding anything about who runs it.
  *
  * Anchors (`#vapa-pulse`, `#clearams`, `#signet`) are load-bearing: the landing
  * page's three stations link straight to them.
