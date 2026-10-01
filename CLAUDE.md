@@ -30,10 +30,16 @@ npm run dev
 
 ## Step 2: Current Working Focus
 
-**Most recent work (September 30, 2026): section 02 of the landing page was rebuilt as three
-product "stations" threaded by the orange line, and the detail that used to sit there moved to a
-new `/products` page.** See the top two entries in `DEVLOG.md` before touching either. Next focus
-is not set — confirm it at the start of the session.
+**Next focus: Signet and CPQ. Signet ships soon.**
+
+Signet is in final development and expected to be ready shortly; CPQ is the other active product.
+When Signet ships, the site changes in more places than it looks — the checklist is under
+"Shipping Signet" below, written while the code was fresh so the flip is mechanical rather than
+archaeological.
+
+Most recent work (September 30, 2026): section 02 of the landing page was rebuilt as three product
+"stations" threaded by the orange line, and the detail that used to sit there moved to a new
+`/products` page. See the top two entries in `DEVLOG.md` before touching either.
 
 The site is live at:
 - **Production:** https://pulsepedagogies.com
@@ -107,6 +113,52 @@ Audience: professional learning departments. Final development. Domains held
 (`signetsystem.net`, `signetsystems.net`) but unmapped, so nothing to link to yet. Anything
 written about Signet is bound by the licence note at the top of `src/data/signet.ts` — no customer,
 district, or deployment may be named or implied.
+
+#### Shipping Signet — what actually has to change
+
+Not one flag. The product's status is spelled out in several places that do not reference each
+other, so grep `Signet` across `src/` and work the list:
+
+1. **Map a domain first.** `signetsystem.net` or `signetsystems.net` in Cloudflare. Nothing below
+   that adds a link is honest until one resolves.
+2. **`src/data/apps.ts`** — the `signet` entry: `status: 'next'` → `'live'`, and add
+   `href: 'https://<domain>'`. The status pill on `/company` reads this.
+3. **`src/data/signet.ts`** — `NEXT_UP.status` is `'Final development'`. The file header says that
+   when Signet ships it becomes the SPOTLIGHT and whatever is behind it moves into `NEXT_UP`.
+   Decide whether that still applies now that section 02 is three stations rather than a
+   spotlight + next-up pair; the simpler read is that `signet.ts` just becomes a third peer of
+   `spotlight.ts`.
+4. **`src/portfolio/sections/Flagships.tsx`** — the `signet` station: `status: 'Final development'`
+   → `'Live in production'` and `live: false` → `true` (that flag drives the pulsing dot).
+5. **Same file, the section heading** — currently "Two in production. / One landing." Becomes three
+   in production, so the line needs rewriting, not just a number swap.
+6. **`src/pages/ProductsPage.tsx`** — the Signet section ends in a `mailto:` CTA instead of an
+   `OutLink`, with a comment explaining why. Swap it for `<OutLink>` and update the file-header
+   comment that says Signet "has no outbound link".
+7. **`src/portfolio/sections/Work.tsx`** — Signet is in `LIST_IDS`, i.e. it is still listed in the
+   Development Pipeline *and* featured in section 02. Shipping is the moment to resolve that
+   double appearance; removing it from `LIST_IDS` leaves four in the list.
+8. **Counts — these are consistent today; keep them that way.** `apps.ts` holds **ten** catalog
+   entries, which is the "Three suites. Ten tools." on `/company` (`App.tsx`). VAPA Pulse is the
+   flagship and is *not* in that catalog, so ten + one = the **eleven** in Work.tsx's "Eleven
+   products." and in Manifesto's stat grid. Shipping Signet changes none of these — it is already
+   counted. Adding or removing a product changes all three.
+9. **The licence note stays in force** regardless. Shipping a product does not grant the right to
+   name the district running it.
+
+### Also In Focus
+**CPQ** (Categorical Program Qualifier) — instant, rule-based categorical funding eligibility
+determinations with the audit documentation written at the point of decision. Audience:
+administrators and program directors. Domains held (`pulsecpq.app`, `pulsecpq.com`), unmapped.
+
+Where CPQ currently appears on the site, for when it has something to show:
+- `src/data/apps.ts` — full catalog entry (`id: 'cpq'`), `pricing: 'freemium'`, no student data.
+- `src/portfolio/sections/RingGallery.tsx` — CPQ is in the `ORBIT` array, rendered `shell: 'bare'`
+  (not in a laptop frame — it is not presented as a web app there). Its mockup is
+  `/public/pipeline/cpq.webp`.
+- It is **not** in `LIST_IDS` in `Work.tsx`, so it does not appear in the Development Pipeline
+  list — only in the orbit. If CPQ gets promoted, that is the array to add it to.
+- Nothing CPQ-specific exists on `/products`; that page is the three shipped/shipping products.
 
 ### Coming Soon Product Suite
 | Product | Audience | Primary Domain |
@@ -285,7 +337,8 @@ _Tier 2 / Tier 3 / Tier 4 items closed May 20, 2026 — see `DEVLOG.md`._
 Open, none blocking, none assigned:
 
 - **Map a Signet domain.** `signetsystem.net` / `signetsystems.net` are held but unmapped. Until one
-  resolves, the Signet station and its `/products` section carry no outbound link.
+  resolves, the Signet station and its `/products` section carry no outbound link. This is the
+  first item on the Shipping Signet checklist and gates most of the rest.
 - **Section 03's ribbon is still 72px** while section 02's line is a hairline that swells into it.
   Against the lighter section above, it reads heavy. Unifying the weights is a real option but
   that ribbon is a signature element — Emil's call.
@@ -300,4 +353,5 @@ Open, none blocking, none assigned:
 ---
 
 *Last updated: September 30, 2026*
-*Next session focus: not set — confirm at the start of the session.*
+*Next session focus: **Signet and CPQ.** Signet ships soon — see "Shipping Signet" for what the
+site has to change when it does.*
