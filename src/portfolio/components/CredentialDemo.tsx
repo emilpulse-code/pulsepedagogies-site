@@ -1,7 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import {BadgeCheck, Ban, Check, Loader2} from 'lucide-react';
 import type {CredentialDemoConfig} from '../../data/signet';
-import {useHeightSync} from '../lib/useHeightSync';
 
 /**
  * Signet's hardest claim, made touchable: a credential verifies against a
@@ -28,9 +27,6 @@ export function CredentialDemo({config}: {config: CredentialDemoConfig}) {
   const timer = useRef<ReturnType<typeof setTimeout>>(null);
 
   useEffect(() => () => clearTimeout(timer.current ?? undefined), []);
-
-  // Both of these change the card's height — see the hook.
-  useHeightSync([status, revoked]);
 
   const check = () => {
     setStatus('checking');
