@@ -1,7 +1,6 @@
 import {useMemo, useState} from 'react';
 import {CalendarCheck, Mail, RotateCcw, Ticket} from 'lucide-react';
 import type {SeatDemoConfig} from '../../data/signet';
-import {useHeightSync} from '../lib/useHeightSync';
 
 /**
  * The decision the Signet brief says shapes everything else, made touchable:
@@ -78,9 +77,6 @@ export function SeatDemo({config}: {config: SeatDemoConfig}) {
   };
 
   const fillPct = Math.min(100, (confirmed / capacity) * 100);
-
-  // The outcome line and the Reset button both change the card's height.
-  useHeightSync([note, settled, released]);
 
   return (
     <div className="rounded-[28px] border border-brand-ink/12 bg-white shadow-[0_40px_80px_-40px_rgba(26,26,26,0.35)] overflow-hidden flex flex-col">

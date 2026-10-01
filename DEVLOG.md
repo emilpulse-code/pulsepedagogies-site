@@ -2,6 +2,30 @@
 
 ---
 
+## Session: September 30, 2026 — Section 02 rebuilt as stations on the orange line
+
+**The brief:** the product detail added in the previous session was interrupting the page. Emil's words — the flow "is what makes it gorgeous," and section 02 had become "stilted." So: put the apps *on* the orange line, replace the detail with graphics that carry each product's concept, and move the actual information to its own page.
+
+**What the landing page shows now.** Section 02 is three stations threaded by a single orange curve that draws itself as you scroll. Each station is a concept mark, a name, one claim, one sentence, one link. Nothing to read, nothing to operate. `components/concepts.tsx` holds the three marks:
+
+- **VAPA Pulse** — five strands braid into one line. Five disciplines, one engine.
+- **clearAMS** — a split meter with a hard stop at the 80% floor; the spend that would cross it is refused and bounces back. The product blocks the save, so the mark blocks the bar.
+- **Signet** — a seal is struck, then verified by a check that sits *outside* the seal, because verification happens against a published key rather than by asking the issuer.
+
+Section 03 lost the VAPA Pulse narrative, the flagship video and the clearAMS row — all three now live on `/products` — so it is the pipeline and nothing else. That block of copy was what buried the ribbon the section draws down itself.
+
+**The line is now one gesture across both sections.** Section 02's hairline exits at x≈330/1000, which is where section 03's ribbon enters (`M 330 -80`). Move one and move the other. Between them the hairline *swells*: a stroke cannot change width along its length, so the swell is a filled polygon built at runtime by walking the tail of the curve and offsetting each sample perpendicular to the direction of travel. Two earlier attempts are worth not repeating — stacking four strokes of increasing width rendered as four round-capped lozenges, a caterpillar rather than a taper; and revealing the polygon with a clip rect read as a wedge floating free of the line, because a horizontal edge has nothing to do with where the curve is. It is masked by a fat stroke of the same curve carrying the same dash offset, so the reveal travels *along* the line.
+
+**Do not animate transforms on SVG shapes here.** The first cut scaled circles with `transformOrigin: 'center'` and GSAP baked an origin compensation into the element matrix that did not resolve back to zero — every scaled circle sat ~23px off its own centre, which on a concentric seal is the entire mark. `svgOrigin` did not fix it either. The marks tween `r`, `width` and opacity instead; translation is still safe, being origin-independent.
+
+**A paused `fromTo` timeline renders its from-state immediately**, so an un-triggered mark is not merely unanimated — it is collapsed to zero width / zero radius / dash-hidden, i.e. invisible. Correct below the fold, wrong for a reload that restores scroll position or a Back from `/products`. `useConcept` lands the timeline finished when its root is already above the trigger point.
+
+**`lib/useHeightSync.ts` is gone.** It existed because toggling a demo widget grew the document and invalidated ScrollTrigger's cached pin positions below it. The widgets are no longer on a pinned page — they are on `/products`, which has no pins — so the hook was a no-op there, and its import was pulling the whole 115 kB GSAP bundle (45 kB gzipped) into that page for nothing. Removed, and noted here so the pin bug is not rediscovered the next time a widget goes back onto the landing page: if one does, it needs a `ScrollTrigger.refresh()` on height change.
+
+**New page: `/products`.** Three sections, anchored `#vapa-pulse` / `#clearams` / `#signet`, which the stations link straight into. Everything cut from the landing page lands here at full size — the flagship video, the live 80/20 guardrail, all four clearAMS walkthroughs (the landing page showed one), and both Signet widgets. It is deliberately not a marketing site for any of them: clearAMS and VAPA Pulse have their own, and the link out sits where someone ready to buy will find it. Signet still carries no outbound link, by licence.
+
+---
+
 ## Session: September 30, 2026 — Signet promoted in `02 Now Shipping`
 
 A "Next to ship" block under the clearAMS teaser, with two small interactive demos. Source material read from `C:\Users\emila\Signet` — the project brief, the application overview, and the design mockups.

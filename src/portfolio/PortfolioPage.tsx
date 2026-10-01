@@ -10,7 +10,7 @@ import {Hero} from './sections/Hero';
 import {Reveal} from './sections/Reveal';
 import {Marquee} from './sections/Marquee';
 import {Manifesto} from './sections/Manifesto';
-import {Spotlight} from './sections/Spotlight';
+import {Flagships} from './sections/Flagships';
 import {Work} from './sections/Work';
 import {RingGallery} from './sections/RingGallery';
 import {Studio} from './sections/Studio';
@@ -56,7 +56,7 @@ export default function PortfolioPage() {
         <Reveal />
         <Marquee />
         <Manifesto />
-        <Spotlight onOpenForm={openForm} />
+        <Flagships />
         <Work onOpenForm={openForm} />
         <RingGallery />
         <Studio />

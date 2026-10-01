@@ -4,12 +4,6 @@ import {gsap} from '../lib/gsapSetup';
 import {PIPELINE, type PipelineApp} from '../../data/apps';
 import {AppDetail} from '../components/AppDetail';
 
-const FLAGSHIP_VIDEO =
-  'https://customer-40uk5te8zbrtkkan.cloudflarestream.com/d6785457b28b6961ba6611def16225ac/iframe?poster=' +
-  encodeURIComponent(
-    'https://customer-40uk5te8zbrtkkan.cloudflarestream.com/d6785457b28b6961ba6611def16225ac/thumbnails/thumbnail.jpg?time=&height=900',
-  );
-
 // These five live in the flipping works list; the rest orbit in the
 // RingGallery section that follows.
 const LIST_IDS = ['fieldnote', 'adjunct-central', 'signet', 'vitae', 'meridian'];
@@ -82,90 +76,30 @@ export function Work({onOpenForm}: {onOpenForm: () => void}) {
           <span>Selected Work</span>
         </div>
 
-        <h2 className="pp-reveal font-serif font-light text-[clamp(2.8rem,7vw,6.5rem)] leading-[0.95] mb-20 md:mb-28">
+        <h2 className="pp-reveal font-serif font-light text-[clamp(2.8rem,7vw,6.5rem)] leading-[0.95] mb-10">
           Eleven products. <br />
           <span className="italic text-brand-orange">One heartbeat.</span>
         </h2>
 
-        {/* ── Flagship: VAPA Pulse ── */}
-        <div className="pp-flagship max-w-5xl mb-28 md:mb-36">
-          <div className="pp-reveal">
-            <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/15 text-brand-orange text-[11px] font-bold uppercase tracking-[0.2em] mb-6 font-sans">
-              Flagship · Live in Production
-            </p>
-            <h3 className="font-serif font-light text-5xl md:text-7xl mb-6">
-              VAPA <span className="italic text-brand-orange">Pulse</span>
-            </h3>
-            <p className="text-brand-paper/65 text-lg leading-relaxed mb-8 max-w-xl">
-              The world's first Artistic Intelligence Engine — a mobile-first app that
-              turns any TK–6 generalist teacher into a confident, standards-aligned arts
-              educator across Theatre, Music, Dance, Visual Art, and Media Art.
-            </p>
-            <ul className="flex flex-wrap gap-3 mb-10 text-[11px] font-bold uppercase tracking-[0.2em] font-sans">
-              {['TK–6', '5 Disciplines', 'Prop 28 Ready', 'Mobile-First'].map((chip) => (
-                <li key={chip} className="px-4 py-2 rounded-full border border-brand-paper/15 text-brand-paper/60">
-                  {chip}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="pp-reveal relative mb-10">
-            <div className="relative rounded-[32px] md:rounded-[40px] overflow-hidden border border-brand-paper/10 shadow-[0_60px_120px_-30px_rgba(0,0,0,0.6)] bg-black">
-              <div className="relative w-full aspect-video">
-                <iframe
-                  src={FLAGSHIP_VIDEO}
-                  title="VAPA Pulse — flagship product video"
-                  loading="lazy"
-                  className="absolute inset-0 w-full h-full border-0"
-                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                  allowFullScreen
-                />
-              </div>
-              <p className="pointer-events-none absolute top-4 left-6 right-6 text-[10px] font-bold uppercase tracking-[0.25em] text-brand-paper/50 font-sans">
-                Artistic Intelligence Engine · vapapulse.com
-              </p>
-            </div>
-            <div className="absolute -bottom-10 -right-10 w-44 h-44 bg-brand-orange/25 rounded-full blur-3xl pointer-events-none" />
-          </div>
-
+        {/* The three furthest along are stations on the line in section 02, and
+            their detail is on /products — so this section is the pipeline and
+            nothing else. It used to open with the VAPA Pulse narrative, a
+            video and a clearAMS row, which is what buried the ribbon this
+            section draws down itself. The eleven-product count still
+            reconciles across the page: three above, five listed below, three
+            more in the orbit that follows. */}
+        <div className="pp-reveal mb-24 md:mb-32 flex flex-wrap items-center gap-x-8 gap-y-4">
           <a
-            href="https://vapapulse.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="pp-reveal group inline-flex items-center gap-2 text-lg font-medium text-brand-orange hover:text-brand-paper transition-colors"
+            href="/products"
+            className="group inline-flex items-center gap-2 text-lg font-medium text-brand-orange hover:text-brand-paper transition-colors"
           >
-            Visit the live product
-            <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            The three that ship, in detail
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
           </a>
+          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-paper/30 font-sans">
+            VAPA Pulse · clearAMS · Signet
+          </span>
         </div>
-
-        {/* ── The other shipped product ──
-            clearAMS is not in the pipeline list below: that list is headed "The
-            Development Pipeline" and its rows open a description modal, which is
-            the wrong destination for something that has its own site. It gets a
-            row of its own so the eleven-product count above reconciles on
-            screen, and it links out the same way the flagship does. */}
-        <a
-          href="https://clearams.app"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="pp-reveal group mb-28 md:mb-36 flex items-center gap-5 md:gap-8 border-y border-brand-paper/10 py-6 md:py-8"
-        >
-          <span className="shrink-0 px-2.5 py-1 rounded-full bg-brand-orange/15 text-brand-orange text-[9px] font-bold uppercase tracking-[0.2em] font-sans">
-            Live
-          </span>
-          <span className="flex-1 block h-[1.15em] overflow-hidden font-serif font-light text-[clamp(1.8rem,4vw,3.4rem)]">
-            <span className="block transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:[transform:translateY(-50%)]">
-              <span className="block leading-[1.15] text-brand-paper/85">clearAMS</span>
-              <span className="block leading-[1.15] italic text-brand-orange">clearAMS</span>
-            </span>
-          </span>
-          <span className="hidden md:block shrink-0 max-w-[200px] text-right text-[9px] font-bold uppercase tracking-[0.2em] text-brand-paper/30 font-sans">
-            Prop 28 planning &amp; audit evidence
-          </span>
-          <ArrowUpRight className="shrink-0 w-5 h-5 text-brand-orange group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-        </a>
 
         {/* ── The Development Pipeline: flipping works list + live preview ── */}
         <div className="flex items-end justify-between mb-10">
