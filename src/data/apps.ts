@@ -10,6 +10,13 @@ export interface AppEntry {
   collectsStudentData: boolean;
   /** Product mockup shown on the Development Pipeline card (public/pipeline/) */
   image?: string;
+  /**
+   * `live` — in production. `next` — final development, shipping next.
+   * Absent means in design or in build, the default for this catalog.
+   */
+  status?: 'live' | 'next';
+  /** The product's own site, for the few that have one. */
+  href?: string;
 }
 
 export interface Suite {
@@ -22,6 +29,25 @@ export interface Suite {
 // ── Compliance & Operations ──────────────────────────────────────────────────
 
 export const complianceOps: AppEntry[] = [
+  {
+    // Shipped. Deliberately has no `image`: there is no pipeline mockup for a
+    // product that is already in production, and it is surfaced on the landing
+    // page by its own "Now Shipping" section rather than the pipeline list.
+    id: 'clearams',
+    name: 'clearAMS',
+    subtitle: 'Arts & Music in Schools Planning',
+    audience: 'District & Site Administrators',
+    status: 'live',
+    href: 'https://clearams.app',
+    tagline:
+      "Site expenditure planning and audit evidence for California's Arts & Music in Schools program.",
+    problemStatement:
+      'Prop 28 money arrives per school, but the exposure lands on the district — and a finding comes out of the General Fund, not the arts budget.',
+    description:
+      'clearAMS runs the per-school proportionality test and the supplement-not-supplant baseline continuously, across every site and every year of the three-year cycle, and keeps the approval trail assembled. Principals build site expenditure plans against a live 80/20 guardrail that blocks a non-compliant plan rather than warning about it; the district reviews, approves, or returns each plan with written revision requests; waivers and mid-year revisions are re-checked against what was actually spent. When an auditor asks, the answer is a dated evidence packet instead of a month of spreadsheet archaeology. Multi-tenant per district, and no student data in the system at all.',
+    pricing: 'paid',
+    collectsStudentData: false,
+  },
   {
     id: 'cpq',
     image: '/pipeline/cpq.webp',
@@ -51,16 +77,22 @@ export const complianceOps: AppEntry[] = [
     collectsStudentData: false,
   },
   {
+    // Note for anyone editing this entry: Signet's licence waives any right to
+    // use a licensee's name, logo, or the existence of their deployment as a
+    // marketing reference (ToS §3.1, survives termination). Describe the
+    // product, never a customer. Same constraint documented in `signet.ts`.
     id: 'signet',
     image: '/pipeline/signet.webp',
     name: 'Signet',
-    subtitle: '',
-    audience: 'K–12, Corporate & Government HR',
-    tagline: 'Gamified micro-credentials that turn employee growth into visible, verifiable recognition.',
+    subtitle: 'Professional Learning Credentials',
+    audience: 'Professional Learning Departments',
+    status: 'next',
+    tagline:
+      'Registration, attendance, and verifiable credentials for professional learning — one record, not four systems.',
     problemStatement:
-      'Employee recognition is an afterthought in most organizations — generic, infrequent, and invisible to the people deciding promotions.',
+      'A sign-up sheet cannot tell the difference between someone who has a seat and someone who merely asked for one — and "I attended that training" proves nothing to anyone outside the organization.',
     description:
-      'Signet is a gamification utility for human resources teams: assign micro-credentials — digital badges — to employees as a motivating mechanism for professional growth, training completion, and exceptional contribution. Designed for K–12 districts as well as corporate and government HR departments, Signet makes recognition systematic instead of sporadic: badge criteria are defined once, awards are tracked automatically, and every employee builds a visible record of verified accomplishment. Entirely employee-facing — never student-facing — so there is no student data in the system at all.',
+      'Signet carries a single session from the moment someone registers, through administrative approval, to the record of who attended and the credential they earned for it. The decision that shapes everything else: registering is a request, not a reservation. Approval is the one act that issues the seat, the confirmation email, and the calendar invitation together — seats counted under a database lock, so two administrators working the same queue cannot seat the same person into the last chair, and a full room waitlists rather than fails, promoting the longest-waiting person automatically when a seat is released. Attendance comes from a roster check-in or an imported webinar report, never from memory; payable hours are computed the same way every time. Sessions carrying a badge issue an Open Badges 3.0 credential that is cryptographically signed and independently verifiable — the signature and metadata ride inside the badge image, so an issued credential stays verifiable whether or not the application is still running. Sign-in is Google Workspace only: no passwords stored, nothing to steal or reset. No student data of any kind, and no course content — it is not a learning management system.',
     pricing: 'paid',
     collectsStudentData: false,
   },

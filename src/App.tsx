@@ -191,7 +191,7 @@ export default function App() {
                     rel="noopener noreferrer"
                     className="group px-8 py-4 rounded-full text-lg font-medium border border-brand-ink/20 hover:border-brand-orange hover:text-brand-orange transition-all backdrop-blur-sm flex items-center gap-2"
                   >
-                    See the Proof of Concept
+                    See the Live Product
                     <ExternalLink className="w-4 h-4" />
                   </a>
                 </div>
@@ -219,7 +219,7 @@ export default function App() {
                     />
                   </div>
                   <div className="px-8 pt-14 pb-8 bg-brand-ink relative z-10" style={{ marginTop: '-52px', borderRadius: '0 72px 0 0' }}>
-                    <p className="text-brand-orange font-bold uppercase tracking-widest text-xs mb-3">Flagship Project · In Development</p>
+                    <p className="text-brand-orange font-bold uppercase tracking-widest text-xs mb-3">Flagship Project · Live in Production</p>
                     <h3 className="text-white font-serif text-2xl mb-3">Our flagship project: VAPA Pulse</h3>
                     <p className="text-white/60 text-base leading-relaxed">
                       A complete web and mobile app providing schools and districts with a grade-level curricular program across all five Visual and Performing Arts standards of California and the National Art Education Standards.
@@ -305,7 +305,7 @@ export default function App() {
             </p>
             <div className="text-center max-w-3xl mx-auto mb-20">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 text-brand-orange text-xs font-bold uppercase tracking-wider mb-6">
-                Flagship Product · In Development
+                Flagship Product · Live in Production
               </div>
               <h2 className="text-6xl font-light mb-6">Introducing <span className="italic text-brand-orange">VAPA Pulse</span></h2>
               <p className="text-xl text-brand-ink/60 mb-4">
@@ -320,7 +320,7 @@ export default function App() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-brand-ink transition-all shadow-xl"
               >
-                Explore the Proof of Concept
+                Explore the Live Product
                 <ExternalLink className="w-5 h-5" />
               </a>
             </div>
@@ -423,7 +423,7 @@ export default function App() {
                 Beyond the <span className="italic text-brand-orange">Flagship</span>
               </h2>
               <p className="text-xl text-brand-ink/60 leading-relaxed">
-                Every tool we build starts with a real problem inside a real school. Three suites. Nine tools.
+                Every tool we build starts with a real problem inside a real school. Three suites. Ten tools.
               </p>
             </div>
 
@@ -456,6 +456,17 @@ export default function App() {
                       >
                         <div className="shrink-0 w-36">
                           <span className="font-serif text-lg text-brand-ink">{app.name}</span>
+                          {app.status && (
+                            <span
+                              className={`ml-2 align-middle px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest ${
+                                app.status === 'live'
+                                  ? 'bg-brand-orange/15 text-brand-orange'
+                                  : 'border border-brand-ink/15 text-brand-ink/40'
+                              }`}
+                            >
+                              {app.status === 'live' ? 'Live' : 'Next'}
+                            </span>
+                          )}
                           {app.subtitle && (
                             <div className="text-[10px] font-bold uppercase tracking-widest text-brand-ink/30 mt-0.5">{app.subtitle}</div>
                           )}

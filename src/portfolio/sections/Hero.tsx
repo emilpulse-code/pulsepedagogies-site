@@ -92,11 +92,13 @@ export function Hero({start, onOpenForm}: {start: boolean; onOpenForm: () => voi
             designed and engineered by educators.
           </p>
           <div className="pp-hero-fade flex flex-wrap gap-4">
+            {/* Lands on the newest shipped product, not the pipeline — the
+                first click should reach something a visitor can open. */}
             <a
-              href="#work"
+              href="#shipping"
               className="group inline-flex items-center gap-2 bg-brand-orange text-white px-8 py-4 rounded-full font-medium hover:bg-brand-paper hover:text-brand-ink transition-colors"
             >
-              View selected work
+              See what's shipping
               <ArrowDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
             </a>
             <a

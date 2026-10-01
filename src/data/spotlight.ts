@@ -1,11 +1,19 @@
 /**
- * The "Now Shipping" spotlight on the landing page.
+ * The "Now Shipping" spotlight.
+ *
+ * Read by `sections/Spotlight.tsx`, which shows a teaser: status, name,
+ * headline, tagline, the live guardrail, one walkthrough, then a link out to
+ * the product's own site. This site does not re-sell the product — clearams.app
+ * has its own marketing, pricing, and signup, and a second copy of that here
+ * would only intercept people on their way to it. Not everything below is
+ * rendered; `body` and `stats` are the long-form claims kept with the record.
  *
  * This is deliberately a single swappable object rather than a list: the
- * section exists to feature the ONE newest application that is actually live
- * in production, which is a different claim from the Development Pipeline in
- * `apps.ts` (designed / in build / coming soon). When the next product ships,
- * replace SPOTLIGHT — the section renders whatever is here.
+ * section exists to feature the ONE newest application to reach production.
+ * The copy here is the marketing narrative; `apps.ts` carries the same product
+ * as a catalog entry (`id: 'clearams'`, `status: 'live'`) for the places that
+ * render the catalog. When the next product ships, replace SPOTLIGHT — the
+ * section renders whatever is here.
  *
  * `demo` is optional. It drives the interactive guardrail widget, which only
  * makes sense for a product whose core promise is a spend rule. A future
@@ -71,6 +79,12 @@ export interface SpotlightApp {
   stats: {value: string; label: string}[];
   demo?: GuardrailDemoConfig;
   walkthroughs?: Walkthrough[];
+  /**
+   * Which walkthrough the landing page shows. Must match a `walkthroughs[].id`.
+   * The section renders exactly one — four players made it the tallest thing on
+   * the page — so this is the single take that has to earn the click out.
+   */
+  featuredWalkthrough?: string;
 }
 
 export const SPOTLIGHT: SpotlightApp = {
@@ -106,6 +120,7 @@ export const SPOTLIGHT: SpotlightApp = {
       {id: 'residency', kind: 'other', label: 'Touring theatre residency, 6 weeks', amount: 11_000, on: false},
     ],
   },
+  featuredWalkthrough: 'planning',
   walkthroughs: [
     {
       id: 'planning',

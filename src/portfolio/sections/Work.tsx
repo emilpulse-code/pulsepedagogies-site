@@ -91,7 +91,7 @@ export function Work({onOpenForm}: {onOpenForm: () => void}) {
         <div className="pp-flagship max-w-5xl mb-28 md:mb-36">
           <div className="pp-reveal">
             <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/15 text-brand-orange text-[11px] font-bold uppercase tracking-[0.2em] mb-6 font-sans">
-              Flagship · In Development
+              Flagship · Live in Production
             </p>
             <h3 className="font-serif font-light text-5xl md:text-7xl mb-6">
               VAPA <span className="italic text-brand-orange">Pulse</span>
@@ -135,10 +135,37 @@ export function Work({onOpenForm}: {onOpenForm: () => void}) {
             rel="noopener noreferrer"
             className="pp-reveal group inline-flex items-center gap-2 text-lg font-medium text-brand-orange hover:text-brand-paper transition-colors"
           >
-            Visit the live proof of concept
+            Visit the live product
             <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </a>
         </div>
+
+        {/* ── The other shipped product ──
+            clearAMS is not in the pipeline list below: that list is headed "The
+            Development Pipeline" and its rows open a description modal, which is
+            the wrong destination for something that has its own site. It gets a
+            row of its own so the eleven-product count above reconciles on
+            screen, and it links out the same way the flagship does. */}
+        <a
+          href="https://clearams.app"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pp-reveal group mb-28 md:mb-36 flex items-center gap-5 md:gap-8 border-y border-brand-paper/10 py-6 md:py-8"
+        >
+          <span className="shrink-0 px-2.5 py-1 rounded-full bg-brand-orange/15 text-brand-orange text-[9px] font-bold uppercase tracking-[0.2em] font-sans">
+            Live
+          </span>
+          <span className="flex-1 block h-[1.15em] overflow-hidden font-serif font-light text-[clamp(1.8rem,4vw,3.4rem)]">
+            <span className="block transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:[transform:translateY(-50%)]">
+              <span className="block leading-[1.15] text-brand-paper/85">clearAMS</span>
+              <span className="block leading-[1.15] italic text-brand-orange">clearAMS</span>
+            </span>
+          </span>
+          <span className="hidden md:block shrink-0 max-w-[200px] text-right text-[9px] font-bold uppercase tracking-[0.2em] text-brand-paper/30 font-sans">
+            Prop 28 planning &amp; audit evidence
+          </span>
+          <ArrowUpRight className="shrink-0 w-5 h-5 text-brand-orange group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+        </a>
 
         {/* ── The Development Pipeline: flipping works list + live preview ── */}
         <div className="flex items-end justify-between mb-10">
