@@ -55,6 +55,20 @@ All registered via Cloudflare Registrar.
 | AdjunctCentral | adjunctcentral.app ✓, pulseadjunctcentral.app ✓ | adjunctcentral.com ✓, pulseadjunctcentral.com ✓ |
 | Vitae | pulsevitae.app ✓, vitaepulse.app ✓ | — (pulsevitae.com taken by 3rd party) |.
 
+**Signet** sits outside the `.app` / `.com` pattern above: **`signetsystem.net` ✓** and
+**`signetsystems.net` ✓**, both held in Cloudflare. Registered but **not yet mapped** — no DNS
+record, nothing deployed, so there is still nothing to link a visitor to. Registration and expiry
+dates for this pair are not the April 2026 / April 2029 window in the heading above; confirm in
+Cloudflare before relying on them.
+
+Note that `signet.app` is **not** registered. It appears ~37 times inside the Signet repo as a
+placeholder host (and in the badge-designer mockup's email-signature snippet); do not treat those
+occurrences as a domain the company owns.
+
+**clearAMS** ships at `clearams.app`, which is live and has its own marketing site. Not listed in
+the table above because it has not been confirmed whether it is held in the same Cloudflare
+Registrar account as the rest.
+
 ---
 
 ## About This Project

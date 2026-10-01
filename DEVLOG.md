@@ -44,7 +44,7 @@ Laid out deliberately unlike the clearAMS block above — narrative full width, 
 
 Verified in-browser at 1280px and ~640px: approve → confirmed, approve into a full room → waitlisted, release → longest-waiting promoted, roster heading stops saying "Awaiting approval" once nobody is; check → valid, revoke → struck through with the revocation dated in the chain and the signature still sound. Zero overflow inside section 02 at narrow width, zero scroll drift. `tsc --noEmit` clean, build clean. Landing bundle +17.7 kB raw / +4.1 kB gzipped for both widgets.
 
-**Open, not done here:** Signet has no registered domain — `signet.app` appears 37 times across its repo and in the badge-designer mockup's email-signature snippet, but it is absent from the registry in `CLAUDE.md`, which also omits Signet from the product table entirely. And Signet now appears twice on the landing page: featured in 02 and listed at position 03 of the Development Pipeline in Work. Defensible — it is in development — but worth a decision.
+**Open, not done here:** ~~Signet has no registered domain~~ — **wrong, corrected September 30, 2026.** Signet holds `signetsystem.net` and `signetsystems.net` in Cloudflare; they are simply not mapped yet. The `signet.app` host that appears ~37 times across the Signet repo is a placeholder and is not owned, which is what misled this entry. Both domains are now recorded in `CLAUDE.md`. The outbound link stays off the site until one of them actually resolves. Separately, Signet still appears twice on the landing page: featured in 02 and listed at position 03 of the Development Pipeline in Work. Defensible — it is in development — but worth a decision.
 
 ---
 
