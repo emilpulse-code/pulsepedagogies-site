@@ -4,9 +4,16 @@ import {gsap} from '../lib/gsapSetup';
 import {PIPELINE, type PipelineApp} from '../../data/apps';
 import {AppDetail} from '../components/AppDetail';
 
-// These five live in the flipping works list; the rest orbit in the
-// RingGallery section that follows.
-const LIST_IDS = ['fieldnote', 'adjunct-central', 'signet', 'vitae', 'meridian'];
+/* These four live in the flipping works list; the rest orbit in the
+   RingGallery section that follows.
+
+   Signet is deliberately NOT here. It is featured as a station in section 02
+   and has its own section on /products, and a row in a list headed "The
+   Development Pipeline" — whose rows open a description modal — both
+   contradicted that and sent anyone who clicked it somewhere worse than where
+   they came from. Same reasoning that kept clearAMS out. Both still count
+   toward the eleven: three above, four here, four in the orbit. */
+const LIST_IDS = ['fieldnote', 'adjunct-central', 'vitae', 'meridian'];
 const LIST_APPS = LIST_IDS.map((id) => PIPELINE.find((a) => a.id === id)!);
 
 export function Work({onOpenForm}: {onOpenForm: () => void}) {

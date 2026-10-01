@@ -135,9 +135,10 @@ other, so grep `Signet` across `src/` and work the list:
 6. **`src/pages/ProductsPage.tsx`** — the Signet section ends in a `mailto:` CTA instead of an
    `OutLink`, with a comment explaining why. Swap it for `<OutLink>` and update the file-header
    comment that says Signet "has no outbound link".
-7. **`src/portfolio/sections/Work.tsx`** — Signet is in `LIST_IDS`, i.e. it is still listed in the
-   Development Pipeline *and* featured in section 02. Shipping is the moment to resolve that
-   double appearance; removing it from `LIST_IDS` leaves four in the list.
+7. ~~`src/portfolio/sections/Work.tsx` — Signet is in `LIST_IDS`~~ **Done September 30, 2026.**
+   Signet was removed from the Development Pipeline list, so it is featured in section 02 and on
+   `/products` and nowhere else. The list is four; the orbit is four; the three featured products
+   make ten catalog entries, none orphaned.
 8. **Counts — these are consistent today; keep them that way.** `apps.ts` holds **ten** catalog
    entries, which is the "Three suites. Ten tools." on `/company` (`App.tsx`). VAPA Pulse is the
    flagship and is *not* in that catalog, so ten + one = the **eleven** in Work.tsx's "Eleven
@@ -343,8 +344,8 @@ Open, none blocking, none assigned:
   Against the lighter section above, it reads heavy. Unifying the weights is a real option but
   that ribbon is a signature element — Emil's call.
 - **`AdjunctCentral` clips to "AdjunctCent"** in the Development Pipeline list around 1264px wide.
-- **Signet appears twice on the landing page** — featured in section 02 and listed at position 03
-  of the Development Pipeline. Defensible, but worth a decision.
+- ~~Signet appears twice on the landing page~~ **Resolved September 30, 2026** — removed from the
+  Development Pipeline list in `Work.tsx`.
 - **`DemoModal.tsx` placeholder names a real district** ("e.g. Glendale Unified School District").
   It's a form example rather than a customer claim, but it is the one place on the public site that
   names them. One-word fix if wanted.
