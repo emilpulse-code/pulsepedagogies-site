@@ -22,6 +22,12 @@ import {gsap, ScrollTrigger} from '../lib/gsapSetup';
  *    the meaning. A screen reader gains nothing from "five curves converge".
  */
 
+export interface ConceptProps {
+  className?: string;
+  /** Caller-driven trigger; see useConcept. Omit for the usual scroll trigger. */
+  play?: boolean;
+}
+
 const STROKE = {
   fill: 'none',
   strokeLinecap: 'round' as const,
@@ -51,9 +57,21 @@ function drawIn(
   });
 }
 
-/** Shared scroll hook: build the timeline once, fire it once, honour reduce. */
-function useConcept(build: () => gsap.core.Timeline) {
+/** Shared scroll hook: build the timeline once, fire it once, honour reduce.
+ *
+ * `play` hands the trigger to the caller. Section 02 runs its products along
+ * a horizontal track inside a pinned stage, where every mark sits at the same
+ * vertical position — a vertical ScrollTrigger would fire all three the moment
+ * the stage pinned. When `play` is defined, the mark ignores scroll entirely
+ * and strikes the first time it turns true. */
+function useConcept(build: () => gsap.core.Timeline, play?: boolean) {
   const ref = useRef<HTMLDivElement>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
+  const external = play !== undefined;
+
+  useLayoutEffect(() => {
+    if (play) tlRef.current?.play();
+  }, [play]);
 
   useLayoutEffect(() => {
     const root = ref.current;
@@ -63,6 +81,14 @@ function useConcept(build: () => gsap.core.Timeline) {
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         const tl = build();
         tl.pause();
+        tlRef.current = tl;
+        if (external) {
+          if (play) tl.progress(1);
+          return () => {
+            tlRef.current = null;
+            tl.kill();
+          };
+        }
         // Fires when the mark is comfortably in view, never replays.
         const st = ScrollTrigger.create({
           trigger: root,
@@ -106,7 +132,7 @@ function useConcept(build: () => gsap.core.Timeline) {
 
 const STRAND_Y = [40, 110, 185, 260, 330];
 
-export function StrandsConcept({className = ''}: {className?: string}) {
+export function StrandsConcept({className = '', play}: ConceptProps) {
   const ref = useConcept(() =>
     gsap
       .timeline()
@@ -122,6 +148,7 @@ export function StrandsConcept({className = ''}: {className?: string}) {
       .fromTo('.c-node-dot', {attr: {r: 0}, autoAlpha: 0}, {attr: {r: 7}, autoAlpha: 1, duration: 0.4, ease: 'back.out(2.2)'}, '-=0.3')
       .fromTo('.c-node-ring', {attr: {r: 0}, autoAlpha: 0}, {attr: {r: 15}, autoAlpha: 1, duration: 0.45, ease: 'back.out(2)'}, '-=0.35')
       .fromTo('.c-tick', {autoAlpha: 0, x: -6}, {autoAlpha: 1, x: 0, duration: 0.3, stagger: 0.05}, '-=0.2'),
+    play,
   );
 
   return (
@@ -188,7 +215,7 @@ export function StrandsConcept({className = ''}: {className?: string}) {
 const TRACK = {x: 40, y: 150, w: 540, h: 64, r: 32};
 const STOP = TRACK.x + TRACK.w * 0.8; // the 80% staffing floor
 
-export function GuardrailConcept({className = ''}: {className?: string}) {
+export function GuardrailConcept({className = '', play}: ConceptProps) {
   const ref = useConcept(() =>
     gsap
       .timeline()
@@ -204,6 +231,7 @@ export function GuardrailConcept({className = ''}: {className?: string}) {
       .to('.c-stop-flash', {autoAlpha: 1, duration: 0.12})
       .to('.c-breach', {x: 0, duration: 0.9, ease: 'elastic.out(1, 0.5)'}, '<')
       .to('.c-stop-flash', {autoAlpha: 0, duration: 0.5}, '<'),
+    play,
   );
 
   return (
@@ -296,7 +324,7 @@ export function GuardrailConcept({className = ''}: {className?: string}) {
    deliberately separate from the seal for that reason.
    ───────────────────────────────────────────────────────────────────────────── */
 
-export function SealConcept({className = ''}: {className?: string}) {
+export function SealConcept({className = '', play}: ConceptProps) {
   const ref = useConcept(() =>
     gsap
       .timeline()
@@ -308,6 +336,7 @@ export function SealConcept({className = ''}: {className?: string}) {
       .fromTo('.c-ray', {autoAlpha: 0}, {autoAlpha: 1, duration: 0.4, stagger: 0.03, ease: 'power2.out'}, '-=0.25')
       .add(drawIn('.c-chain', {duration: 0.6, stagger: 0.1}), '-=0.1')
       .add(drawIn('.c-check', {duration: 0.45}), '-=0.15'),
+    play,
   );
 
   const cx = 250;

@@ -24,19 +24,33 @@ export function Reveal() {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
       mm.add('(prefers-reduced-motion: no-preference)', () => {
+        /* The timeline runs in abstract units; the pin maps them onto scroll at
+           ~140% of a viewport per unit, the pacing the zoom has always had.
+
+           0.0 ─ 1.6  frame grows to full screen, art zooms underneath
+           1.35 ─ 2.15 the art shatters — only once the frame has nearly
+                       filled the screen, so the zoom gets its moment first
+           1.95 ─ 2.4  the phrase resolves out of the debris
+           2.4 ─ 3.1  HOLD. Nothing moves; the reader gets about a screen
+                       of scroll to actually read the line before the pin
+                       releases. Without it the phrase landed and the next
+                       section arrived in the same flick of the wheel. */
+        const UNITS = 3.1;
+        const SHATTER_FROM = 1.35;
+        const SHATTER_TO = 2.15;
+
         gsap
           .timeline({
             scrollTrigger: {
               trigger: root,
               start: 'top top',
-              end: '+=280%',
+              end: `+=${Math.round(UNITS * 140)}%`,
               scrub: 1,
               pin: '.pp-reveal-stage',
               anticipatePin: 1,
-              // The intact image holds for the first third of the cycle,
-              // then morphs and breaks over the remainder
               onUpdate: (self) => {
-                shatterP.current = gsap.utils.clamp(0, 1, (self.progress - 0.34) / 0.52);
+                const t = self.progress * UNITS;
+                shatterP.current = gsap.utils.clamp(0, 1, (t - SHATTER_FROM) / (SHATTER_TO - SHATTER_FROM));
               },
             },
           })
@@ -46,14 +60,16 @@ export function Reveal() {
           .to('.pp-reveal-outline', {autoAlpha: 0, duration: 0.25}, 0.25)
           // hide the static poster just before the shards start tearing away,
           // so the gaps they leave show ink — not a frozen copy of the image
-          .to('.pp-reveal-poster', {autoAlpha: 0, duration: 0.12}, 0.6)
-          .to('.pp-reveal-shade', {opacity: 1, duration: 0.5}, 1.4)
+          .to('.pp-reveal-poster', {autoAlpha: 0, duration: 0.1}, SHATTER_FROM - 0.12)
+          .to('.pp-reveal-shade', {opacity: 1, duration: 0.5}, 1.8)
           .fromTo(
             '.pp-reveal-phrase',
             {autoAlpha: 0, y: 64},
-            {autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out'},
-            1.5,
-          );
+            {autoAlpha: 1, y: 0, duration: 0.45, ease: 'power2.out'},
+            1.95,
+          )
+          // the hold: an empty span that pads the timeline out to UNITS
+          .to({}, {duration: UNITS - 2.4}, 2.4);
       });
 
       // Reduced motion: everything simply visible, no pin, no scrub

@@ -37,9 +37,10 @@ When Signet ships, the site changes in more places than it looks — the checkli
 "Shipping Signet" below, written while the code was fresh so the flip is mechanical rather than
 archaeological.
 
-Most recent work (September 30, 2026): section 02 of the landing page was rebuilt as three product
-"stations" threaded by the orange line, and the detail that used to sit there moved to a new
-`/products` page. See the top two entries in `DEVLOG.md` before touching either.
+Most recent work (October 4, 2026): section 02 of the landing page is now a pinned, sideways
+journey along the full-weight orange ribbon — one held "moment" per product, with real screenshots
+of vapapulse.com and clearams.app — and the Reveal sphere shatters later and holds its phrase. See
+the top entry in `DEVLOG.md` before touching either. The product detail lives on `/products`.
 
 The site is live at:
 - **Production:** https://pulsepedagogies.com
@@ -125,11 +126,13 @@ other, so grep `Signet` across `src/` and work the list:
    `href: 'https://<domain>'`. The status pill on `/company` reads this.
 3. **`src/data/signet.ts`** — `NEXT_UP.status` is `'Final development'`. The file header says that
    when Signet ships it becomes the SPOTLIGHT and whatever is behind it moves into `NEXT_UP`.
-   Decide whether that still applies now that section 02 is three stations rather than a
+   Decide whether that still applies now that section 02 is three moments rather than a
    spotlight + next-up pair; the simpler read is that `signet.ts` just becomes a third peer of
    `spotlight.ts`.
-4. **`src/portfolio/sections/Flagships.tsx`** — the `signet` station: `status: 'Final development'`
-   → `'Live in production'` and `live: false` → `true` (that flag drives the pulsing dot).
+4. **`src/portfolio/sections/Flagships.tsx`** — the `signet` entry in `MOMENTS`: `status: 'Final development'`
+   → `'Live in production'` and `live: false` → `true` (that flag drives the pulsing dot). Its hero
+   object is the seal, not a screenshot, because the only running deployment is titled with the
+   licensee's name; if a neutral screen becomes available, `HeroObject` is where it goes.
 5. **Same file, the section heading** — currently "Two in production. / One landing." Becomes three
    in production, so the line needs rewriting, not just a number swap.
 6. **`src/pages/ProductsPage.tsx`** — the Signet section ends in a `mailto:` CTA instead of an
@@ -249,8 +252,9 @@ pulsepedagogies-site/
 ```
 
 **The orange line spans two sections and is drawn by two files.** `sections/Flagships.tsx` draws
-the hairline + swell through section 02 and exits at x≈330/1000; `sections/Work.tsx` draws the
-thick ribbon through section 03 and enters at the same x. Move one and move the other.
+the ribbon along section 02's sideways track (its `ROUTE`) and exits the bottom at x = 0.3155 of the
+width, at 0.072 of the width thick; `sections/Work.tsx` draws section 03's ribbon, which enters at
+the same x with the same 72/1000 stroke. Move one and move the other.
 
 ---
 
@@ -338,11 +342,10 @@ _Tier 2 / Tier 3 / Tier 4 items closed May 20, 2026 — see `DEVLOG.md`._
 Open, none blocking, none assigned:
 
 - **Map a Signet domain.** `signetsystem.net` / `signetsystems.net` are held but unmapped. Until one
-  resolves, the Signet station and its `/products` section carry no outbound link. This is the
+  resolves, the Signet moment and its `/products` section carry no outbound link. This is the
   first item on the Shipping Signet checklist and gates most of the rest.
-- **Section 03's ribbon is still 72px** while section 02's line is a hairline that swells into it.
-  Against the lighter section above, it reads heavy. Unifying the weights is a real option but
-  that ribbon is a signature element — Emil's call.
+- ~~Section 03's ribbon is 72px while section 02's line is a hairline~~ **Resolved October 4,
+  2026** — section 02 now runs the ribbon at the same full weight.
 - **`AdjunctCentral` clips to "AdjunctCent"** in the Development Pipeline list around 1264px wide.
 - ~~Signet appears twice on the landing page~~ **Resolved September 30, 2026** — removed from the
   Development Pipeline list in `Work.tsx`.

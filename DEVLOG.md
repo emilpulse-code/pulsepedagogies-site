@@ -2,6 +2,32 @@
 
 ---
 
+## Session: October 4, 2026 — Section 02 goes sideways; the sphere holds its line
+
+**The brief.** Emil: section 02 was "less interesting than the rest of the site"; the line dropped to a hairline there for no reason and coming out of it was awkward; each of the three products should have its own moment rather than a straight scroll past all three. Separately, the Reveal sphere should shatter later, and "Basically, we build apps for education" should pause long enough to read.
+
+**Section 02 is now a pinned, sideways track.** The section pins and the scroll turns horizontal: an intro screen, then one full screen per product. The ribbon runs the whole way at full weight — 0.072 of the width, which is exactly Work.tsx's 72/1000 — so there is no hairline and no swell, and it leaves the bottom of the stage at x = 0.3155 straight into section 03's ribbon. Its route (`ROUTE`, Catmull-Rom through viewport-unit points) threads behind every hero object and dips under both copy columns it would otherwise cross. It draws to the edge of the screen: the tip sits just off the bottom while the section rises, just off the right edge while the track slides, and off the bottom again on the way out.
+
+**Each product gets a moment.** Its hero object swings in out of perspective (rotateY ~32° → 0, scale 0.82 → 1) and settles flat as it arrives, then leans away as the next one takes the frame. Front pieces (`.m-float`) parallax further than the object behind them, and a giant italic name drifts behind the ribbon the other way. The copy staggers in, the concept mark strikes the first time its product holds the frame, and a small pill at the bottom tracks which of the three you are on.
+
+- **VAPA Pulse** — the real vapapulse.com in a browser frame, with the phone layout in front and the strands mark on a card.
+- **clearAMS** — the real clearams.app hero in a browser frame, guardrail mark on a card.
+- **Signet** — the seal itself, set on a solid medallion so the ribbon passes behind it. **No screenshot, deliberately:** the only running deployment (signet-system.fly.dev) is titled with the licensee's name, and the licence note in `data/signet.ts` forbids naming or implying a deployment.
+
+Screenshots were captured headless at 2× from the live sites and are in `public/flagships/` (213 kB total, lazy-loaded).
+
+**Holds instead of snap.** ScrollTrigger's `snap` was tried first and fought Lenis — both want to own the scroll position, and in testing the page jumped backwards to the intro. The holds are written into the scrubbed timeline instead: the track eases into each product (`power2.inOut`), sits still for 0.7 units of scroll, then eases on. Because the slide is no longer linear, `containerAnimation` cannot be used (it requires a linear container tween), so a ticker reads the track's actual offset each frame and sets the progress of paused tweens. That one function also draws the ribbon.
+
+**Concept marks take a `play` prop.** On the sideways track all three marks sit at the same vertical position, so their usual vertical ScrollTrigger would have fired all three the moment the stage pinned. When `play` is passed, the mark ignores scroll and strikes the first time it turns true; omitted, it behaves as before.
+
+**Under 1024px or with reduced motion** there is no pin and no ribbon in section 02: the same three moments stack vertically with `pp-reveal`. Section 03's ribbon still starts at its own top.
+
+**Reveal.** The timeline is now 3.1 units at the same ~140% of a viewport per unit (pin length 280% → 434%). The zoom is unchanged; the shatter starts at 1.35 (was ~0.68), once the frame has nearly filled the screen; the phrase lands at 1.95–2.4; then 0.7 units (~a screen of scroll) of nothing moving before the pin releases.
+
+Verified with headless captures at 1440×900 across the whole track and the seam, and at 390×844 for the stacked fallback; the Reveal checked at five points along its timeline. No console errors. `tsc --noEmit` clean, build clean.
+
+---
+
 ## Session: September 30, 2026 — Section 02 rebuilt as stations on the orange line
 
 **The brief:** the product detail added in the previous session was interrupting the page. Emil's words — the flow "is what makes it gorgeous," and section 02 had become "stilted." So: put the apps *on* the orange line, replace the detail with graphics that carry each product's concept, and move the actual information to its own page.
