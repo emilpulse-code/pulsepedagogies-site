@@ -4,6 +4,7 @@ import {ArrowRight} from 'lucide-react';
 import {gsap, ScrollTrigger} from '../lib/gsapSetup';
 import {GuardrailConcept, SealConcept, StrandsConcept, type ConceptProps} from '../components/concepts';
 import {edgeDrawer, RIBBON_COLOR, RIBBON_W, smoothPath, X_INTO_02, X_INTO_03} from '../lib/ribbon';
+import {setWheelSpeed} from '../lib/useLenis';
 
 /**
  * Section 02 — "Now Shipping", as three moments on the ribbon.
@@ -145,7 +146,14 @@ function useSideways() {
 }
 
 /* clientWidth, not innerWidth: 100vw includes the scrollbar gutter, and the
-   ribbon has to measure exactly what section 03's does to meet it. */
+   ribbon has to measure exactly what sections 01 and 03 do to meet them.
+
+   Watched with a ResizeObserver on <html>, not only the window's resize
+   event: the scrollbar appearing (or disappearing) changes clientWidth
+   without resizing the window. Read once at first render and never again,
+   this stage kept the no-scrollbar width while section 01, measuring its own
+   box, had the narrower one — and the ribbon broke at the 01 → 02 seam by
+   X_INTO_02 × the scrollbar's width. */
 function useStageSize() {
   const read = () =>
     typeof window === 'undefined'
@@ -154,17 +162,24 @@ function useStageSize() {
   const [size, setSize] = useState(read);
   useEffect(() => {
     let t = 0;
+    const sync = () => {
+      const next = read();
+      setSize((s) => (s.w === next.w && s.h === next.h ? s : next));
+    };
     const onResize = () => {
       window.clearTimeout(t);
-      t = window.setTimeout(() => {
-        const next = read();
-        setSize((s) => (s.w === next.w && s.h === next.h ? s : next));
-      }, 150);
+      t = window.setTimeout(sync, 150);
     };
     window.addEventListener('resize', onResize);
+    // Immediate: a scrollbar is a one-off change, not a drag. It also fires as
+    // the page grows taller, which `sync` ignores because nothing it reads moved.
+    const ro = new ResizeObserver(sync);
+    ro.observe(document.documentElement);
+    sync();
     return () => {
       window.clearTimeout(t);
       window.removeEventListener('resize', onResize);
+      ro.disconnect();
     };
   }, []);
   return size;
@@ -356,9 +371,12 @@ function Sideways() {
          holds are written into the scrubbed timeline itself — the track eases
          into each product, then sits still for a stretch of scroll while
          nothing moves but the reader's eye, then eases on. */
+      /* Every product, the last included, gets the same full hold: about a
+         screen of scroll with nothing moving. The last one used to get 0.6 of
+         a hold and then the pin let go, so Signet barely stopped at all. */
       const MOVE = 1;
-      const HOLD = 0.7;
-      const units = MOMENTS.length * (MOVE + HOLD) - HOLD * 0.4;
+      const HOLD = 1.2;
+      const units = MOMENTS.length * (MOVE + HOLD);
       const slide = gsap.timeline({
         scrollTrigger: {
           trigger: root,
@@ -372,7 +390,28 @@ function Sideways() {
       });
       MOMENTS.forEach((_, i) => {
         slide.to(track, {x: -(INTRO_W + i) * w, duration: MOVE, ease: 'power2.inOut'});
-        slide.to({}, {duration: i === MOMENTS.length - 1 ? HOLD * 0.6 : HOLD});
+        slide.to({}, {duration: HOLD});
+      });
+
+      /* ── The way out, at half speed ──
+         When the pin lets go, Signet's screen scrolls up and away. For the
+         first SLOW_FOR of that travel the wheel moves the page half as far, so
+         the copy can still be read as it leaves; over the next RAMP it eases
+         back to normal. It is the wheel that slows, not the page: a slower
+         scrub of a pinned exit would leave section 03 stuck below the spacer.
+         `bottom bottom` is the moment the pin ends — the stage is one screen
+         tall, so the section's bottom meets the viewport's then. */
+      const SLOW_FOR = 0.6 * h;
+      const RAMP = 0.4 * h;
+      const exitSpeed = (dist: number) =>
+        dist <= SLOW_FOR ? 0.5 : 0.5 + 0.5 * gsap.parseEase('sine.inOut')(Math.min(1, (dist - SLOW_FOR) / RAMP));
+      ScrollTrigger.create({
+        trigger: root,
+        start: 'bottom bottom',
+        end: `+=${Math.round(SLOW_FOR + RAMP)}`,
+        onUpdate: (self) => setWheelSpeed(exitSpeed(self.progress * (SLOW_FOR + RAMP))),
+        onLeave: () => setWheelSpeed(1),
+        onLeaveBack: () => setWheelSpeed(1),
       });
 
       /* ── Everything else is a function of where the track is ──
@@ -467,7 +506,10 @@ function Sideways() {
       ScrollTrigger.sort();
       ScrollTrigger.refresh();
 
-      return () => gsap.ticker.remove(update);
+      return () => {
+        gsap.ticker.remove(update);
+        setWheelSpeed(1);
+      };
     }, root);
 
     return () => ctx.revert();
