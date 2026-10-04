@@ -59,7 +59,7 @@ All changes are uncommitted — everything is in the working tree, not pushed ye
 3. Ed-tech: LAUSD, San Diego County Office of Education (SDCOE), Imperial County Office of Education. Director at SDCOE (13-person unit). TechSETS — "one of the longest-running technology support services for the education sector" (no longer active). K–12 High Speed Network statewide cybersecurity program. Architect of the Pulse Pedagogical Engine.
 
 **Satenik's bio**
-- "southern California schools" → "southern California schools"
+- Former employer's name → "southern California schools"
 
 **Emails**
 - Demo modal → `emil@vapapulse.com`

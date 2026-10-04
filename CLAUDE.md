@@ -351,9 +351,10 @@ Open, none blocking, none assigned:
 - **`AdjunctCentral` clips to "AdjunctCent"** in the Development Pipeline list around 1264px wide.
 - ~~Signet appears twice on the landing page~~ **Resolved September 30, 2026** — removed from the
   Development Pipeline list in `Work.tsx`.
-- **`DemoModal.tsx` placeholder names a real district** ("Your school, district, or county office").
-  It's a form example rather than a customer claim, but it is the one place on the public site that
-  names them. One-word fix if wanted.
+- ~~`DemoModal.tsx` placeholder names a real district~~ **Resolved October 4, 2026** — now a
+  generic placeholder. **Rule: no district name, district email, or district GitHub account
+  anywhere in this repo** — not in copy, placeholders, docs, or commit authorship. Commit as
+  `emil@pulsepedagogies.com`, push as `emilpulse-code`.
 - 17 Dependabot advisories on the default branch (7 high, 7 moderate, 3 low).
 
 ---
