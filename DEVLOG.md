@@ -2,6 +2,24 @@
 
 ---
 
+## Session: October 4, 2026 — The line is born in the marquee, and runs on mobile
+
+**The brief.** Emil: the orange line should connect to the orange banner near the top of the site, as if it emanates from there; and on mobile the line did not appear for the three featured products.
+
+**It now starts in section 01.** `Manifesto.tsx` draws the ribbon from the bottom edge of the marquee band — a flared root with concave fillets where the two meet, so it reads as pulled out of the band — down the right margin (`X_INTO_02` = 0.9 of the width, clear of the manifesto and stats on desktop) and straight into section 02. Section 02's route now enters at that x instead of 0.74. So the line runs unbroken from the marquee to the bottom of section 03.
+
+**Mobile.** The stacked layout (under 1024px, and reduced motion) now carries the ribbon too. Its route is measured off the laid-out page rather than fixed, because the stacked heights depend on the copy and the screen: in at `X_INTO_02`, behind each hero object's centre, across each block of copy along alternating margins, out at `X_INTO_03` for section 03. Re-measured on resize.
+
+**Shared module: `lib/ribbon.ts`.** The width (`RIBBON_W`), the two boundary x's, the Catmull-Rom path builder and the draw-to-the-screen-edge function used to be copied per section; now all three ribbons use them. Work's ribbon lost its `opacity-90` so the stroke is one colour from end to end.
+
+**Seams, measured not eyeballed.** Two things showed at the 01→02 boundary. (1) A 1.7px step: a spline carries the previous point's tangent into the next segment, so a sway above the boundary bent the crossing off-x. Fixed by putting three consecutive points on the boundary x on each side, which makes the crossing segment exactly vertical — measured afterwards at 1296.0 / 1296.0 px. (2) A faint horizontal seam line where two sections meet at a fractional pixel and each antialiases its edge. Section 01 now sits above 02 (`z-[1]`, `overflow-x-clip` instead of `overflow-hidden`) and its ribbon overhangs the boundary by 3px.
+
+**Reveal hold doubled.** At Emil's request the phrase "Basically, we build apps for education." holds longer: the timeline is now 3.8 units (was 3.1), so the still hold after the phrase lands is 1.4 units — about two screens of scroll instead of one. Pin length 434% → 532%.
+
+Verified with headless captures at 1440×900 and 390×844: the root at the marquee, the 01→02 seam, all three mobile products, and the 02→03 seam on mobile. `tsc --noEmit` clean, build clean.
+
+---
+
 ## Session: October 4, 2026 — Section 02 goes sideways; the sphere holds its line
 
 **The brief.** Emil: section 02 was "less interesting than the rest of the site"; the line dropped to a hairline there for no reason and coming out of it was awkward; each of the three products should have its own moment rather than a straight scroll past all three. Separately, the Reveal sphere should shatter later, and "Basically, we build apps for education" should pause long enough to read.

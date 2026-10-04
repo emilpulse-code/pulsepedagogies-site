@@ -64,7 +64,7 @@ export function Work({onOpenForm}: {onOpenForm: () => void}) {
            page into horizontal overflow and placed the ribbon's x a few pixels
            off section 02's spine, which is sized to the section. The two must
            measure the same to meet. */
-        className="absolute left-0 top-0 h-full w-full pointer-events-none opacity-90"
+        className="absolute left-0 top-0 h-full w-full pointer-events-none"
       >
         <path
           className="pp-ribbon-path"

@@ -31,11 +31,11 @@ export function Reveal() {
            1.35 ─ 2.15 the art shatters — only once the frame has nearly
                        filled the screen, so the zoom gets its moment first
            1.95 ─ 2.4  the phrase resolves out of the debris
-           2.4 ─ 3.1  HOLD. Nothing moves; the reader gets about a screen
+           2.4 ─ 3.8  HOLD. Nothing moves; the reader gets about two screens
                        of scroll to actually read the line before the pin
                        releases. Without it the phrase landed and the next
                        section arrived in the same flick of the wheel. */
-        const UNITS = 3.1;
+        const UNITS = 3.8;
         const SHATTER_FROM = 1.35;
         const SHATTER_TO = 2.15;
 

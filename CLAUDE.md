@@ -251,10 +251,12 @@ pulsepedagogies-site/
     └── components/           ← DemoModal, LegalModal (shared with /company)
 ```
 
-**The orange line spans two sections and is drawn by two files.** `sections/Flagships.tsx` draws
-the ribbon along section 02's sideways track (its `ROUTE`) and exits the bottom at x = 0.3155 of the
-width, at 0.072 of the width thick; `sections/Work.tsx` draws section 03's ribbon, which enters at
-the same x with the same 72/1000 stroke. Move one and move the other.
+**The orange line spans three sections and is drawn by three files.** It is born in
+`sections/Manifesto.tsx` (01), pouring out of the marquee band with a flared root, and runs down
+the right margin; `sections/Flagships.tsx` (02) carries it along the sideways track (its `ROUTE`),
+or on narrow screens through the stacked layout (`stackedRoute`); `sections/Work.tsx` (03) draws the
+rest. The boundary x's (`X_INTO_02`, `X_INTO_03`) and the width (`RIBBON_W`, Work's 72/1000) live
+in `lib/ribbon.ts`. Move one crossing and move both sides of it.
 
 ---
 

@@ -3,6 +3,7 @@ import type {ComponentType, ReactNode} from 'react';
 import {ArrowRight} from 'lucide-react';
 import {gsap, ScrollTrigger} from '../lib/gsapSetup';
 import {GuardrailConcept, SealConcept, StrandsConcept, type ConceptProps} from '../components/concepts';
+import {edgeDrawer, RIBBON_COLOR, RIBBON_W, smoothPath, X_INTO_02, X_INTO_03} from '../lib/ribbon';
 
 /**
  * Section 02 — "Now Shipping", as three moments on the ribbon.
@@ -28,15 +29,17 @@ import {GuardrailConcept, SealConcept, StrandsConcept, type ConceptProps} from '
  * forbids naming or implying a deployment. The seal is the product's idea; it
  * carries the moment on its own.
  *
- * Under 1024px, or with reduced motion, there is no pin and no ribbon: the
- * same three moments stack vertically and reveal as they scroll in.
+ * Under 1024px, or with reduced motion, there is no pin: the same three
+ * moments stack vertically and reveal as they scroll in, and the ribbon is
+ * routed through the stacked layout instead (see `stackedRoute`).
  *
- * ── The seam with section 03 ────────────────────────────────────────────────
- * The ribbon leaves the bottom of the stage at x = 0.3155 of the width, the
- * point where Work.tsx's ribbon (`M 330 -80`, 72 units over a 1000-unit
- * viewBox) crosses y = 0, heading about 12° left of straight down. Its width is
- * 0.072 of the stage width, which is that same 72/1000. Re-draw the ribbon in
- * Work and both numbers here need re-measuring.
+ * ── The seams ────────────────────────────────────────────────────────────────
+ * The ribbon is born in section 01, out of the marquee band, and arrives here
+ * at X_INTO_02. It leaves for section 03 at X_INTO_03, the point where
+ * Work.tsx's ribbon (`M 330 -80`, 72 units over a 1000-unit viewBox) crosses
+ * y = 0. Its width is RIBBON_W of the stage width, that same 72/1000. All three
+ * live in `lib/ribbon.ts`; re-draw the ribbon in Work and they need
+ * re-measuring.
  */
 
 interface Moment {
@@ -93,19 +96,20 @@ const MOMENTS: Moment[] = [
 /* ── Track geometry, in viewport units (W = stage width, H = stage height) ── */
 const INTRO_W = 0.85;
 const TRACK_W = INTRO_W + MOMENTS.length;
-/** Matches Work.tsx's 72-unit stroke over its 1000-unit viewBox. */
-const RIBBON_W = 0.072;
-
-/* The ribbon's route, as points it passes through. It threads BEHIND every
-   hero object and dips under both copy columns it would otherwise cross
-   (the first product's, and clearAMS's), which is why it touches the bottom
-   of the screen twice. The last two points are the exit described in the
-   header comment. */
+/* The ribbon's route, as points it passes through. It arrives from section 01
+   straight down at X_INTO_02 (the first two points share that x so it crosses
+   the boundary vertically, as it left — three of them, because with only two
+   the spline's next tangent bent it ~3px off X_INTO_02 at y=0, a visible
+   step), threads BEHIND every hero object, and
+   dips under both copy columns it would otherwise cross (the first product's,
+   and clearAMS's), which is why it touches the bottom of the screen twice. The
+   last two points are the exit described in the header comment. */
 const ROUTE: [number, number][] = [
-  [0.74, -0.15],
-  [0.75, 0.22],
-  [0.8, 0.55],
-  [0.95, 0.9],
+  [X_INTO_02, -0.15],
+  [X_INTO_02, 0.05],
+  [X_INTO_02, 0.25],
+  [0.86, 0.62],
+  [0.98, 0.9],
   [1.15, 0.95],
   [1.4, 0.78],
   [1.56, 0.45],
@@ -119,24 +123,12 @@ const ROUTE: [number, number][] = [
   [3.08, 0.42],
   [3.27, 0.28],
   [3.33, 0.62],
-  [3.1655, 1.0],
+  [INTRO_W + MOMENTS.length - 1 + X_INTO_03, 1.0],
   [3.12, 1.2],
 ];
 
-/** Catmull-Rom through the route, emitted as cubic Béziers in pixels. */
 function ribbonPath(w: number, h: number) {
-  const p = ROUTE.map(([x, y]) => [x * w, y * h]);
-  let d = `M ${p[0][0].toFixed(1)} ${p[0][1].toFixed(1)}`;
-  for (let i = 0; i < p.length - 1; i++) {
-    const p0 = p[i - 1] ?? p[i];
-    const p1 = p[i];
-    const p2 = p[i + 1];
-    const p3 = p[i + 2] ?? p2;
-    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
-    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
-    d += ` C ${c1[0].toFixed(1)} ${c1[1].toFixed(1)}, ${c2[0].toFixed(1)} ${c2[1].toFixed(1)}, ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
-  }
-  return d;
+  return smoothPath(ROUTE.map(([x, y]) => [x * w, y * h]));
 }
 
 const SIDEWAYS_QUERY = '(min-width: 1024px) and (prefers-reduced-motion: no-preference)';
@@ -387,11 +379,7 @@ function Sideways() {
          containerAnimation would be the usual tool, but it requires the slide
          to be linear, and the holds make it anything but. So each frame reads
          the track's actual offset and sets the progress of paused tweens. */
-      const len = ribbon.getTotalLength();
-      const SAMPLES = 400;
-      const pts: {x: number; y: number}[] = [];
-      for (let i = 0; i <= SAMPLES; i++) pts.push(ribbon.getPointAtLength((i / SAMPLES) * len));
-      ribbon.style.strokeDasharray = `${len}`;
+      const drawRibbon = edgeDrawer(ribbon);
 
       const clamp01 = gsap.utils.clamp(0, 1);
       const giants = root.querySelectorAll<HTMLElement>('.m-giant');
@@ -441,15 +429,10 @@ function Sideways() {
         lastShift = shift;
         lastTop = top;
 
-        /* The ribbon draws to the edge of the screen. A point counts as
-           reached once it is left of the right edge AND above the bottom
-           edge, and the drawn length runs to the first point that is not —
-           so the tip always sits just off-screen: on the bottom edge while the
-           section scrolls into place, on the right edge while the track
-           slides, and on the bottom again as it exits into section 03. */
-        let k = 0;
-        while (k <= SAMPLES && pts[k].x - shift <= w && pts[k].y + top <= h) k++;
-        ribbon.style.strokeDashoffset = String(len - (Math.min(k, SAMPLES) / SAMPLES) * len);
+        /* The tip stays just off-screen: on the bottom edge while the section
+           scrolls into place, on the right edge while the track slides, and
+           on the bottom again as it exits into section 03. */
+        drawRibbon(top, shift, w);
 
         if (bar) bar.style.transform = `scaleX(${clamp01(shift / travel)})`;
 
@@ -520,8 +503,7 @@ function Sideways() {
               className="m-ribbon"
               d={d}
               fill="none"
-              stroke="#FF6321"
-              strokeOpacity={0.9}
+              stroke={RIBBON_COLOR}
               strokeWidth={RIBBON_W * w}
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -587,18 +569,120 @@ function Sideways() {
 
 /* ── The stacked version: narrow screens and reduced motion ───────────────── */
 
+/* The ribbon still runs through here, measured off the laid-out page rather
+   than a fixed route, because the stacked heights depend on the copy and the
+   screen. It arrives from section 01 at X_INTO_02, passes behind each hero
+   object's centre, crosses each block of copy along an alternating margin
+   (left, right, left) where it covers the least text, and leaves at X_INTO_03
+   for section 03. */
+function stackedRoute(section: HTMLElement): [number, number][] {
+  const box = section.getBoundingClientRect();
+  const w = section.clientWidth;
+  const h = section.offsetHeight;
+  const rel = (el: Element) => {
+    const r = el.getBoundingClientRect();
+    return {cx: r.left - box.left + r.width / 2, cy: r.top - box.top + r.height / 2};
+  };
+  const objects = Array.from(section.querySelectorAll('.s-object')).map(rel);
+  const copies = Array.from(section.querySelectorAll('.s-copy')).map(rel);
+
+  const pts: [number, number][] = [
+    // Three points on one x so the boundary crossing is exactly vertical.
+    [X_INTO_02 * w, -60],
+    [X_INTO_02 * w, 30],
+    [X_INTO_02 * w, Math.min(objects[0]?.cy ?? h, h) * 0.35],
+  ];
+  objects.forEach((o, i) => {
+    pts.push([o.cx, o.cy]);
+    const c = copies[i];
+    if (c) pts.push([(i % 2 === 0 ? 0.06 : 0.94) * w, c.cy]);
+  });
+  // Ease into a near-vertical exit so section 03's ribbon picks it up heading
+  // the same way it left.
+  pts.push([(X_INTO_03 + 0.04) * w, h - Math.min(140, h * 0.04)]);
+  pts.push([X_INTO_03 * w, h]);
+  pts.push([(X_INTO_03 - 0.01) * w, h + 60]);
+  return pts;
+}
+
 function Stacked() {
+  const rootRef = useRef<HTMLElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const [geo, setGeo] = useState<{w: number; h: number; d: string} | null>(null);
+
+  // Re-measure whenever the section changes size: fonts loading, images
+  // decoding, rotation.
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const measure = () => {
+      const w = root.clientWidth;
+      const h = root.offsetHeight;
+      const d = smoothPath(stackedRoute(root));
+      setGeo((g) => (g && g.d === d ? g : {w, h, d}));
+    };
+    const ro = new ResizeObserver(measure);
+    ro.observe(root);
+    measure();
+    return () => ro.disconnect();
+  }, []);
+
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+    const path = pathRef.current;
+    if (!root || !path || !geo) return;
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        const draw = edgeDrawer(path);
+        const update = () => draw(root.getBoundingClientRect().top);
+        const st = ScrollTrigger.create({
+          trigger: root,
+          start: 'top bottom',
+          end: 'bottom top',
+          onUpdate: update,
+          onRefresh: update,
+        });
+        update();
+        return () => st.kill();
+      });
+    });
+    return () => ctx.revert();
+  }, [geo]);
+
   return (
-    <section id="shipping" className="relative bg-brand-paper py-28 md:py-40 px-6 md:px-10 overflow-hidden">
+    <section ref={rootRef} id="shipping" className="relative bg-brand-paper py-28 md:py-40 px-6 md:px-10 overflow-hidden">
+      {geo && (
+        <svg
+          aria-hidden="true"
+          width={geo.w}
+          height={geo.h}
+          viewBox={`0 0 ${geo.w} ${geo.h}`}
+          className="absolute left-0 top-0 pointer-events-none"
+        >
+          <path
+            ref={pathRef}
+            d={geo.d}
+            fill="none"
+            stroke={RIBBON_COLOR}
+            strokeWidth={RIBBON_W * geo.w}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )}
+
       <div className="relative max-w-[100rem] mx-auto">
         <Intro className="mb-24 md:mb-32" itemClass="pp-reveal" />
         <div className="space-y-32 md:space-y-44">
           {MOMENTS.map((m) => (
             <article key={m.id} className="grid lg:grid-cols-2 gap-x-16 gap-y-14 items-center">
-              <div className={`pp-reveal ${m.side === 'right' ? 'lg:order-2' : ''} max-w-2xl w-full mx-auto pb-[8%]`}>
+              <div className={`s-object pp-reveal ${m.side === 'right' ? 'lg:order-2' : ''} max-w-2xl w-full mx-auto pb-[8%]`}>
                 <HeroObject m={m} />
               </div>
-              <Copy m={m} staggerClass="pp-reveal" />
+              <div className="s-copy">
+                <Copy m={m} staggerClass="pp-reveal" />
+              </div>
             </article>
           ))}
         </div>
