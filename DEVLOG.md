@@ -2,6 +2,36 @@
 
 ---
 
+## Session: October 4, 2026 — All 17 Dependabot alerts closed
+
+**Seventeen alerts, eleven packages, and not one of them needed a major version.** Every advisory
+had a patch- or minor-level fix inside the ranges `package.json` already declared, so this is a
+lockfile update with a single manifest line changed. `npm audit` went 12 → 0.
+
+**What moved,** all transitively except the last: browserslist → 4.29.3, nanoid → 3.3.19, postcss →
+8.5.28, protobufjs → 7.6.6, qs → 6.16.0, sharp → 0.35.5, vite → 6.4.3, @tailwindcss/vite → 4.2.2,
+and `tsx` ^4.21.0 → ^4.23.15 in `package.json`.
+
+**`tsx` was the only one `npm audit fix` could not reach.** It pinned `esbuild@0.27.7`, which is
+inside the vulnerable 0.27.3–0.28.0 window for the Windows dev-server arbitrary-file-read advisory.
+Vite's own esbuild (0.25.12) was never affected. Latest `tsx` depends on `esbuild ~0.28.0` and
+resolves to 0.28.2, which closes it. Worth knowing for later: **nothing in this repo actually
+invokes `tsx`** — it is in `devDependencies`, no npm script uses it, and the `scripts/` files are
+`.mjs` that node runs directly. It was bumped rather than removed because removing an unused
+dependency is a different decision from patching a vulnerable one. If nobody is reaching for
+`npx tsx`, it can go, and the esbuild advisory goes with it permanently.
+
+Verified beyond the build: `tsc --noEmit` clean, `npm run build` clean with bundle sizes unchanged,
+and the landing page walked in a browser — hero animation, the Three.js scene, the Reveal pin and
+its long phrase hold, the counter, and the orange ribbon all behaving. That check mattered because
+Tailwind moved 4.1 → 4.2 and Vite 6.2 → 6.4.3, and this page is the one that would show it. The
+`THREE.Clock` deprecation warning in the console is pre-existing and unrelated.
+
+**The alerts stay open on GitHub until this reaches `main`** — Dependabot only closes against the
+default branch. This is on `deps-2026-10`.
+
+---
+
 ## Session: October 4, 2026 — The line is born in the marquee, and runs on mobile
 
 **The brief.** Emil: the orange line should connect to the orange banner near the top of the site, as if it emanates from there; and on mobile the line did not appear for the three featured products.
