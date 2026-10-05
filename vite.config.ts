@@ -7,7 +7,7 @@ import {defineConfig, loadEnv} from 'vite';
 const prettyUrls = () => ({
   name: 'pretty-html-urls',
   configureServer(server: {middlewares: {use: (fn: (req: {url?: string}, res: unknown, next: () => void) => void) => void}}) {
-    const pages = ['/company', '/compliance', '/prop28', '/builder', '/products'];
+    const pages = ['/company', '/compliance', '/prop28', '/builder', '/products', '/signet'];
     server.middlewares.use((req, _res, next) => {
       const url = req.url?.split('?')[0];
       if (url && pages.includes(url)) req.url = url + '.html';
@@ -37,6 +37,7 @@ export default defineConfig(({mode}) => {
           prop28: path.resolve(__dirname, 'prop28.html'),
           builder: path.resolve(__dirname, 'builder.html'),
           products: path.resolve(__dirname, 'products.html'),
+          signet: path.resolve(__dirname, 'signet.html'),
         },
       },
     },

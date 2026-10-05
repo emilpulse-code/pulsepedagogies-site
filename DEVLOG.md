@@ -2,6 +2,28 @@
 
 ---
 
+## Session: October 4, 2026 — Signet gets a front door, built around five films
+
+**The brief.** Emil had five promotional videos for the multi-tenant Signet build and nowhere to put them. What he wanted was a landing page for a first-time visitor interested in subscribing for their organization.
+
+**Why a new page and not `/products`.** `/products` says in its own header that it is "deliberately NOT a marketing site for any of these", and that is right — it is the studio's account of three things it built. VAPA Pulse and clearAMS can be written about that way because each has its own site doing the selling. Signet had neither, so the only surface addressed to a buyer was a `mailto:`. `/signet` is that surface, addressed to one reader: a professional-learning director arriving cold.
+
+**It lives here, for now.** Both Signet domains are held and neither is mapped, and a page that exists beats a page waiting for DNS. The copy and every video reference live in `data/signet.ts`, so the eventual move to `signetsystems.net` is a re-skin rather than a rewrite. Noted in the Signet app for whoever does it: its root path resolves a tenant and redirects, so a marketing front door there needs a home that tenant resolution does not own yet.
+
+**Structure — an argument, not a video grid.** Seven and a half minutes across five files; nobody watches that cold. So: hero film, the problem in one screen, four numbered chapters each with a film, the two demo widgets `/products` already had, what IT will ask, and the close. **Every beat reads with nothing played** — the blurbs carry the argument and the films prove it. Chapter order is schedule → credential → motivate → pay, which is the product's own claim about itself (one record at four moments), not the order they were recorded. The numbering is derived from array position, so reordering `SIGNET_CHAPTERS` is enough.
+
+**Cloudflare Stream, not static files, and not by preference.** Pages caps files at 25 MB; the System Overview alone is 38.4 MB, and the five together are ~130 MB. Stream was already in the stack for the VAPA Pulse video. `*.mp4` and `*.mov` are now gitignored so a master cannot wander in.
+
+**`StreamStage.tsx`** is the Stream sibling of `Walkthroughs.tsx`'s YouTube facade — same click-to-load contract, same poster/play/duration chrome, and it still degrades to a real link (Stream serves a watch page per video) when scripting is off. Deliberately a second component rather than a `provider` branch inside the first, which renders on the landing page's critical path. A missing poster hides itself rather than showing a broken-image glyph, which covers both an unfilled UID and the minute after an upload before Stream has generated a thumbnail.
+
+**A real bug, found by putting the modal somewhere new.** `DemoModal` never set a text colour, so it inherited one. That was invisibly fine while its only callers were `/company` and the landing page — dark-on-light — and broke the moment it opened inside `PageShell`, which is light-on-dark: a cream heading on a cream panel, and cream text typed into white inputs. The container now sets `text-brand-ink` and stops reading its colours off the page behind it. The modal also takes `heading` / `blurb` / `subject` / `messagePlaceholder`, each defaulting to the old string, so a Signet inquiry arrives labelled as one and no existing caller changed.
+
+**Not finished, and the page says so honestly.** The five Stream UIDs are `REPLACE_WITH_STREAM_UID_*` placeholders — every player is a black frame with a play button until the films are uploaded and the UIDs pasted in. The fifth film (Event Builder, chapter 01) is not cut yet and carries `duration: '—'`, which suppresses the duration pill. And all five have captions burned into the picture with no subtitle track, Badge Studio having none at all; a district accessibility review will ask. All three are in CLAUDE.md's pending list.
+
+`tsc --noEmit` clean, build clean, `dist/signet.html` emitted. Walked the page end to end at 1264px: layout, both demo widgets, the modal heading and typed input text after the colour fix, and the `/products` → `/signet` hand-off. Narrow-viewport check was not completed — the automation's window resize did not take — so mobile is unverified.
+
+---
+
 ## Session: October 4, 2026 — The line is born in the marquee, and runs on mobile
 
 **The brief.** Emil: the orange line should connect to the orange banner near the top of the site, as if it emanates from there; and on mobile the line did not appear for the three featured products.

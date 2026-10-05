@@ -5,12 +5,31 @@ import type { ChangeEvent, FormEvent } from 'react';
 // Replace with your key from web3forms.com
 const WEB3FORMS_KEY = '32c86377-fb57-4110-a513-67fd523cf413';
 
+/* The copy defaults below are what this modal said when it was only ever
+   opened from /company and the landing page — a general "tell us what's on
+   your mind" form. A product page needs to ask a narrower question and needs
+   the mail to arrive labelled, so each piece of copy is overridable and every
+   override defaults to the original string. No existing caller changes. */
 interface DemoModalProps {
   isOpen: boolean;
   onClose: () => void;
+  /** Modal heading. */
+  heading?: string;
+  /** The line under the heading. */
+  blurb?: string;
+  /** Subject tag, e.g. "Signet" → "Signet Inquiry — Name, District". */
+  subject?: string;
+  messagePlaceholder?: string;
 }
 
-export function DemoModal({ isOpen, onClose }: DemoModalProps) {
+export function DemoModal({
+  isOpen,
+  onClose,
+  heading = 'Start the Conversation',
+  blurb = "A project, a demo, or the investment opportunity — tell us what's on your mind and we'll reach out shortly.",
+  subject = 'Pulse Pedagogies',
+  messagePlaceholder = 'Tell us about your school, district, project, or investment interest...',
+}: DemoModalProps) {
   const [form, setForm] = useState({
     name: '',
     school: '',
@@ -32,7 +51,7 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
-          subject: `Pulse Pedagogies Inquiry — ${form.name}${form.school ? `, ${form.school}` : ''}`,
+          subject: `${subject} Inquiry — ${form.name}${form.school ? `, ${form.school}` : ''}`,
           name: form.name,
           email: form.email,
           'School / District': form.school || 'Not provided',
@@ -60,7 +79,15 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-brand-ink/70 backdrop-blur-sm" onClick={handleClose} />
-      <div className="relative bg-brand-paper rounded-[40px] p-10 w-full max-w-lg shadow-2xl">
+      {/* `text-brand-ink` is load-bearing, not decoration. Nothing in here set a
+          text colour until October 2026, so the heading and the typed input
+          text inherited whatever the opening page used. That was invisibly
+          fine while the only callers were /company and the landing page, which
+          are dark-on-light — and broke the moment this opened inside
+          `PageShell`, which is light-on-dark: cream heading on a cream panel,
+          and cream text typed into white boxes. A modal should not read its
+          colours off the page behind it. */}
+      <div className="relative bg-brand-paper text-brand-ink rounded-[40px] p-10 w-full max-w-lg shadow-2xl">
         <button
           onClick={handleClose}
           className="absolute top-6 right-6 w-10 h-10 rounded-full bg-brand-ink/5 flex items-center justify-center hover:bg-brand-ink/10 transition-colors"
@@ -84,11 +111,8 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
           </div>
         ) : (
           <>
-            <h3 className="text-3xl font-serif mb-2">Start the Conversation</h3>
-            <p className="text-brand-ink/50 text-sm mb-8">
-              A project, a demo, or the investment opportunity — tell us what's on your
-              mind and we'll reach out shortly.
-            </p>
+            <h3 className="text-3xl font-serif mb-2">{heading}</h3>
+            <p className="text-brand-ink/50 text-sm mb-8">{blurb}</p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -159,7 +183,7 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
                   value={form.message}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-2xl border border-brand-ink/10 bg-white focus:outline-none focus:border-brand-orange transition-colors text-sm resize-none"
-                  placeholder="Tell us about your school, district, project, or investment interest..."
+                  placeholder={messagePlaceholder}
                 />
               </div>
 

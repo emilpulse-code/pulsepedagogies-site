@@ -6,3 +6,9 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Video masters never belong here. Cloudflare Pages rejects files over 25 MB
+# and the Signet films run 18–38 MB each; they are hosted on Cloudflare Stream
+# and referenced by UID from src/data/signet.ts.
+*.mp4
+*.mov

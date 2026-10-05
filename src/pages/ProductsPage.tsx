@@ -25,12 +25,15 @@ import {PageShell, SectionLabel} from './PageShell';
  * the mechanism, and proof the mechanism runs — with the link out placed where
  * someone who wants to buy will find it.
  *
- * Signet is the exception and has no outbound link. Not for want of a domain —
- * `signetsystem.net` and `signetsystems.net` are both held in Cloudflare — but
- * neither is mapped yet, so there is no page to send anyone to, and the licence
- * behind Signet's only deployment forbids using that deployment as a marketing
- * reference. When one of those domains goes live this becomes an ordinary
- * outbound link like the two above it. See the standing note at the top of
+ * Signet is still the exception, but less so than it was. It has no outbound
+ * link because it has no site — `signetsystem.net` and `signetsystems.net` are
+ * both held in Cloudflare and neither is mapped. What it has instead, since
+ * October 2026, is `/signet` on this site: a real selling surface built around
+ * the five product films, standing in until a domain resolves. So the CTA here
+ * is an internal link, and becomes an ordinary outbound one when that happens.
+ *
+ * The licence behind Signet's only deployment still forbids using that
+ * deployment as a marketing reference — see the standing note at the top of
  * `data/signet.ts` before adding anything about who runs it.
  *
  * Anchors (`#vapa-pulse`, `#clearams`, `#signet`) are load-bearing: the landing
@@ -324,14 +327,24 @@ export default function ProductsPage() {
           </div>
         </div>
 
-        {/* No outbound link, by licence. See the file note in data/signet.ts. */}
-        <a
-          href="mailto:emil@pulsepedagogies.com?subject=Signet"
-          className="group inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-brand-paper hover:text-brand-ink transition-colors"
-        >
-          <Mail className="w-5 h-5" />
-          Talk to us about Signet
-        </a>
+        {/* Internal, not outbound — Signet has no site of its own yet. /signet
+            is the selling surface that stands in until a domain is mapped. */}
+        <div className="flex flex-wrap items-center gap-6">
+          <a
+            href="/signet"
+            className="group inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-brand-paper hover:text-brand-ink transition-colors"
+          >
+            See Signet in five films
+            <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+          </a>
+          <a
+            href="mailto:emil@pulsepedagogies.com?subject=Signet"
+            className="group inline-flex items-center gap-2 text-lg font-medium text-brand-paper/70 hover:text-brand-orange transition-colors"
+          >
+            <Mail className="w-5 h-5" />
+            Talk to us about Signet
+          </a>
+        </div>
       </section>
     </PageShell>
   );

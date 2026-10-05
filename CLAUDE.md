@@ -121,7 +121,10 @@ Not one flag. The product's status is spelled out in several places that do not 
 other, so grep `Signet` across `src/` and work the list:
 
 1. **Map a domain first.** `signetsystem.net` or `signetsystems.net` in Cloudflare. Nothing below
-   that adds a link is honest until one resolves.
+   that adds a link is honest until one resolves. **Less urgent since October 4, 2026:** `/signet`
+   on this site is now Signet's selling surface — the five product films, the two demo widgets, and
+   a Signet-tagged demo form — so there is somewhere to send a buyer in the meantime. Mapping a
+   domain is now about moving that page to its own home, not about having one at all.
 2. **`src/data/apps.ts`** — the `signet` entry: `status: 'next'` → `'live'`, and add
    `href: 'https://<domain>'`. The status pill on `/company` reads this.
 3. **`src/data/signet.ts`** — `NEXT_UP.status` is `'Final development'`. The file header says that
@@ -135,9 +138,11 @@ other, so grep `Signet` across `src/` and work the list:
    licensee's name; if a neutral screen becomes available, `HeroObject` is where it goes.
 5. **Same file, the section heading** — currently "Two in production. / One landing." Becomes three
    in production, so the line needs rewriting, not just a number swap.
-6. **`src/pages/ProductsPage.tsx`** — the Signet section ends in a `mailto:` CTA instead of an
-   `OutLink`, with a comment explaining why. Swap it for `<OutLink>` and update the file-header
-   comment that says Signet "has no outbound link".
+6. ~~**`src/pages/ProductsPage.tsx`** — the Signet section ends in a `mailto:` CTA~~ **Partly done
+   October 4, 2026.** The CTA is now an internal link to `/signet` with the `mailto:` demoted to
+   secondary, and the file-header comment has been rewritten. What is still outstanding is the
+   same swap for an `<OutLink>` once a domain resolves — at which point `/signet` either moves
+   there or becomes a redirect.
 7. ~~`src/portfolio/sections/Work.tsx` — Signet is in `LIST_IDS`~~ **Done September 30, 2026.**
    Signet was removed from the Development Pipeline list, so it is featured in section 02 and on
    `/products` and nowhere else. The list is four; the orbit is four; the three featured products
@@ -222,7 +227,7 @@ No environment variables are needed for the marketing site.
 
 ## File Structure
 
-Six HTML entry points, each with its own React root. All are declared in `vite.config.ts` under
+Seven HTML entry points, each with its own React root. All are declared in `vite.config.ts` under
 `build.rollupOptions.input` — **add a page there and to the `prettyUrls` list in the same file, or
 it will not build and will not resolve without the `.html`.**
 
@@ -231,6 +236,7 @@ pulsepedagogies-site/
 ├── index.html          → src/portfolio/main.tsx  → PortfolioPage   ← THE LANDING PAGE
 ├── company.html        → src/main.tsx            → App.tsx         ← long-form company page
 ├── products.html       → src/pages/products-main.tsx → ProductsPage ← product detail
+├── signet.html         → src/pages/signet-main.tsx   → SignetPage   ← Signet's selling surface
 ├── prop28.html         → src/pages/prop28-main.tsx
 ├── compliance.html     → src/pages/compliance-main.tsx
 ├── builder.html        → src/builder/main.tsx
@@ -247,7 +253,8 @@ pulsepedagogies-site/
     ├── data/
     │   ├── apps.ts           ← the eleven-product catalog
     │   ├── spotlight.ts      ← clearAMS copy, guardrail config, walkthroughs
-    │   └── signet.ts         ← Signet copy + demo configs (READ ITS LICENCE NOTE)
+    │   └── signet.ts         ← Signet copy, demo configs, and the five Stream
+    │                           films (READ ITS LICENCE NOTE)
     └── components/           ← DemoModal, LegalModal (shared with /company)
 ```
 
@@ -348,6 +355,18 @@ Open, none blocking, none assigned:
   first item on the Shipping Signet checklist and gates most of the rest.
 - ~~Section 03's ribbon is 72px while section 02's line is a hairline~~ **Resolved October 4,
   2026** — section 02 now runs the ribbon at the same full weight.
+- **`/signet`'s five Stream UIDs are placeholders.** `SIGNET_OVERVIEW` and `SIGNET_CHAPTERS` in
+  `src/data/signet.ts` carry `REPLACE_WITH_STREAM_UID_*` strings. The page is built, laid out and
+  deployed, but every player is a black frame with a play button until the five films are uploaded
+  to Cloudflare Stream and their UIDs pasted in. **This is the one thing standing between the page
+  and being finished.** Nothing else about the page depends on it.
+- **The fifth film, Event Builder, is not cut yet.** Chapter 01 on `/signet` is written and laid
+  out with `duration: '—'`, which suppresses the duration pill. Drop in the UID and the real
+  duration when it lands; no other change.
+- **The films have no caption track.** All five carry captions burned into the picture — ffprobe
+  shows no subtitle stream — and `Signet_Badge_Studio_Overview.mp4` has none at all. Burned-in
+  captions cannot be toggled, translated, or read by a screen reader, and a district accessibility
+  review will ask. Upload a `.vtt` per video to Stream; re-export or caption Badge Studio.
 - **`AdjunctCentral` clips to "AdjunctCent"** in the Development Pipeline list around 1264px wide.
 - ~~Signet appears twice on the landing page~~ **Resolved September 30, 2026** — removed from the
   Development Pipeline list in `Work.tsx`.
