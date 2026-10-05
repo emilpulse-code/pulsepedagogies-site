@@ -2,6 +2,37 @@
 
 ---
 
+## Close of day: October 4, 2026 — where `/signet` stands
+
+**The page is built, committed, and not deployed.** One commit, `cf7be09`, pushed to the branch
+`signet-landing` rather than to `main` — `main` auto-deploys to pulsepedagogies.com in about two
+minutes, and all five players are black frames until the films are uploaded. The work is on GitHub;
+the live site is untouched.
+
+**To finish it, in order:**
+
+1. Upload the five films at dash.cloudflare.com → Stream. Four are in `C:\Users\emila\Videos\`
+   (`Signet_ System Overview`, `Signet_Badge_Studio_Overview`, `Signet_ Gamification System
+   Overview`, `Signet Payroll Tracking`). The fifth, Event Builder, is not cut yet.
+2. Paste each UID over the `REPLACE_WITH_STREAM_UID_*` placeholders in `SIGNET_OVERVIEW` and
+   `SIGNET_CHAPTERS` in `src/data/signet.ts`. Nothing else in the page needs touching — posters,
+   embeds and watch links are all derived from the UID.
+3. Give chapter 01 its real `duration` when Event Builder lands; `'—'` suppresses the pill until
+   then.
+4. Merge `signet-landing` into `main` and push. That is the deploy.
+
+**Left open, neither blocking:** mobile is unverified (the browser automation's window resize did
+not take, so the page was only ever walked at 1264px), and all five films have burned-in captions
+with no subtitle track — Badge Studio has none at all. Both are in CLAUDE.md's pending list.
+
+**Unrelated but worth knowing tomorrow:** this repo's history was rewritten and force-pushed at
+some point before today — a district-name scrub. The local `main` had no common ancestor with
+`origin/main` and was reset onto it. The old orphaned history is on the local branch
+`pre-rewrite-local` if it is ever wanted; nothing unique was lost, since the only content that
+differed was the un-scrubbed district references.
+
+---
+
 ## Session: October 4, 2026 — Signet gets a front door, built around five films
 
 **The brief.** Emil had five promotional videos for the multi-tenant Signet build and nowhere to put them. What he wanted was a landing page for a first-time visitor interested in subscribing for their organization.
