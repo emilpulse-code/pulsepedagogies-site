@@ -27,7 +27,7 @@ const FOUNDERS: Founder[] = [
   {
     name: 'Emil Ahangarzadeh, Ed.D.',
     role: 'CEO & CTO · Co-Founder',
-    photo: 'https://pbs.twimg.com/profile_images/1727193455175294976/535c3hgh_400x400.jpg',
+    photo: '/emil.jpg',
     linkedin: 'https://www.linkedin.com/in/emil-ahangarzadeh',
     email: 'emil@pulsepedagogies.com',
     dark: true,

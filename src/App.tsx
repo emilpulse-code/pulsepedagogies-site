@@ -621,7 +621,7 @@ export default function App() {
               >
                 <div className="h-80 overflow-hidden">
                   <img
-                    src="https://pbs.twimg.com/profile_images/1727193455175294976/535c3hgh_400x400.jpg"
+                    src="/emil.jpg"
                     alt="Emil Ahangarzadeh, Ed.D."
                     className="w-full h-full object-cover object-center scale-105 group-hover:scale-100 transition-transform duration-700"
                   />
