@@ -623,7 +623,7 @@ export default function App() {
                   <img
                     src="/emil.jpg"
                     alt="Emil Ahangarzadeh, Ed.D."
-                    className="w-full h-full object-cover object-center scale-105 group-hover:scale-100 transition-transform duration-700"
+                    className="w-full h-full object-cover object-top origin-top scale-105 group-hover:scale-100 transition-transform duration-700"
                   />
                 </div>
                 <div className="relative z-10 p-10">

@@ -6,6 +6,8 @@ interface Founder {
   name: string;
   role: string;
   photo: string;
+  /** CSS object-position for the portrait crop; defaults to center. */
+  focus?: string;
   linkedin: string;
   email: string;
   dark: boolean;
@@ -28,6 +30,9 @@ const FOUNDERS: Founder[] = [
     name: 'Emil Ahangarzadeh, Ed.D.',
     role: 'CEO & CTO · Co-Founder',
     photo: '/emil.jpg',
+    // Square shot with the head near the top edge — anchor there so wide
+    // (mobile/tablet) crops trim the suit, not the face
+    focus: 'center top',
     linkedin: 'https://www.linkedin.com/in/emil-ahangarzadeh',
     email: 'emil@pulsepedagogies.com',
     dark: true,
@@ -173,7 +178,8 @@ export function Founders() {
                 src={f.photo}
                 alt={f.name}
                 loading="lazy"
-                className="w-full h-full object-cover object-center"
+                style={{objectPosition: f.focus ?? 'center'}}
+                className="w-full h-full object-cover"
               />
             </div>
 
