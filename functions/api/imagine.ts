@@ -11,7 +11,7 @@ interface Env {
   GEMINI_API_KEY?: string;
 }
 
-const MODEL = 'gemini-2.5-flash';
+const MODEL = 'gemini-3.8-flash';
 
 const QUESTION_LABELS: Record<string, string> = {
   vision: 'What are they imagining (the idea)',
